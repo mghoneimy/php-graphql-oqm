@@ -291,7 +291,7 @@ class SchemaClassGenerator
         if ($this->writeDir !== '') return;
 
         $currentDir = dirname(__FILE__);
-        while (basename($currentDir) !== 'php-graphql-client') {
+        while (basename($currentDir) !== 'php-graphql-oqm') {
             $currentDir = dirname($currentDir);
         }
 

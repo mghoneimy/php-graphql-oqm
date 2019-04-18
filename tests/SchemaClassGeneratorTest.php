@@ -44,7 +44,7 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
         $this->classGenerator = new SchemaClassGenerator(
             new Client('')
         );
-        $this->assertStringEndsWith('/php-graphql-client/schema_object', $this->classGenerator->getWriteDir());
+        $this->assertStringEndsWith('/php-graphql-oqm/schema_object', $this->classGenerator->getWriteDir());
 
         $this->classGenerator = new SchemaClassGenerator(
             new Client(''),
