@@ -30,7 +30,7 @@ class QueryObjectTest extends TestCase
 
     /**
      * @covers \GraphQL\SchemaObject\QueryObject::__construct
-     * @covers \GraphQL\SchemaObject\QueryObject::getQueryString
+     * @covers \GraphQL\SchemaObject\QueryObject::getQuery
      */
     public function testConstruct()
     {
@@ -42,7 +42,7 @@ Simple {
 scalar
 }
 }',
-            $object->getQueryString());
+            (string) $object->getQuery());
 
         $object = new SimpleQueryObject('test');
         $object->selectScalar();
@@ -52,7 +52,7 @@ test {
 scalar
 }
 }',
-            $object->getQueryString());
+            (string) $object->getQuery());
     }
 
     /**
@@ -62,12 +62,12 @@ scalar
     public function testEmptySelectionSet()
     {
         $this->expectException(EmptySelectionSetException::class);
-        $this->queryObject->getQueryString();
+        $this->queryObject->getQuery();
     }
 
     /**
      * @covers \GraphQL\SchemaObject\QueryObject::selectField
-     * @covers \GraphQL\SchemaObject\QueryObject::getQueryString
+     * @covers \GraphQL\SchemaObject\QueryObject::getQuery
      */
     public function testSelectFields()
     {
@@ -78,7 +78,7 @@ simples {
 scalar
 }
 }',
-            $this->queryObject->getQueryString()
+            (string) $this->queryObject->getQuery()
         );
 
         $this->queryObject->selectAnotherScalar();
@@ -89,7 +89,7 @@ scalar
 anotherScalar
 }
 }',
-            $this->queryObject->getQueryString()
+            (string) $this->queryObject->getQuery()
         );
 
         $this->queryObject->selectSiblings()->selectScalar();
@@ -103,13 +103,13 @@ scalar
 }
 }
 }',
-            $this->queryObject->getQueryString()
+            (string) $this->queryObject->getQuery()
         );
     }
 
     /**
      * @covers \GraphQL\SchemaObject\QueryObject::appendArguments
-     * @covers \GraphQL\SchemaObject\QueryObject::getQueryString
+     * @covers \GraphQL\SchemaObject\QueryObject::getQuery
      */
     public function testSelectSubFieldsWithArguments()
     {
@@ -122,7 +122,7 @@ scalar
 }
 }
 }',
-            $this->queryObject->getQueryString()
+            (string) $this->queryObject->getQuery()
         );
 
         $this->setUp();
@@ -149,7 +149,7 @@ scalar
 }
 }
 }',
-            $this->queryObject->getQueryString()
+            (string) $this->queryObject->getQuery()
         );
     }
 }
