@@ -4,7 +4,6 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use GraphQL\Client;
 use GraphQL\Exception\QueryError;
-use GraphQL\QueryBuilder\QueryBuilder;
 use GraphQL\SchemaObject\RootPokemonArgumentsObject;
 use GraphQL\SchemaObject\RootQueryObject;
 
@@ -40,7 +39,7 @@ $pokemon
 
 // Run query to get results
 try {
-    $results = $client->runQueryObject($queryRoot);
+    $results = $client->runQuery($queryRoot->getQuery());
 }
 catch (QueryError $exception) {
 
