@@ -1,4 +1,4 @@
-# php-graphql-oqm
+# PHP GraphQL OQM
 [![Build Status](https://travis-ci.org/mghoneimy/php-graphql-oqm.svg?branch=master)](https://travis-ci.org/mghoneimy/php-graphql-oqm)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/3146530837f64435a79810afd81b1945)](https://www.codacy.com/app/mghoneimy/php-graphql-oqm?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mghoneimy/php-graphql-oqm&amp;utm_campaign=Badge_Grade)
 [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/3146530837f64435a79810afd81b1945)](https://www.codacy.com/app/mghoneimy/php-graphql-oqm?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mghoneimy/php-graphql-oqm&amp;utm_campaign=Badge_Coverage)
@@ -43,7 +43,6 @@ $rootObject
         ->selectAttacks()
             ->selectFast()
                 ->selectName();
-;
 ```
 What this query does is that it selects the first 5 pokemons returning their names, ids, flee rates, fast attacks with
 their names. Easy right!?
@@ -52,6 +51,9 @@ All what remains is that we actually run the query to obtain results:
 ```
 $results = $client->runQuery($rootObject->getQuery());
 ``` 
+For more on how to use the client class refer to:
+- https://github.com/mghoneimy/php-graphql-client#constructing-the-client
+- https://github.com/mghoneimy/php-graphql-client#running-queries
 
 ## Notes
 A couple of notes about schema objects to make your life easier when using the generating classes:
