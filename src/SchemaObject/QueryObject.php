@@ -3,6 +3,7 @@
 namespace GraphQL\SchemaObject;
 
 use GraphQL\Exception\EmptySelectionSetException;
+use GraphQL\Query;
 use GraphQL\QueryBuilder\AbstractQueryBuilder;
 
 /**
@@ -58,11 +59,10 @@ abstract class QueryObject extends AbstractQueryBuilder
     }
 
     /**
-     * @return string
-     * @throws EmptySelectionSetException
+     * @return Query
      */
-    public function getQueryString(): string
+    public function getQuery(): Query
     {
-        return (string) $this->getQuery();
+        return parent::getQuery();
     }
 }
