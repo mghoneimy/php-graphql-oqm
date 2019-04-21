@@ -1,6 +1,6 @@
 {
     "name": "gmostafa/php-graphql-oqm",
-    "description": "GraphQL Object-to-Query Mapper (QOM) which generates objects from API schema",
+    "description": "GraphQL Object-to-Query Mapper (OQM) which generates objects from API schema",
     "type": "library",
     "license": "MIT",
     "keywords": [
