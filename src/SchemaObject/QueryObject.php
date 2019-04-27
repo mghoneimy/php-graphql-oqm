@@ -30,13 +30,20 @@ abstract class QueryObject extends AbstractQueryBuilder
     protected const OBJECT_NAME = '';
 
     /**
+     * @var QueryObject
+     */
+    protected $parent;
+
+    /**
      * SchemaObject constructor.
      *
-     * @param string $fieldName
+     * @param string           $fieldName
+     * @param QueryObject|null $parent
      */
-    public function __construct(string $fieldName = '')
+    public function __construct(string $fieldName = '', QueryObject $parent = null)
     {
-        $queryObject = !empty($fieldName) ? $fieldName : static::OBJECT_NAME;
+        $this->parent = $parent;
+        $queryObject  = !empty($fieldName) ? $fieldName : static::OBJECT_NAME;
         parent::__construct($queryObject);
     }
 
@@ -56,6 +63,14 @@ abstract class QueryObject extends AbstractQueryBuilder
         }
 
         return $this;
+    }
+
+    /**
+     * @return QueryObject
+     */
+    public function end(): QueryObject
+    {
+        return $this->parent ?: $this;
     }
 
     /**

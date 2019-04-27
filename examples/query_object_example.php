@@ -14,32 +14,34 @@ $client = new Client(
 );
 
 // Create root query object
-$queryRoot = new RootQueryObject();
-$pokemon   = $queryRoot
+$pokemon = (new RootQueryObject())
     ->selectPokemon((new RootPokemonArgumentsObject())->setName('Pikachu'))
-        ->selectId()
-        ->selectNumber()
-        ->selectName();
-$pokemon
-    ->selectAttacks()
-        ->selectSpecial()
-            ->selectName()
-            ->selectType()
-            ->selectDamage();
-$pokemon
-    ->selectEvolutions()
         ->selectId()
         ->selectNumber()
         ->selectName()
         ->selectAttacks()
-            ->selectFast()
+            ->selectSpecial()
                 ->selectName()
                 ->selectType()
-                ->selectDamage();
+                ->selectDamage()
+            ->end()
+        ->end()
+        ->selectEvolutions()
+            ->selectId()
+            ->selectNumber()
+            ->selectName()
+            ->selectAttacks()
+                ->selectFast()
+                    ->selectName()
+                    ->selectType()
+                    ->selectDamage()
+                ->end()
+            ->end()
+        ->end();
 
 // Run query to get results
 try {
-    $results = $client->runQuery($queryRoot->getQuery());
+    $results = $client->runQuery($pokemon->getQuery());
 }
 catch (QueryError $exception) {
 

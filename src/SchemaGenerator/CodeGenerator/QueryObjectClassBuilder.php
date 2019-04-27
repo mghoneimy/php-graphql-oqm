@@ -85,7 +85,7 @@ class QueryObjectClassBuilder extends ObjectClassBuilder
         $argsMapClassName = $argsObjectName . 'ArgumentsObject';
         $method = "public function select$upperCamelName($argsMapClassName \$argsObject = null)
 {
-    \$object = new $objectClassName(\"$fieldName\");
+    \$object = new $objectClassName(\"$fieldName\", \$this);
     if (\$argsObject !== null) {
         \$object->appendArguments(\$argsObject->toArray());
     }
