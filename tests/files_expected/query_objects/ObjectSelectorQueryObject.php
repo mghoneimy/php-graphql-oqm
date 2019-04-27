@@ -10,7 +10,7 @@ class ObjectSelectorQueryObject extends QueryObject
 
     public function selectOthers(RootOthersArgumentsObject $argsObject = null)
     {
-        $object = new OtherQueryObject("others");
+        $object = new OtherQueryObject("others", $this);
         if ($argsObject !== null) {
             $object->appendArguments($argsObject->toArray());
         }

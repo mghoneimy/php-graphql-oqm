@@ -10,7 +10,7 @@ class MultipleObjectSelectorsQueryObject extends QueryObject
 
     public function selectRightObjects(MultipleObjectSelectorsRightObjectsArgumentsObject $argsObject = null)
     {
-        $object = new RightQueryObject("right_objects");
+        $object = new RightQueryObject("right_objects", $this);
         if ($argsObject !== null) {
             $object->appendArguments($argsObject->toArray());
         }
@@ -21,7 +21,7 @@ class MultipleObjectSelectorsQueryObject extends QueryObject
 
     public function selectLeftObjects(MultipleObjectSelectorsLeftObjectsArgumentsObject $argsObject = null)
     {
-        $object = new LeftQueryObject("left_objects");
+        $object = new LeftQueryObject("left_objects", $this);
         if ($argsObject !== null) {
             $object->appendArguments($argsObject->toArray());
         }
