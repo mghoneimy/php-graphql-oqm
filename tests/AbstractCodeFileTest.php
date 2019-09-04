@@ -61,12 +61,20 @@ class AbstractCodeFileTest extends CodeFileTestCase
     /**
      * @testdox Test the behavior of the constructor when provided with a non-writable directory
      *
-     * @requires OSFAMILY BSD|Darwin|Solaris|Linux|unknown
      * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::__construct()
      * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::validateDirectory
      */
     public function testUnwritableDirInConstructor()
     {
+
+        $uname = strtolower(php_uname());
+
+        if (strpos($uname, "darwin") !== false) {
+            // It's OSX
+        }
+        elseif (strpos($uname, "win") !== false) {
+            $this->markTestSkipped('Skipped on WIN');
+        }
 
         $testDir = static::getGeneratedFilesDir() . DIRECTORY_SEPARATOR . 'unwritable-constructor';
         mkdir($testDir);
@@ -97,12 +105,20 @@ class AbstractCodeFileTest extends CodeFileTestCase
     /**
      * @testdox Test the behavior of changeWriteDir method when provided with a non-writable directory
      *
-     * @requires OSFAMILY BSD|Darwin|Solaris|Linux|unknown
      * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::changeWriteDir
      * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::validateDirectory
      */
     public function testUnwritableDir()
     {
+        $uname = strtolower(php_uname());
+
+        if (strpos($uname, "darwin") !== false) {
+            // It's OSX
+        }
+        elseif (strpos($uname, "win") !== false) {
+            $this->markTestSkipped('Skipped on WIN');
+        }
+
         $testDir = static::getGeneratedFilesDir() . DIRECTORY_SEPARATOR .'unwritable';
         mkdir($testDir);
         chmod($testDir, 0444);
