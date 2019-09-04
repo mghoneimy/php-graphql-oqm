@@ -19,7 +19,7 @@ class ArgumentsObjectClassBuilderTest extends CodeFileTestCase
      */
     protected static function getExpectedFilesDir()
     {
-        return parent::getExpectedFilesDir() . '/arguments_objects';
+        return parent::getExpectedFilesDir() . DIRECTORY_SEPARATOR . 'arguments_objects';
     }
 
     /**
@@ -38,9 +38,11 @@ class ArgumentsObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->addScalarArgument('scalarProperty');
         $classBuilder->build();
 
-        $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+            static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php",
+            static::getGeneratedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php"
+            )
         );
     }
 
@@ -61,9 +63,11 @@ class ArgumentsObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->addScalarArgument('another_scalar_property');
         $classBuilder->build();
 
-        $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php",
+                static::getGeneratedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php"
+            )
         );
     }
 
@@ -83,9 +87,11 @@ class ArgumentsObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->addListArgument('listProperty', 'string');
         $classBuilder->build();
 
-        $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php",
+                static::getGeneratedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php"
+            )
         );
     }
 
@@ -106,9 +112,11 @@ class ArgumentsObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->addListArgument('another_list_property', 'string');
         $classBuilder->build();
 
-        $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php",
+                static::getGeneratedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php"
+            )
         );
     }
 
@@ -128,9 +136,11 @@ class ArgumentsObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->addInputObjectArgument('objectProperty', 'Some');
         $classBuilder->build();
 
-        $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php",
+                static::getGeneratedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php"
+            )
         );
     }
 
@@ -151,9 +161,11 @@ class ArgumentsObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->addInputObjectArgument('another_object_property', 'Another');
         $classBuilder->build();
 
-        $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php",
+                static::getGeneratedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php"
+            )
         );
     }
 }

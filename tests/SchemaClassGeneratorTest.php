@@ -44,13 +44,13 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
         $this->classGenerator = new SchemaClassGenerator(
             new Client('')
         );
-        $this->assertStringEndsWith('/php-graphql-oqm/schema_object', $this->classGenerator->getWriteDir());
+        $this->assertStringEndsWith( DIRECTORY_SEPARATOR . 'php-graphql-oqm' . DIRECTORY_SEPARATOR . 'schema_object', $this->classGenerator->getWriteDir());
 
         $this->classGenerator = new SchemaClassGenerator(
             new Client(''),
             static::getGeneratedFilesDir()
         );
-        $this->assertStringEndsWith('/tests/files_generated', $this->classGenerator->getWriteDir());
+        $this->assertStringEndsWith(DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'files_generated', $this->classGenerator->getWriteDir());
     }
 
     /**
@@ -167,9 +167,12 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
         $this->classGenerator->generateEnumObject($objectName);
 
         $objectName .= 'EnumObject';
-        $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/enum_objects/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . "enum_objects". DIRECTORY_SEPARATOR . $objectName . ".php",
+                static::getGeneratedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php"
+            )
         );
     }
 
@@ -215,9 +218,12 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
         $this->classGenerator->generateInputObject($objectName);
 
         $objectName .= 'InputObject';
-        $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/input_objects/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . "input_objects" . DIRECTORY_SEPARATOR . $objectName . ".php",
+                static::getGeneratedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php"
+            )
         );
     }
 
@@ -278,9 +284,12 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
         $this->classGenerator->generateInputObject($objectName);
 
         $objectName .= 'InputObject';
-        $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/input_objects/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . "input_objects" . DIRECTORY_SEPARATOR . $objectName . ".php",
+                static::getGeneratedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php"
+            )
         );
     }
 
@@ -344,9 +353,12 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
         $this->classGenerator->generateInputObject($objectName);
 
         $objectName .= 'InputObject';
-        $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/input_objects/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . "input_objects" . DIRECTORY_SEPARATOR . $objectName . ".php",
+                static::getGeneratedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php"
+            )
         );
     }
 
@@ -383,9 +395,12 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
         $this->classGenerator->generateArgumentsObject('WithMultipleScalarArgs', $argsArray);
 
         $objectName .= 'ArgumentsObject';
-        $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/arguments_objects/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . "arguments_objects" . DIRECTORY_SEPARATOR . $objectName . ".php",
+                static::getGeneratedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php"
+            )
         );
     }
 
@@ -452,9 +467,12 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
         $this->classGenerator->generateArgumentsObject($objectName, $argsArray);
 
         $objectName .= 'ArgumentsObject';
-        $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/arguments_objects/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . "arguments_objects" . DIRECTORY_SEPARATOR . $objectName . ".php",
+                static::getGeneratedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php"
+            )
         );
     }
 
@@ -511,9 +529,12 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
         $this->classGenerator->generateArgumentsObject($objectName, $argsArray);
 
         $objectName .= 'ArgumentsObject';
-        $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/arguments_objects/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . "arguments_objects" . DIRECTORY_SEPARATOR . $objectName . ".php",
+                static::getGeneratedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php"
+            )
         );
     }
 
@@ -560,9 +581,12 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
         $this->classGenerator->generateQueryObject($objectName);
 
         $objectName .= 'QueryObject';
-        $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/query_objects/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . "query_objects" . DIRECTORY_SEPARATOR . $objectName . ".php",
+                static::getGeneratedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php"
+            )
         );
     }
 
@@ -637,9 +661,12 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
         $objectName .= 'QueryObject';
 
         $this->classGenerator->generateQueryObject($objectName);
-        $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/query_objects/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . "query_objects" . DIRECTORY_SEPARATOR . $objectName . ".php",
+                static::getGeneratedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php"
+            )
         );
     }
 
@@ -663,9 +690,12 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
         $this->classGenerator->generateRootQueryObject();
 
         $objectName = 'RootQueryObject';
-        $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/query_objects/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . "query_objects" . DIRECTORY_SEPARATOR . $objectName . ".php",
+                static::getGeneratedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php"
+            )
         );
     }
 

@@ -16,7 +16,7 @@ class InputObjectClassBuilderTest extends CodeFileTestCase
      */
     protected static function getExpectedFilesDir()
     {
-        return parent::getExpectedFilesDir() . '/input_objects';
+        return parent::getExpectedFilesDir() . DIRECTORY_SEPARATOR . 'input_objects';
     }
 
     /**
@@ -35,9 +35,11 @@ class InputObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->addScalarValue('valOne');
         $classBuilder->build();
 
-        $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php",
+                static::getGeneratedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php"
+            )
         );
     }
 
@@ -58,9 +60,11 @@ class InputObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->addScalarValue('val_two');
         $classBuilder->build();
 
-        $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php",
+                static::getGeneratedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php"
+            )
         );
     }
 
@@ -80,9 +84,11 @@ class InputObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->addListValue('listOne', '');
         $classBuilder->build();
 
-        $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php",
+                static::getGeneratedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php"
+            )
         );
     }
 
@@ -103,9 +109,11 @@ class InputObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->addListValue('list_two', '');
         $classBuilder->build();
 
-        $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php",
+                static::getGeneratedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php"
+            )
         );
     }
 
@@ -125,9 +133,11 @@ class InputObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->addInputObjectValue('inputObject', 'WithListValue');
         $classBuilder->build();
 
-        $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php",
+                static::getGeneratedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php"
+            )
         );
     }
 
@@ -148,9 +158,11 @@ class InputObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->addInputObjectValue('inputObjectTwo', '_TestFilter');
         $classBuilder->build();
 
-        $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php",
+                static::getGeneratedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php"
+            )
         );
     }
 
@@ -169,9 +181,11 @@ class InputObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->addInputObjectValue('testFilter', '_TestFilter');
         $classBuilder->build();
 
-        $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php",
+                static::getGeneratedFilesDir() . DIRECTORY_SEPARATOR . $objectName . ".php"
+            )
         );
     }
 }

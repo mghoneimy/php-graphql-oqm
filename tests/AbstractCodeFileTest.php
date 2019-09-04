@@ -26,7 +26,7 @@ class AbstractCodeFileTest extends CodeFileTestCase
      */
     protected static function getExpectedFilesDir()
     {
-        return parent::getExpectedFilesDir() . '/abstract_code_files';
+        return parent::getExpectedFilesDir() . DIRECTORY_SEPARATOR . 'abstract_code_files';
     }
 
     /**
@@ -39,7 +39,7 @@ class AbstractCodeFileTest extends CodeFileTestCase
             AbstractCodeFile::class,
             [static::getGeneratedFilesDir(), $this->fileName]
         );
-        $this->codeFile->method('generateFileContents')->willReturn("<?php\n");
+        $this->codeFile->method('generateFileContents')->willReturn("<?php" . PHP_EOL);
     }
 
     /**
@@ -53,29 +53,32 @@ class AbstractCodeFileTest extends CodeFileTestCase
         $this->expectException(\Exception::class);
         $mock = $this->getMockForAbstractClass(
             AbstractCodeFile::class,
-            [static::getGeneratedFilesDir() . '/invalid', $this->fileName]
+            [static::getGeneratedFilesDir() . DIRECTORY_SEPARATOR . 'invalid', $this->fileName]
         );
-        $mock->method('generateFileContents')->willReturn("<?php\n");
+        $mock->method('generateFileContents')->willReturn("<?php" . PHP_EOL);
     }
 
     /**
      * @testdox Test the behavior of the constructor when provided with a non-writable directory
      *
+     * @requires OS ^Windows
      * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::__construct()
      * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::validateDirectory
      */
     public function testUnwritableDirInConstructor()
     {
-        $testDir = static::getGeneratedFilesDir() . '/unwritable-constructor';
+
+        $testDir = static::getGeneratedFilesDir() . DIRECTORY_SEPARATOR . 'unwritable-constructor';
         mkdir($testDir);
         chmod($testDir, 0444);
 
         $this->expectException(\Exception::class);
+
         $mock = $this->getMockForAbstractClass(
             AbstractCodeFile::class,
             [$testDir, $this->fileName]
         );
-        $mock->method('generateFileContents')->willReturn("<?php\n");
+        $mock->method('generateFileContents')->willReturn("<?php" . PHP_EOL);
     }
 
     /**
@@ -86,19 +89,21 @@ class AbstractCodeFileTest extends CodeFileTestCase
      */
     public function testInvalidWriteDir()
     {
+
         $this->expectException(\Exception::class);
-        $this->codeFile->changeWriteDir(static::getGeneratedFilesDir() . '/invalid');
+        $this->codeFile->changeWriteDir(static::getGeneratedFilesDir() . DIRECTORY_SEPARATOR . 'invalid');
     }
 
     /**
      * @testdox Test the behavior of changeWriteDir method when provided with a non-writable directory
      *
+     * @requires OS ^Windows
      * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::changeWriteDir
      * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::validateDirectory
      */
     public function testUnwritableDir()
     {
-        $testDir = static::getGeneratedFilesDir() . '/unwritable';
+        $testDir = static::getGeneratedFilesDir() . DIRECTORY_SEPARATOR .'unwritable';
         mkdir($testDir);
         chmod($testDir, 0444);
 
@@ -111,7 +116,7 @@ class AbstractCodeFileTest extends CodeFileTestCase
      */
     public function testWritePathGetter()
     {
-        $this->assertEquals(static::getGeneratedFilesDir() . "/$this->fileName.php", $this->codeFile->getWritePath());
+        $this->assertEquals(static::getGeneratedFilesDir() . DIRECTORY_SEPARATOR . $this->fileName . ".php", $this->codeFile->getWritePath());
     }
 
     /**
@@ -124,7 +129,13 @@ class AbstractCodeFileTest extends CodeFileTestCase
     public function testFileWritingWorks()
     {
         $this->codeFile->writeFile();
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$this->fileName.php", $this->codeFile->getWritePath());
+
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $this->fileName . ".php", $this->codeFile->getWritePath()
+            )
+        );
+
     }
 
     /**
@@ -137,10 +148,14 @@ class AbstractCodeFileTest extends CodeFileTestCase
     public function testFileWritingWorksWithTrailingSlash()
     {
         $this->fileName = 'EmptyCodeFileWithSlash';
-        $this->codeFile->changeWriteDir($this->codeFile->getWriteDir() . '/');
+        $this->codeFile->changeWriteDir($this->codeFile->getWriteDir() . DIRECTORY_SEPARATOR);
         $this->codeFile->changeFileName($this->fileName);
         $this->codeFile->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$this->fileName.php", $this->codeFile->getWritePath());
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $this->fileName . ".php", $this->codeFile->getWritePath()
+            )
+        );
     }
 }

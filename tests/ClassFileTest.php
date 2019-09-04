@@ -11,7 +11,7 @@ class ClassFileTest extends CodeFileTestCase
      */
     protected static function getExpectedFilesDir()
     {
-        return parent::getExpectedFilesDir() . '/classes';
+        return parent::getExpectedFilesDir() . DIRECTORY_SEPARATOR . 'classes';
     }
 
     /**
@@ -26,7 +26,11 @@ class ClassFileTest extends CodeFileTestCase
         $class = new ClassFile(static::getGeneratedFilesDir(), $fileName);
         $class->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php", $class->getWritePath()
+            )
+        );
 
         return $class;
     }
@@ -46,7 +50,11 @@ class ClassFileTest extends CodeFileTestCase
         $class->extendsClass('Base');
         $class->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php", $class->getWritePath()
+            )
+        );
     }
 
     /**
@@ -58,9 +66,13 @@ class ClassFileTest extends CodeFileTestCase
     {
         $class->extendsClass('');
         $class->writeFile();
-
         $fileName = $class->getFileName();
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php", $class->getWritePath()
+            )
+        );
     }
 
     /**
@@ -78,14 +90,22 @@ class ClassFileTest extends CodeFileTestCase
         $class->implementsInterface('InterfaceOne');
         $class->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php", $class->getWritePath()
+            )
+        );
 
         $fileName = 'ClassImplementsMultipleInterfaces';
         $class->changeFileName($fileName);
         $class->implementsInterface('InterfaceTwo');
         $class->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php", $class->getWritePath()
+            )
+        );
 
         return $class;
     }
@@ -103,7 +123,12 @@ class ClassFileTest extends CodeFileTestCase
         $class->writeFile();
 
         $fileName = $class->getFileName();
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php", $class->getWritePath()
+            )
+        );
     }
 
     /**
@@ -117,7 +142,12 @@ class ClassFileTest extends CodeFileTestCase
         $class->writeFile();
 
         $fileName = $class->getFileName();
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php", $class->getWritePath()
+            )
+        );
     }
 
     /**
@@ -135,7 +165,11 @@ class ClassFileTest extends CodeFileTestCase
         $class->addTrait('TraitOne');
         $class->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php", $class->getWritePath()
+            )
+        );
 
         $fileName = 'ClassWithMultipleTraits';
         $class->changeFileName($fileName);
@@ -143,7 +177,11 @@ class ClassFileTest extends CodeFileTestCase
         $class->addTrait('TraitThree');
         $class->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php", $class->getWritePath()
+            )
+        );
 
         return $class;
     }
@@ -161,7 +199,12 @@ class ClassFileTest extends CodeFileTestCase
         $class->writeFile();
 
         $fileName = $class->getFileName();
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php", $class->getWritePath()
+            )
+        );
     }
 
     /**
@@ -175,7 +218,12 @@ class ClassFileTest extends CodeFileTestCase
         $class->writeFile();
 
         $fileName = $class->getFileName();
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php", $class->getWritePath()
+            )
+        );
     }
 
     /**
@@ -194,7 +242,11 @@ class ClassFileTest extends CodeFileTestCase
         $class->addConstant('CONST_ONE', 'ONE');
         $class->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php", $class->getWritePath()
+            )
+        );
 
         $fileName = 'ClassWithMultipleConstants';
         $class->changeFileName($fileName);
@@ -205,7 +257,11 @@ class ClassFileTest extends CodeFileTestCase
         $class->addConstant('CONST_SIX', 6.6);
         $class->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php", $class->getWritePath()
+            )
+        );
 
         return $class;
     }
@@ -223,7 +279,12 @@ class ClassFileTest extends CodeFileTestCase
         $class->writeFile();
 
         $fileName = $class->getFileName();
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php", $class->getWritePath()
+            )
+        );
     }
 
     /**
@@ -237,7 +298,12 @@ class ClassFileTest extends CodeFileTestCase
         $class->writeFile();
 
         $fileName = $class->getFileName();
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php", $class->getWritePath()
+            )
+        );
     }
 
     /**
@@ -289,6 +355,10 @@ class ClassFileTest extends CodeFileTestCase
 }');
         $class->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php", $class->getWritePath()
+            )
+        );
     }
 }

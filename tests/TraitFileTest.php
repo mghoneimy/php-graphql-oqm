@@ -12,7 +12,7 @@ class TraitFileTest extends CodeFileTestCase
      */
     protected static function getExpectedFilesDir()
     {
-        return parent::getExpectedFilesDir() . '/traits';
+        return parent::getExpectedFilesDir() . DIRECTORY_SEPARATOR . 'traits';
     }
 
     /**
@@ -28,7 +28,11 @@ class TraitFileTest extends CodeFileTestCase
         $trait = new TraitFile(static::getGeneratedFilesDir(), $fileName);
         $trait->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $trait->getWritePath());
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php" , $trait->getWritePath()
+            )
+        );
     }
 
     /**
@@ -46,7 +50,11 @@ class TraitFileTest extends CodeFileTestCase
         $trait->setNamespace("GraphQL\Test");
         $trait->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $trait->getWritePath());
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php" , $trait->getWritePath()
+            )
+        );
     }
 
     /**
@@ -64,7 +72,11 @@ class TraitFileTest extends CodeFileTestCase
         $trait->setNamespace('');
         $trait->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $trait->getWritePath());
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php" , $trait->getWritePath()
+            )
+        );
     }
 
     /**
@@ -83,7 +95,11 @@ class TraitFileTest extends CodeFileTestCase
         $trait->addImport("GraphQL\Client");
         $trait->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $trait->getWritePath());
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php" , $trait->getWritePath()
+            )
+        );
     }
 
     /**
@@ -101,7 +117,11 @@ class TraitFileTest extends CodeFileTestCase
         $trait->addImport("");
         $trait->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $trait->getWritePath());
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php" , $trait->getWritePath()
+            )
+        );
     }
 
     /**
@@ -123,7 +143,11 @@ class TraitFileTest extends CodeFileTestCase
         $trait->addImport("GraphQL\\Client");
         $trait->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $trait->getWritePath());
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php" , $trait->getWritePath()
+            )
+        );
     }
 
     /**
@@ -143,7 +167,11 @@ class TraitFileTest extends CodeFileTestCase
         $trait->addProperty('property_three');
         $trait->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php" , $trait->getWritePath());
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php" , $trait->getWritePath()
+            )
+        );
 
         return $trait;
     }
@@ -163,7 +191,11 @@ class TraitFileTest extends CodeFileTestCase
         $trait->addProperty('');
         $trait->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php" , $trait->getWritePath());
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php" , $trait->getWritePath()
+            )
+        );
     }
 
     /**
@@ -176,11 +208,15 @@ class TraitFileTest extends CodeFileTestCase
      */
     public function testTraitWithDuplicateProperties(TraitFile $trait)
     {
+        $fileName = $trait->getFileName();
         // Adding the same property again
         $trait->addProperty('property1');
 
-        $fileName = $trait->getFileName();
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php" , $trait->getWritePath());
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php" , $trait->getWritePath()
+            )
+        );
     }
 
     /**
@@ -205,7 +241,11 @@ class TraitFileTest extends CodeFileTestCase
         $trait->addProperty('propertySeven', 7.7);
         $trait->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php" , $trait->getWritePath());
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php" , $trait->getWritePath()
+            )
+        );
     }
 
     /**
@@ -227,7 +267,11 @@ class TraitFileTest extends CodeFileTestCase
         );
         $trait->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php" , $trait->getWritePath());
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php" , $trait->getWritePath()
+            )
+        );
     }
 
     /**
@@ -254,7 +298,11 @@ class TraitFileTest extends CodeFileTestCase
         );
         $trait->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php" , $trait->getWritePath());
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php" , $trait->getWritePath()
+            )
+        );
     }
 
     /**
@@ -272,7 +320,11 @@ class TraitFileTest extends CodeFileTestCase
         $trait->addMethod('');
         $trait->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php" , $trait->getWritePath());
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php" , $trait->getWritePath()
+            )
+        );
     }
 
     /**
@@ -300,7 +352,11 @@ class TraitFileTest extends CodeFileTestCase
         );
         $trait->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php" , $trait->getWritePath());
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php" , $trait->getWritePath()
+            )
+        );
     }
 
     /**
@@ -331,6 +387,11 @@ class TraitFileTest extends CodeFileTestCase
         );
         $trait->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $trait->getWritePath());
+        $this->assertTrue(
+            $this->assertFileEqualsIgnoreWhitespace(
+                static::getExpectedFilesDir() . DIRECTORY_SEPARATOR . $fileName . ".php", $trait->getWritePath()
+            )
+        );
+
     }
 }

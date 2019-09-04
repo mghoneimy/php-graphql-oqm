@@ -295,7 +295,7 @@ class SchemaClassGenerator
             $currentDir = dirname($currentDir);
         }
 
-        $this->writeDir = $currentDir . '/schema_object';
+        $this->writeDir = $currentDir . DIRECTORY_SEPARATOR .'schema_object';
     }
 
     /**

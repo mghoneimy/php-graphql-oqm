@@ -69,8 +69,8 @@ abstract class AbstractCodeFile implements CodeFileInterface
         $fileContents = $this->generateFileContents();
 
         $filePath = $this->writeDir;
-        if (substr($filePath, -1) !== '/') {
-            $filePath .= '/';
+        if (substr($filePath, -1) !== DIRECTORY_SEPARATOR) {
+            $filePath .= DIRECTORY_SEPARATOR;
         }
         $filePath .= $this->fileName . '.php';
 
@@ -138,6 +138,6 @@ abstract class AbstractCodeFile implements CodeFileInterface
      */
     public function getWritePath(): string
     {
-        return $this->writeDir . "/$this->fileName.php";
+        return $this->writeDir . DIRECTORY_SEPARATOR . $this->fileName . ".php";
     }
 }

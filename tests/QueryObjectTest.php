@@ -28,6 +28,11 @@ class QueryObjectTest extends TestCase
         $this->queryObject = new SimpleQueryObject('simples');
     }
 
+    private function replaceWhitespace(string $string) {
+
+        return str_replace(["\t","\n","\r","\0","\x0B"],'', $string );
+    }
+
     /**
      * @covers \GraphQL\SchemaObject\QueryObject::__construct
      * @covers \GraphQL\SchemaObject\QueryObject::getQuery
@@ -36,23 +41,25 @@ class QueryObjectTest extends TestCase
     {
         $object = new SimpleQueryObject();
         $object->selectScalar();
-        $this->assertEquals(
+        $this->assertEquals( $this->replaceWhitespace(
+
             'query {
 Simple {
 scalar
 }
-}',
-            (string) $object->getQuery());
+}'),
+            $this->replaceWhitespace($object->getQuery()));
+
 
         $object = new SimpleQueryObject('test');
         $object->selectScalar();
-        $this->assertEquals(
+        $this->assertEquals( $this->replaceWhitespace(
             'query {
 test {
 scalar
 }
-}',
-            (string) $object->getQuery());
+}'),
+            $this->replaceWhitespace($object->getQuery()));
     }
 
     /**
@@ -72,28 +79,28 @@ scalar
     public function testSelectFields()
     {
         $this->queryObject->selectScalar();
-        $this->assertEquals(
+        $this->assertEquals( $this->replaceWhitespace(
             'query {
 simples {
 scalar
 }
-}',
-            (string) $this->queryObject->getQuery()
+}'),
+            $this->replaceWhitespace($this->queryObject->getQuery())
         );
 
         $this->queryObject->selectAnotherScalar();
-        $this->assertEquals(
+        $this->assertEquals( $this->replaceWhitespace(
             'query {
 simples {
 scalar
 anotherScalar
 }
-}',
-            (string) $this->queryObject->getQuery()
+}'),
+            $this->replaceWhitespace($this->queryObject->getQuery())
         );
 
         $this->queryObject->selectSiblings()->selectScalar();
-        $this->assertEquals(
+        $this->assertEquals( $this->replaceWhitespace(
             'query {
 simples {
 scalar
@@ -102,8 +109,8 @@ siblings {
 scalar
 }
 }
-}',
-            (string) $this->queryObject->getQuery()
+}'),
+            $this->replaceWhitespace($this->queryObject->getQuery())
         );
     }
 
@@ -114,15 +121,15 @@ scalar
     public function testSelectSubFieldsWithArguments()
     {
         $this->queryObject->selectSiblings((new SimpleSiblingsArgumentObject())->setFirst(5)->setIds([1,2]))->selectScalar();
-        $this->assertEquals(
+        $this->assertEquals( $this->replaceWhitespace(
             'query {
 simples {
 siblings(first: 5 ids: [1, 2]) {
 scalar
 }
 }
-}',
-            (string) $this->queryObject->getQuery()
+}'),
+            $this->replaceWhitespace($this->queryObject->getQuery())
         );
 
         $this->setUp();
@@ -141,15 +148,15 @@ scalar
                     )
             )
             ->selectScalar();
-        $this->assertEquals(
+        $this->assertEquals( $this->replaceWhitespace(
             'query {
 simples {
 siblings(obj: {field: "something"}) {
 scalar
 }
 }
-}',
-            (string) $this->queryObject->getQuery()
+}'),
+            $this->replaceWhitespace($this->queryObject->getQuery())
         );
     }
 }
