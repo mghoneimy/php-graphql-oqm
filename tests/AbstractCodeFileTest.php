@@ -61,7 +61,7 @@ class AbstractCodeFileTest extends CodeFileTestCase
     /**
      * @testdox Test the behavior of the constructor when provided with a non-writable directory
      *
-     * @requires OS ^Windows
+     * @requires OSFAMILY BSD|Darwin|Solaris|Linux|unknown
      * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::__construct()
      * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::validateDirectory
      */
@@ -97,7 +97,7 @@ class AbstractCodeFileTest extends CodeFileTestCase
     /**
      * @testdox Test the behavior of changeWriteDir method when provided with a non-writable directory
      *
-     * @requires OS ^Windows
+     * @requires OSFAMILY BSD|Darwin|Solaris|Linux|unknown
      * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::changeWriteDir
      * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::validateDirectory
      */
