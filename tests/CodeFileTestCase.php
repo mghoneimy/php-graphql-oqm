@@ -55,6 +55,7 @@ abstract class CodeFileTestCase extends TestCase
                 }
             }
         }
+        chmod($dirName, 0777);
         rmdir($dirName);
     }
 }

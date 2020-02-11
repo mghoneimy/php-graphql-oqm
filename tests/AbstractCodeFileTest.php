@@ -39,7 +39,7 @@ class AbstractCodeFileTest extends CodeFileTestCase
             AbstractCodeFile::class,
             [static::getGeneratedFilesDir(), $this->fileName]
         );
-        $this->codeFile->method('generateFileContents')->willReturn("<?php\n");
+        $this->codeFile->method('generateFileContents')->willReturn("<?php" . PHP_EOL);
     }
 
     /**

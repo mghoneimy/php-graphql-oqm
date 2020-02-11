@@ -170,7 +170,7 @@ class %3$s
         $string = '';
         if (!empty($this->traits)) {
             foreach ($this->traits as $traitName => $nothing) {
-                $string .= "    use $traitName;\n";
+                $string .= "    use $traitName;" . PHP_EOL;
             }
         }
 
@@ -186,7 +186,7 @@ class %3$s
         if (!empty($this->constants)) {
             foreach ($this->constants as $name => $value) {
                 $value = $this->serializeParameterValue($value);
-                $string .= "    const $name = $value;\n";
+                $string .= "    const $name = $value;" . PHP_EOL;
             }
         }
 
