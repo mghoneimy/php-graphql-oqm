@@ -27,6 +27,10 @@ type{
       ofType{
         name
         kind
+        ofType{
+          name
+          kind
+        }
       }
     }
   }

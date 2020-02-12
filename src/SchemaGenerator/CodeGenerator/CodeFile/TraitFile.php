@@ -133,7 +133,7 @@ trait %3$s
     {
         $string = '';
         if (!empty($this->namespace)) {
-            $string = "namespace $this->namespace;\n";
+            $string = "namespace $this->namespace;" . PHP_EOL;
         }
 
         return $string;
@@ -147,7 +147,7 @@ trait %3$s
         $string = '';
         if (!empty($this->imports)) {
             foreach ($this->imports as $import => $nothing) {
-                $string .= "use $import;\n";
+                $string .= "use $import;" . PHP_EOL;
             }
         }
 
@@ -163,10 +163,10 @@ trait %3$s
         if (!empty($this->properties)) {
             foreach ($this->properties as $name => $value) {
                 if ($value === null) {
-                    $string .= "    protected $$name;\n";
+                    $string .= "    protected $$name;" . PHP_EOL;
                 } else {
                     $value = $this->serializeParameterValue($value);
-                    $string .= "    protected $$name = $value;\n";
+                    $string .= "    protected $$name = $value;" . PHP_EOL;
                 }
             }
         }
