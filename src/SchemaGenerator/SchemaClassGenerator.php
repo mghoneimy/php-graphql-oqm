@@ -185,7 +185,7 @@ class SchemaClassGenerator
                 if (in_array(FieldTypeKindEnum::LIST, $typeKindWrappers)) {
                     $objectBuilder->addListValue($name, $typeName);
                 } else {
-                    if ($typeKind === FieldTypeKindEnum::SCALAR) {
+                    if ($typeKind === FieldTypeKindEnum::SCALAR || $typeKind === FieldTypeKindEnum::ENUM_OBJECT) {
                         $objectBuilder->addScalarValue($name);
                     } else {
                         $objectBuilder->addInputObjectValue($name, $typeName);

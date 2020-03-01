@@ -225,6 +225,63 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
      * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateInputObject
      * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateObject
      */
+    public function testGenerateInputObjectWithEnumValue()
+    {
+        $objectName = 'WithEnumValue';
+        // Add mock responses
+        $this->mockHandler->append(new Response(200, [], json_encode([
+            'data' => [
+                '__type' => [
+                    'name' => $objectName,
+                    'kind' => FieldTypeKindEnum::INPUT_OBJECT,
+                    'inputFields' => [
+                        [
+                            'name' => 'enumVal',
+                            'description' => null,
+                            'defaultValue' => null,
+                            'type' => [
+                                'name' => null,
+                                'kind' => FieldTypeKindEnum::NON_NULL,
+                                'description' => null,
+                                'ofType' => [
+                                    'name' => 'Some',
+                                    'kind' => FieldTypeKindEnum::ENUM_OBJECT,
+                                    'description' => null,
+                                    'ofType' => null,
+                                ]
+                            ]
+                        ],
+                    ]
+                ]
+            ]
+        ])));
+        $this->mockHandler->append(new Response(200, [], json_encode([
+            'data' => [
+                '__type' => [
+                    'name' => 'Some',
+                    'kind' => FieldTypeKindEnum::ENUM_OBJECT,
+                    'enumValues' => [
+                        [
+                            'name' => 'some_value',
+                            'description' => null,
+                        ]
+                    ]
+                ]
+            ]
+        ])));
+        $this->classGenerator->generateInputObject($objectName);
+
+        $objectName .= 'InputObject';
+        $this->assertFileEquals(
+            static::getExpectedFilesDir() . "/input_objects/$objectName.php",
+            static::getGeneratedFilesDir() . "/$objectName.php"
+        );
+    }
+
+    /**
+     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateInputObject
+     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateObject
+     */
     public function testGenerateInputObjectWithListValues()
     {
         $objectName = 'WithMultipleListValues';
