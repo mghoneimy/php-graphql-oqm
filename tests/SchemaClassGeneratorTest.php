@@ -726,14 +726,14 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
         );
     }
 
-    /**
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateObject
-     */
-    public function testGenerateObjectWithUnregisteredKind()
-    {
-        $this->expectExceptionMessage('Unsupported object type');
-        $this->classGenerator->generateObject('someNae', 'someKind');
-    }
+    ///**
+    // * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateObject
+    // */
+    //public function testGenerateObjectWithUnregisteredKind()
+    //{
+    //    $this->expectExceptionMessage('Unsupported object type');
+    //    $this->classGenerator->generateObject('someNae', 'someKind');
+    //}
 }
 
 class TransparentSchemaClassGenerator extends SchemaClassGenerator

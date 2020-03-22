@@ -136,7 +136,8 @@ class SchemaClassGenerator
             case FieldTypeKindEnum::ENUM_OBJECT:
                 return $this->generateEnumObject($objectName);
             default:
-                throw new RuntimeException('Unsupported object type');
+                print "Couldn't generate type $objectName: generating $objectKind kind is not supported yet" . PHP_EOL;
+                return false;
         }
     }
 
