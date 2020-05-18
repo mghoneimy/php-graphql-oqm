@@ -36,7 +36,10 @@ abstract class QueryObject extends AbstractQueryBuilder
      */
     public function __construct(string $fieldName = '')
     {
-        $queryObject = !empty($fieldName) ? $fieldName : static::OBJECT_NAME;
+        // Maintain backwards compatibility for generated RootQueryObjects by converting OBJECT_NAME 'query' to '' when encountered
+        // TODO: Remove this when bumping up one major version
+        $objectName = static::OBJECT_NAME === 'query' ? '' : static::OBJECT_NAME;
+        $queryObject = !empty($fieldName) ? $fieldName : $objectName;
         parent::__construct($queryObject);
     }
 

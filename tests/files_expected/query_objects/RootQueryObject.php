@@ -6,5 +6,5 @@ use GraphQL\SchemaObject\QueryObject;
 
 class RootQueryObject extends QueryObject
 {
-    const OBJECT_NAME = "query";
+    const OBJECT_NAME = "";
 }

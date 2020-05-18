@@ -33,7 +33,7 @@ class QueryObjectClassBuilder extends ObjectClassBuilder
 
         // Special case for handling root query object
         if ($objectName === QueryObject::ROOT_QUERY_OBJECT_NAME) {
-            $objectName = 'query';
+            $objectName = '';
         }
         $this->classFile->addConstant('OBJECT_NAME', $objectName);
     }
