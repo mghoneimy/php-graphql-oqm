@@ -41,10 +41,10 @@ class QueryObjectClassBuilder extends ObjectClassBuilder
     /**
      * @param string $fieldName
      */
-    public function addScalarField(string $fieldName)
+    public function addScalarField(string $fieldName, bool $isDeprecated, ?string $deprecationReason)
     {
         $upperCamelCaseProp = StringLiteralFormatter::formatUpperCamelCase($fieldName);
-        $this->addSimpleSelector($fieldName, $upperCamelCaseProp);
+        $this->addSimpleSelector($fieldName, $upperCamelCaseProp, $isDeprecated, $deprecationReason);
     }
 
     /**
@@ -52,17 +52,19 @@ class QueryObjectClassBuilder extends ObjectClassBuilder
      * @param string $typeName
      * @param string $argsObjectName
      */
-    public function addObjectField(string $fieldName, string $typeName, string $argsObjectName)
+    public function addObjectField(string $fieldName, string $typeName, string $argsObjectName, bool $isDeprecated, ?string $deprecationReason)
     {
         $upperCamelCaseProp = StringLiteralFormatter::formatUpperCamelCase($fieldName);
-        $this->addObjectSelector($fieldName, $upperCamelCaseProp, $typeName, $argsObjectName);
+        $this->addObjectSelector($fieldName, $upperCamelCaseProp, $typeName, $argsObjectName, $isDeprecated, $deprecationReason);
     }
 
     /**
      * @param string $propertyName
      * @param string $upperCamelName
+     * @param bool $isDeprecated
+     * @param string|null $deprecationReason
      */
-    protected function addSimpleSelector(string $propertyName, string $upperCamelName)
+    protected function addSimpleSelector(string $propertyName, string $upperCamelName, bool $isDeprecated, ?string $deprecationReason)
     {
         $method = "public function select$upperCamelName()
 {
@@ -70,7 +72,7 @@ class QueryObjectClassBuilder extends ObjectClassBuilder
 
     return \$this;
 }";
-        $this->classFile->addMethod($method);
+        $this->classFile->addMethod($method, $isDeprecated, $deprecationReason);
     }
 
     /**
@@ -79,7 +81,7 @@ class QueryObjectClassBuilder extends ObjectClassBuilder
      * @param string $fieldTypeName
      * @param string $argsObjectName
      */
-    protected function addObjectSelector(string $fieldName, string $upperCamelName, string $fieldTypeName, string $argsObjectName)
+    protected function addObjectSelector(string $fieldName, string $upperCamelName, string $fieldTypeName, string $argsObjectName, bool $isDeprecated, ?string $deprecationReason)
     {
         $objectClassName  = $fieldTypeName . 'QueryObject';
         $argsMapClassName = $argsObjectName . 'ArgumentsObject';
@@ -93,7 +95,7 @@ class QueryObjectClassBuilder extends ObjectClassBuilder
 
     return \$object;
 }";
-        $this->classFile->addMethod($method);
+        $this->classFile->addMethod($method, $isDeprecated, $deprecationReason);
     }
 
     /**

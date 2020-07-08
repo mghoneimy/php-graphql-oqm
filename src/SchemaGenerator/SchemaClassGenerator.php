@@ -98,7 +98,7 @@ class SchemaClassGenerator
             [$typeName, $typeKind] = $this->getTypeInfo($fieldArray);
 
             if ($typeKind === FieldTypeKindEnum::SCALAR) {
-                $queryObjectBuilder->addScalarField($name);
+                $queryObjectBuilder->addScalarField($name, $fieldArray['isDeprecated'], $fieldArray['deprecationReason']);
             } else {
 
                 // Generate nested type object if it wasn't generated
@@ -113,7 +113,7 @@ class SchemaClassGenerator
                     if ($argsObjectGenerated) {
 
                         // Add sub type as a field to the query object if all generation happened successfully
-                        $queryObjectBuilder->addObjectField($name, $typeName, $argsObjectName);
+                        $queryObjectBuilder->addObjectField($name, $typeName, $argsObjectName, $fieldArray['isDeprecated'], $fieldArray['deprecationReason']);
                     }
                 }
             }

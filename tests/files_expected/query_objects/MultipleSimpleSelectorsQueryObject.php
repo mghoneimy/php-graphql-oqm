@@ -15,6 +15,9 @@ class MultipleSimpleSelectorsQueryObject extends QueryObject
         return $this;
     }
 
+    /**
+     * @deprecated is deprecated
+     */
     public function selectLastName()
     {
         $this->selectField("last_name");

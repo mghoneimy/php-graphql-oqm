@@ -64,9 +64,11 @@ QUERY;
       name
       kind
       description
-      fields{
+      fields(includeDeprecated: true){
         name
         description
+        isDeprecated
+        deprecationReason
         " . static::TYPE_SUB_QUERY . "
         args{
           name
@@ -94,9 +96,11 @@ QUERY;
   __type(name: \"$objectName\") {
     name
     kind
-    fields{
+    fields(includeDeprecated: true){
       name
       description
+      isDeprecated
+      deprecationReason
       " . static::TYPE_SUB_QUERY . "
       args{
         name
