@@ -29,7 +29,7 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
         $this->mockHandler = new MockHandler();
         $handler = HandlerStack::create($this->mockHandler);
         $this->classGenerator = new TransparentSchemaClassGenerator(
-            new MockClient('', $handler),
+            new Client('', [], ['handler' => $handler]),
             static::getGeneratedFilesDir()
         );
     }
