@@ -60,7 +60,7 @@ class QueryObjectClassBuilderTest extends CodeFileTestCase
         $objectName = 'SimpleSelector';
         $classBuilder = new QueryObjectClassBuilder(static::getGeneratedFilesDir(), $objectName, static::TESTING_NAMESPACE);
         $objectName .= 'QueryObject';
-        $classBuilder->addScalarField('name');
+        $classBuilder->addScalarField('name', false, null);
         $classBuilder->build();
 
         $this->assertFileEquals(
@@ -80,8 +80,8 @@ class QueryObjectClassBuilderTest extends CodeFileTestCase
         $objectName = 'MultipleSimpleSelectors';
         $classBuilder = new QueryObjectClassBuilder(static::getGeneratedFilesDir(), $objectName, static::TESTING_NAMESPACE);
         $objectName .= 'QueryObject';
-        $classBuilder->addScalarField('first_name');
-        $classBuilder->addScalarField('last_name');
+        $classBuilder->addScalarField('first_name', false, null);
+        $classBuilder->addScalarField('last_name', true, 'is deprecated');
         $classBuilder->build();
 
         $this->assertFileEquals(
@@ -99,7 +99,7 @@ class QueryObjectClassBuilderTest extends CodeFileTestCase
         $objectName = 'ObjectSelector';
         $classBuilder = new QueryObjectClassBuilder(static::getGeneratedFilesDir(), $objectName, static::TESTING_NAMESPACE);
         $objectName .= 'QueryObject';
-        $classBuilder->addObjectField('others', 'Other', 'RootOthers');
+        $classBuilder->addObjectField('others', 'Other', 'RootOthers', false, null);
         $classBuilder->build();
 
         $this->assertFileEquals(
@@ -119,8 +119,8 @@ class QueryObjectClassBuilderTest extends CodeFileTestCase
         $objectName = 'MultipleObjectSelectors';
         $classBuilder = new QueryObjectClassBuilder(static::getGeneratedFilesDir(), $objectName, static::TESTING_NAMESPACE);
         $objectName .= 'QueryObject';
-        $classBuilder->addObjectField('right_objects', 'Right', 'MultipleObjectSelectorsRightObjects');
-        $classBuilder->addObjectField('left_objects', 'Left', 'MultipleObjectSelectorsLeftObjects');
+        $classBuilder->addObjectField('right_objects', 'Right', 'MultipleObjectSelectorsRightObjects', false, null);
+        $classBuilder->addObjectField('left_objects', 'Left', 'MultipleObjectSelectorsLeftObjects', true, null);
         $classBuilder->build();
 
         $this->assertFileEquals(

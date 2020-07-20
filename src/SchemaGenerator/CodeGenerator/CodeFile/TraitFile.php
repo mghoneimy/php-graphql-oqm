@@ -97,11 +97,13 @@ trait %3$s
 
     /**
      * @param string $methodString
+     * @param bool $isDeprecated
+     * @param string|null $deprecationReason
      */
-    public function addMethod(string $methodString)
+    public function addMethod(string $methodString, bool $isDeprecated = false, ?string $deprecationReason = null)
     {
         if (!empty($methodString)) {
-            $this->methods[] = $methodString;
+            $this->methods[] = $this->prependDeprecationComment($methodString, $isDeprecated, $deprecationReason);
         }
     }
 
@@ -199,5 +201,24 @@ trait %3$s
     protected function serializeParameterValue($value): string
     {
         return StringLiteralFormatter::formatValueForRHS($value);
+    }
+
+    /**
+     * @param string $code
+     * @param bool $isDeprecated
+     * @param string|null $deprecationReason
+     *
+     * @return string
+     */
+    protected function prependDeprecationComment(string $code, bool $isDeprecated, ?string $deprecationReason): string
+    {
+        if ($isDeprecated) {
+            $code = "/**
+ * @deprecated".($deprecationReason ? " $deprecationReason" : "")."
+ */
+".$code;
+        }
+
+        return $code;
     }
 }

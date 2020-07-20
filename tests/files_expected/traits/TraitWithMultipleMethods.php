@@ -7,6 +7,9 @@ trait TraitWithMultipleMethods
         die();
     }
 
+    /**
+     * @deprecated is deprecated
+     */
     private function innerTest() {
         print "test!";
         return 0;

@@ -19,6 +19,9 @@ class MultipleObjectSelectorsQueryObject extends QueryObject
         return $object;
     }
 
+    /**
+     * @deprecated
+     */
     public function selectLeftObjects(MultipleObjectSelectorsLeftObjectsArgumentsObject $argsObject = null)
     {
         $object = new LeftQueryObject("left_objects");

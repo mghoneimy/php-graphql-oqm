@@ -251,7 +251,7 @@ class TraitFileTest extends CodeFileTestCase
     print "test!";
     return 0;
 }'
-        );
+        , true, 'is deprecated');
         $trait->writeFile();
 
         $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php" , $trait->getWritePath());

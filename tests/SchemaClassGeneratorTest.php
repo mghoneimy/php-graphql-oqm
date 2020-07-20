@@ -592,6 +592,8 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                         [
                             'name' => 'first_name',
                             'description' => null,
+                            'isDeprecated' => false,
+                            'deprecationReason' => null,
                             'type' => [
                                 'name' => 'String',
                                 'kind' => FieldTypeKindEnum::SCALAR,
@@ -602,6 +604,8 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                         ], [
                             'name' => 'last_name',
                             'description' => null,
+                            'isDeprecated' => true,
+                            'deprecationReason' => 'is deprecated',
                             'type' => [
                                 'name' => 'String',
                                 'kind' => FieldTypeKindEnum::SCALAR,
@@ -641,6 +645,8 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                         [
                             'name' => 'right_objects',
                             'description' => null,
+                            'isDeprecated' => false,
+                            'deprecationReason' => null,
                             'type' => [
                                 'name' => null,
                                 'kind' => FieldTypeKindEnum::LIST,
@@ -656,6 +662,8 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                         ], [
                             'name' => 'left_objects',
                             'description' => null,
+                            'isDeprecated' => true,
+                            'deprecationReason' => null,
                             'type' => [
                                 'name' => null,
                                 'kind' => FieldTypeKindEnum::LIST,
