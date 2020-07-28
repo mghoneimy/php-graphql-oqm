@@ -24,4 +24,11 @@ class MultipleSimpleSelectorsQueryObject extends QueryObject
     
         return $this;
     }
+
+    public function selectGender()
+    {
+        $this->selectField("gender");
+    
+        return $this;
+    }
 }

@@ -414,7 +414,7 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
     public function testGenerateArgumentsObjectWithScalarArgs()
     {
         $objectName = 'WithMultipleScalarArgs';
-        $argsArray  = [
+        $argsArray = [
             [
                 'name' => 'scalarProperty',
                 'description' => null,
@@ -468,7 +468,7 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                 ]
             ]
         ])));
-        $argsArray  = [
+        $argsArray = [
             [
                 'name' => 'listProperty',
                 'description' => null,
@@ -542,7 +542,7 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
         ])));
 
         $objectName = 'WithMultipleInputObjectArgs';
-        $argsArray  = [
+        $argsArray = [
             [
                 'name' => 'objectProperty',
                 'description' => null,
@@ -581,7 +581,7 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
      */
     public function testGenerateQueryObjectWithScalarFields()
     {
-        $objectName  = 'MultipleSimpleSelectors';
+        $objectName = 'MultipleSimpleSelectors';
         // Add mock responses
         $this->mockHandler->append(new Response(200, [], json_encode([
             'data' => [
@@ -613,10 +613,44 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                                 'ofType' => null,
                             ],
                             'args' => null,
+                        ], [
+                            'name' => 'gender',
+                            'description' => null,
+                            'isDeprecated' => false,
+                            'deprecationReason' => null,
+                            'type' => [
+                                'name' => 'Gender',
+                                'kind' => FieldTypeKindEnum::ENUM_OBJECT,
+                                'description' => null,
+                                'ofType' => null,
+                            ],
+                            'args' => null,
                         ]
                     ]
                 ]
             ]
+        ])));
+        $this->mockHandler->append(new Response(200, [], json_encode([
+            'data' => [
+                '__type' => [
+                    'name' => 'Gender',
+                    'kind' => FieldTypeKindEnum::ENUM_OBJECT,
+                    'enumValues' => [
+                        [
+                            "name" => 'UNKNOWN',
+                            'description' => null
+                        ],
+                        [
+                            'name' => 'FEMALE',
+                            'description' => null
+                        ],
+                        [
+                            'name' => 'MALE',
+                            'description' => null
+                        ],
+                    ],
+                ],
+            ],
         ])));
         $this->classGenerator->generateQueryObject($objectName);
 
@@ -634,7 +668,7 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
      */
     public function testGenerateQueryObjectWithObjectFields()
     {
-        $objectName  = 'MultipleObjectSelectors';
+        $objectName = 'MultipleObjectSelectors';
         // Add mock responses
         $this->mockHandler->append(new Response(200, [], json_encode([
             'data' => [
@@ -749,7 +783,8 @@ class TransparentSchemaClassGenerator extends SchemaClassGenerator
     public function __construct(
         Client $client,
         string $writeDir = ''
-    ) {
+    )
+    {
         parent::__construct($client, $writeDir, 'GraphQL\\Tests\\SchemaObject');
     }
 

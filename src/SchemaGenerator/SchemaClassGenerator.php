@@ -99,6 +99,11 @@ class SchemaClassGenerator
 
             if ($typeKind === FieldTypeKindEnum::SCALAR) {
                 $queryObjectBuilder->addScalarField($name, $fieldArray['isDeprecated'], $fieldArray['deprecationReason']);
+            } elseif ($typeKind === FieldTypeKindEnum::ENUM_OBJECT) {
+                if (!array_key_exists($typeName, $this->generatedObjects)) {
+                    $this->generateEnumObject($typeName);
+                }
+                $queryObjectBuilder->addScalarField($name, $fieldArray['isDeprecated'], $fieldArray['deprecationReason']);
             } else {
 
                 // Generate nested type object if it wasn't generated
