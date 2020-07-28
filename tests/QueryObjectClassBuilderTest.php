@@ -100,7 +100,7 @@ class QueryObjectClassBuilderTest extends CodeFileTestCase
         $objectName = 'ObjectSelector';
         $classBuilder = new QueryObjectClassBuilder(static::getGeneratedFilesDir(), $objectName, static::TESTING_NAMESPACE);
         $objectName .= 'QueryObject';
-        $classBuilder->addObjectField('others', 'Other', 'RootOthers', false, null);
+        $classBuilder->addObjectField('others', 'Other', 'RootOthersArgumentsObject', false, null);
         $classBuilder->build();
 
         $this->assertFileEquals(
@@ -120,8 +120,8 @@ class QueryObjectClassBuilderTest extends CodeFileTestCase
         $objectName = 'MultipleObjectSelectors';
         $classBuilder = new QueryObjectClassBuilder(static::getGeneratedFilesDir(), $objectName, static::TESTING_NAMESPACE);
         $objectName .= 'QueryObject';
-        $classBuilder->addObjectField('right_objects', 'Right', 'MultipleObjectSelectorsRightObjects', false, null);
-        $classBuilder->addObjectField('left_objects', 'Left', 'MultipleObjectSelectorsLeftObjects', true, null);
+        $classBuilder->addObjectField('right', 'MultipleObjectSelectorsRight', 'MultipleObjectSelectorsRightArgumentsObject', false, null);
+        $classBuilder->addObjectField('left_objects', 'Left', 'MultipleObjectSelectorsLeftObjectsArgumentsObject', true, null);
         $classBuilder->build();
 
         $this->assertFileEquals(

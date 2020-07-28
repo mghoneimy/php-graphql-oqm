@@ -84,8 +84,7 @@ class QueryObjectClassBuilder extends ObjectClassBuilder
     protected function addObjectSelector(string $fieldName, string $upperCamelName, string $fieldTypeName, string $argsObjectName, bool $isDeprecated, ?string $deprecationReason)
     {
         $objectClassName  = $fieldTypeName . 'QueryObject';
-        $argsMapClassName = $argsObjectName . 'ArgumentsObject';
-        $method = "public function select$upperCamelName($argsMapClassName \$argsObject = null)
+        $method = "public function select$upperCamelName($argsObjectName \$argsObject = null)
 {
     \$object = new $objectClassName(\"$fieldName\");
     if (\$argsObject !== null) {

@@ -71,10 +71,14 @@ class SchemaClassGenerator
         $queryTypeName  = $objectArray['name'];
         //$rootObjectDescr = $objectArray['description'];
 
-        $queryObjectBuilder = new QueryObjectClassBuilder($this->writeDir, $rootObjectName, $this->generationNamespace);
-        $this->generatedObjects[$queryTypeName] = true;
-        $this->appendQueryObjectFields($queryObjectBuilder, $rootObjectName, $objectArray['fields']);
+        if (array_key_exists($queryTypeName, $this->generatedObjects)) {
+            return true;
+        }
 
+        $this->generatedObjects[$queryTypeName] = true;
+
+        $queryObjectBuilder = new QueryObjectClassBuilder($this->writeDir, $rootObjectName, $this->generationNamespace);
+        $this->appendQueryObjectFields($queryObjectBuilder, $rootObjectName, $objectArray['fields']);
         $queryObjectBuilder->build();
 
         return true;
@@ -100,21 +104,17 @@ class SchemaClassGenerator
             if ($typeKind === FieldTypeKindEnum::SCALAR) {
                 $queryObjectBuilder->addScalarField($name, $fieldArray['isDeprecated'], $fieldArray['deprecationReason']);
             } elseif ($typeKind === FieldTypeKindEnum::ENUM_OBJECT) {
-                if (!array_key_exists($typeName, $this->generatedObjects)) {
-                    $this->generateEnumObject($typeName);
-                }
+                $this->generateEnumObject($typeName);
                 $queryObjectBuilder->addScalarField($name, $fieldArray['isDeprecated'], $fieldArray['deprecationReason']);
             } else {
 
                 // Generate nested type object if it wasn't generated
-                $objectGenerated = array_key_exists($typeName, $this->generatedObjects) ? :
-                    $this->generateObject($typeName, $typeKind);
+                $objectGenerated = $this->generateObject($typeName, $typeKind);
                 if ($objectGenerated) {
 
                     // Generate nested type arguments object if it wasn't generated
-                    $argsObjectName = $currentTypeName . StringLiteralFormatter::formatUpperCamelCase($name);
-                    $argsObjectGenerated = array_key_exists($argsObjectName, $this->generatedObjects) ? :
-                        $this->generateArgumentsObject($argsObjectName, $fieldArray['args'] ?? []);
+                    $argsObjectName = $currentTypeName . StringLiteralFormatter::formatUpperCamelCase($name) . 'ArgumentsObject';
+                    $argsObjectGenerated = $this->generateArgumentsObject($argsObjectName, $fieldArray['args'] ?? []);
                     if ($argsObjectGenerated) {
 
                         // Add sub type as a field to the query object if all generation happened successfully
@@ -153,11 +153,15 @@ class SchemaClassGenerator
      */
     protected function generateQueryObject(string $objectName): bool
     {
+        if (array_key_exists($objectName, $this->generatedObjects)) {
+            return true;
+        }
+
+        $this->generatedObjects[$objectName] = true;
         $objectArray   = $this->schemaInspector->getObjectSchema($objectName);
         $objectName    = $objectArray['name'];
         $objectBuilder = new QueryObjectClassBuilder($this->writeDir, $objectName, $this->generationNamespace);
 
-        $this->generatedObjects[$objectName] = true;
         $this->appendQueryObjectFields($objectBuilder, $objectName, $objectArray['fields']);
         $objectBuilder->build();
 
@@ -171,11 +175,15 @@ class SchemaClassGenerator
      */
     protected function generateInputObject(string $objectName): bool
     {
+        if (array_key_exists($objectName, $this->generatedObjects)) {
+            return true;
+        }
+
+        $this->generatedObjects[$objectName] = true;
         $objectArray   = $this->schemaInspector->getInputObjectSchema($objectName);
         $objectName    = $objectArray['name'];
         $objectBuilder = new InputObjectClassBuilder($this->writeDir, $objectName, $this->generationNamespace);
 
-        $this->generatedObjects[$objectName] = true;
         foreach ($objectArray['inputFields'] as $inputFieldArray) {
             $name = $inputFieldArray['name'];
             //$description = $inputFieldArray['description'];
@@ -184,7 +192,7 @@ class SchemaClassGenerator
 
             $objectGenerated = true;
             if ($typeKind !== FieldTypeKindEnum::SCALAR) {
-                $objectGenerated = array_key_exists($typeName, $this->generatedObjects) ?: $this->generateObject($typeName, $typeKind);
+                $objectGenerated = $this->generateObject($typeName, $typeKind);
             }
 
             if ($objectGenerated) {
@@ -212,11 +220,16 @@ class SchemaClassGenerator
      */
     protected function generateEnumObject(string $objectName): bool
     {
+        if (array_key_exists($objectName, $this->generatedObjects)) {
+            return true;
+        }
+
+        $this->generatedObjects[$objectName] = true;
+
         $objectArray   = $this->schemaInspector->getEnumObjectSchema($objectName);
         $objectName    = $objectArray['name'];
         $objectBuilder = new EnumObjectBuilder($this->writeDir, $objectName, $this->generationNamespace);
-
-        $this->generatedObjects[$objectName] = true;
+        
         foreach ($objectArray['enumValues'] as $enumValue) {
             $name        = $enumValue['name'];
             //$description = $enumValue['description'];
@@ -235,9 +248,14 @@ class SchemaClassGenerator
      */
     protected function generateArgumentsObject(string $argsObjectName, array $arguments): bool
     {
-        $objectBuilder = new ArgumentsObjectClassBuilder($this->writeDir, $argsObjectName, $this->generationNamespace);
+        if (array_key_exists($argsObjectName, $this->generatedObjects)) {
+            return true;
+        }
 
         $this->generatedObjects[$argsObjectName] = true;
+
+        $objectBuilder = new ArgumentsObjectClassBuilder($this->writeDir, $argsObjectName, $this->generationNamespace);
+        
         foreach ($arguments as $argumentArray) {
             $name = $argumentArray['name'];
             //$description = $inputFieldArray['description'];
@@ -246,7 +264,7 @@ class SchemaClassGenerator
 
             $objectGenerated = true;
             if ($typeKind !== FieldTypeKindEnum::SCALAR) {
-                $objectGenerated = array_key_exists($typeName, $this->generatedObjects) ?: $this->generateObject($typeName, $typeKind);
+                $objectGenerated = $this->generateObject($typeName, $typeKind);
             }
 
             if ($objectGenerated) {
