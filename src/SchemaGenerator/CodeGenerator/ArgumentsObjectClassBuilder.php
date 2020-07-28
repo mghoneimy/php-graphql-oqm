@@ -21,9 +21,7 @@ class ArgumentsObjectClassBuilder extends ObjectClassBuilder
      */
     public function __construct(string $writeDir, string $objectName, string $namespace = self::DEFAULT_NAMESPACE)
     {
-        $className = $objectName . 'ArgumentsObject';
-
-        $this->classFile = new ClassFile($writeDir, $className);
+        $this->classFile = new ClassFile($writeDir, $objectName);
         $this->classFile->setNamespace($namespace);
         if ($namespace !== self::DEFAULT_NAMESPACE) {
             $this->classFile->addImport('GraphQL\\SchemaObject\\ArgumentsObject');

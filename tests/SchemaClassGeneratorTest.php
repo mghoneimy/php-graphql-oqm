@@ -413,7 +413,7 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
      */
     public function testGenerateArgumentsObjectWithScalarArgs()
     {
-        $objectName = 'WithMultipleScalarArgs';
+        $objectName = 'WithMultipleScalarArgsArgumentsObject';
         $argsArray = [
             [
                 'name' => 'scalarProperty',
@@ -437,9 +437,8 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                 ]
             ]
         ];
-        $this->classGenerator->generateArgumentsObject('WithMultipleScalarArgs', $argsArray);
+        $this->classGenerator->generateArgumentsObject($objectName, $argsArray);
 
-        $objectName .= 'ArgumentsObject';
         $this->assertFileEquals(
             static::getExpectedFilesDir() . "/arguments_objects/$objectName.php",
             static::getGeneratedFilesDir() . "/$objectName.php"
@@ -452,7 +451,7 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
      */
     public function testGenerateArgumentsObjectWithEnumArg()
     {
-        $objectName = 'WithMultipleEnumArg';
+        $objectName = 'WithMultipleEnumArgArgumentsObject';
         // Add mock responses
         $this->mockHandler->append(new Response(200, [], json_encode([
             'data' => [
@@ -481,9 +480,8 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                 ]
             ]
         ];
-        $this->classGenerator->generateArgumentsObject('WithMultipleEnumArg', $argsArray);
+        $this->classGenerator->generateArgumentsObject($objectName, $argsArray);
 
-        $objectName .= 'ArgumentsObject';
         $this->assertFileEquals(
             static::getExpectedFilesDir() . "/arguments_objects/$objectName.php",
             static::getGeneratedFilesDir() . "/$objectName.php"
@@ -496,7 +494,7 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
      */
     public function testGenerateArgumentsObjectWithListArgs()
     {
-        $objectName = 'WithMultipleListArgs';
+        $objectName = 'WithMultipleListArgsArgumentsObject';
         // Add mock responses
         $this->mockHandler->append(new Response(200, [], json_encode([
             'data' => [
@@ -552,7 +550,6 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
         ];
         $this->classGenerator->generateArgumentsObject($objectName, $argsArray);
 
-        $objectName .= 'ArgumentsObject';
         $this->assertFileEquals(
             static::getExpectedFilesDir() . "/arguments_objects/$objectName.php",
             static::getGeneratedFilesDir() . "/$objectName.php"
@@ -585,7 +582,7 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
             ]
         ])));
 
-        $objectName = 'WithMultipleInputObjectArgs';
+        $objectName = 'WithMultipleInputObjectArgsArgumentsObject';
         $argsArray = [
             [
                 'name' => 'objectProperty',
@@ -611,7 +608,6 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
         ];
         $this->classGenerator->generateArgumentsObject($objectName, $argsArray);
 
-        $objectName .= 'ArgumentsObject';
         $this->assertFileEquals(
             static::getExpectedFilesDir() . "/arguments_objects/$objectName.php",
             static::getGeneratedFilesDir() . "/$objectName.php"
@@ -721,7 +717,7 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                     'kind' => FieldTypeKindEnum::OBJECT,
                     'fields' => [
                         [
-                            'name' => 'right_objects',
+                            'name' => 'right',
                             'description' => null,
                             'isDeprecated' => false,
                             'deprecationReason' => null,
@@ -730,7 +726,7 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                                 'kind' => FieldTypeKindEnum::LIST,
                                 'description' => null,
                                 'ofType' => [
-                                    'name' => 'Right',
+                                    'name' => 'MultipleObjectSelectorsRight',
                                     'kind' => FieldTypeKindEnum::OBJECT,
                                     'description' => null,
                                     'ofType' => null,
@@ -762,7 +758,7 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
         $this->mockHandler->append(new Response(200, [], json_encode([
             'data' => [
                 '__type' => [
-                    'name' => 'Right',
+                    'name' => 'MultipleObjectSelectorsRight',
                     'kind' => FieldTypeKindEnum::OBJECT,
                     'fields' => []
                 ]
@@ -784,6 +780,13 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
             static::getExpectedFilesDir() . "/query_objects/$objectName.php",
             static::getGeneratedFilesDir() . "/$objectName.php"
         );
+        
+        // Test if the right classes are generated.
+        $this->assertFileExists(static::getGeneratedFilesDir() . "/LeftQueryObject.php", "The query object name for the left field should consist of the type name Left plus QueryObject");
+        $this->assertFileExists(static::getGeneratedFilesDir() . "/MultipleObjectSelectorsLeftObjectsArgumentsObject.php", "The argument object name for the left field should consist of the parent type name MultipleObjectSelectors plus the field name LeftObjects plus ArgumentsObject");
+
+        $this->assertFileExists(static::getGeneratedFilesDir() . "/MultipleObjectSelectorsRightQueryObject.php", "The query object name for the right field should consist of the type name MultipleObjectSelectorsRight plus QueryObject");
+        $this->assertFileExists(static::getGeneratedFilesDir() . "/MultipleObjectSelectorsRightArgumentsObject.php", "The argument object name for the right field should consist of the parent type name MultipleObjectSelectors plus the field name Right plus ArgumentsObject");
     }
 
     /**

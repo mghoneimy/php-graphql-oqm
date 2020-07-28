@@ -8,9 +8,9 @@ class MultipleObjectSelectorsQueryObject extends QueryObject
 {
     const OBJECT_NAME = "MultipleObjectSelectors";
 
-    public function selectRightObjects(MultipleObjectSelectorsRightObjectsArgumentsObject $argsObject = null)
+    public function selectRight(MultipleObjectSelectorsRightArgumentsObject $argsObject = null)
     {
-        $object = new RightQueryObject("right_objects");
+        $object = new MultipleObjectSelectorsRightQueryObject("right");
         if ($argsObject !== null) {
             $object->appendArguments($argsObject->toArray());
         }
