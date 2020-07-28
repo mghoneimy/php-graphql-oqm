@@ -255,6 +255,8 @@ class SchemaClassGenerator
                 } else {
                     if ($typeKind === FieldTypeKindEnum::SCALAR) {
                         $objectBuilder->addScalarArgument($name);
+                    } elseif ($typeKind === FieldTypeKindEnum::ENUM_OBJECT) {
+                        $objectBuilder->addInputEnumArgument($name, $typeName);
                     } else {
                         $objectBuilder->addInputObjectArgument($name, $typeName);
                     }

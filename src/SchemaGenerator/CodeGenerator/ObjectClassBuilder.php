@@ -62,6 +62,24 @@ abstract class ObjectClassBuilder implements ObjectBuilderInterface
      * @param string $upperCamelName
      * @param string $objectClass
      */
+    protected function addEnumSetter(string $propertyName, string $upperCamelName, string $objectClass)
+    {
+        $lowerCamelName = lcfirst(str_replace('_', '', $objectClass));
+        $method         = "public function set$upperCamelName($$lowerCamelName)
+{
+    \$this->$propertyName = new RawObject($$lowerCamelName);
+
+    return \$this;
+}";
+        $this->classFile->addMethod($method);
+        $this->classFile->addImport('GraphQL\\RawObject');
+    }
+
+    /**
+     * @param string $propertyName
+     * @param string $upperCamelName
+     * @param string $objectClass
+     */
     protected function addObjectSetter(string $propertyName, string $upperCamelName, string $objectClass)
     {
         $lowerCamelName = lcfirst(str_replace('_', '', $objectClass));
