@@ -450,6 +450,50 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
      * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateArgumentsObject
      * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateObject
      */
+    public function testGenerateArgumentsObjectWithEnumArg()
+    {
+        $objectName = 'WithMultipleEnumArg';
+        // Add mock responses
+        $this->mockHandler->append(new Response(200, [], json_encode([
+            'data' => [
+                '__type' => [
+                    'name' => 'Some',
+                    'kind' => FieldTypeKindEnum::ENUM_OBJECT,
+                    'enumValues' => [
+                        [
+                            'name' => 'some_value',
+                            'description' => null,
+                        ]
+                    ]
+                ]
+            ]
+        ])));
+        $argsArray  = [
+            [
+                'name' => 'enumProperty',
+                'description' => null,
+                'defaultValue' => null,
+                'type' => [
+                    'name' => 'Some',
+                    'kind' => FieldTypeKindEnum::ENUM_OBJECT,
+                    'description' => null,
+                    'ofType' => null,
+                ]
+            ]
+        ];
+        $this->classGenerator->generateArgumentsObject('WithMultipleEnumArg', $argsArray);
+
+        $objectName .= 'ArgumentsObject';
+        $this->assertFileEquals(
+            static::getExpectedFilesDir() . "/arguments_objects/$objectName.php",
+            static::getGeneratedFilesDir() . "/$objectName.php"
+        );
+    }
+
+    /**
+     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateArgumentsObject
+     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateObject
+     */
     public function testGenerateArgumentsObjectWithListArgs()
     {
         $objectName = 'WithMultipleListArgs';

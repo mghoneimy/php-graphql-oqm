@@ -56,6 +56,17 @@ class ArgumentsObjectClassBuilder extends ObjectClassBuilder
      * @param string $argumentName
      * @param string $typeName
      */
+    public function addInputEnumArgument(string $argumentName, string $typeName)
+    {
+        $upperCamelCaseArg = StringLiteralFormatter::formatUpperCamelCase($argumentName);
+        $this->addProperty($argumentName);
+        $this->addEnumSetter($argumentName, $upperCamelCaseArg, $typeName);
+    }
+
+    /**
+     * @param string $argumentName
+     * @param string $typeName
+     */
     public function addInputObjectArgument(string $argumentName, string $typeName)
     {
         $typeName .= 'InputObject';
