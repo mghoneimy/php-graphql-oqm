@@ -82,6 +82,7 @@ class QueryObjectClassBuilderTest extends CodeFileTestCase
         $objectName .= 'QueryObject';
         $classBuilder->addScalarField('first_name', false, null);
         $classBuilder->addScalarField('last_name', true, 'is deprecated');
+        $classBuilder->addScalarField('gender', false, null);
         $classBuilder->build();
 
         $this->assertFileEquals(
