@@ -11,7 +11,7 @@ class SimpleSelectorQueryObject extends QueryObject
     public function selectName()
     {
         $this->selectField("name");
-    
+
         return $this;
     }
 }

@@ -12,14 +12,14 @@ class WithMultipleScalarValuesInputObject extends InputObject
     public function setValOne($valOne)
     {
         $this->valOne = $valOne;
-    
+
         return $this;
     }
 
     public function setValTwo($valTwo)
     {
         $this->val_two = $valTwo;
-    
+
         return $this;
     }
 }

@@ -185,7 +185,9 @@ trait %3$s
         if (!empty($this->methods)) {
             foreach ($this->methods as $method) {
                 // Indent method with 4 space characters
-                $method = str_replace("\n", "\n    ", $method);
+                $method = str_replace(PHP_EOL, PHP_EOL . '    ', $method);
+                // Make lines that were previously empty, empty again.
+                $method = str_replace(PHP_EOL . '    ' . PHP_EOL, PHP_EOL . PHP_EOL, $method);
                 $string .= PHP_EOL . '    ' . $method . PHP_EOL;
             }
         }

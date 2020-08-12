@@ -11,7 +11,7 @@ class WithInputObjectValueInputObject extends InputObject
     public function setInputObject(WithListValueInputObject $withListValueInputObject)
     {
         $this->inputObject = $withListValueInputObject;
-    
+
         return $this;
     }
 }

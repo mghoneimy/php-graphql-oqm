@@ -12,14 +12,14 @@ class WithMultipleListArgsArgumentsObject extends ArgumentsObject
     public function setListProperty(array $listProperty)
     {
         $this->listProperty = $listProperty;
-    
+
         return $this;
     }
 
     public function setAnotherListProperty(array $anotherListProperty)
     {
         $this->another_list_property = $anotherListProperty;
-    
+
         return $this;
     }
 }

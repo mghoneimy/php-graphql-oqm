@@ -11,7 +11,7 @@ class WithListValueInputObject extends InputObject
     public function setListOne(array $listOne)
     {
         $this->listOne = $listOne;
-    
+
         return $this;
     }
 }

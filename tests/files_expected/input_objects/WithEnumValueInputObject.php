@@ -11,7 +11,7 @@ class WithEnumValueInputObject extends InputObject
     public function setEnumVal($enumVal)
     {
         $this->enumVal = $enumVal;
-    
+
         return $this;
     }
 }

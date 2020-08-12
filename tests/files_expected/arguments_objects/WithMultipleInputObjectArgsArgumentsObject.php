@@ -12,14 +12,14 @@ class WithMultipleInputObjectArgsArgumentsObject extends ArgumentsObject
     public function setObjectProperty(SomeInputObject $someInputObject)
     {
         $this->objectProperty = $someInputObject;
-    
+
         return $this;
     }
 
     public function setAnotherObjectProperty(AnotherInputObject $anotherInputObject)
     {
         $this->another_object_property = $anotherInputObject;
-    
+
         return $this;
     }
 }

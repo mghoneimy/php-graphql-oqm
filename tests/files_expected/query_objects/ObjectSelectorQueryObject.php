@@ -15,7 +15,7 @@ class ObjectSelectorQueryObject extends QueryObject
             $object->appendArguments($argsObject->toArray());
         }
         $this->selectField($object);
-    
+
         return $object;
     }
 }

@@ -12,14 +12,14 @@ class WithMultipleInputObjectValuesInputObject extends InputObject
     public function setInputObject(WithListValueInputObject $withListValueInputObject)
     {
         $this->inputObject = $withListValueInputObject;
-    
+
         return $this;
     }
 
     public function setInputObjectTwo(_TestFilterInputObject $testFilterInputObject)
     {
         $this->inputObjectTwo = $testFilterInputObject;
-    
+
         return $this;
     }
 }

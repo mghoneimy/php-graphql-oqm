@@ -15,7 +15,7 @@ class MultipleObjectSelectorsQueryObject extends QueryObject
             $object->appendArguments($argsObject->toArray());
         }
         $this->selectField($object);
-    
+
         return $object;
     }
 
@@ -29,7 +29,7 @@ class MultipleObjectSelectorsQueryObject extends QueryObject
             $object->appendArguments($argsObject->toArray());
         }
         $this->selectField($object);
-    
+
         return $object;
     }
 }
