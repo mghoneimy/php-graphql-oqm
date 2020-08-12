@@ -12,14 +12,14 @@ class WithMultipleListValuesInputObject extends InputObject
     public function setListOne(array $listOne)
     {
         $this->listOne = $listOne;
-    
+
         return $this;
     }
 
     public function setListTwo(array $listTwo)
     {
         $this->list_two = $listTwo;
-    
+
         return $this;
     }
 }

@@ -11,7 +11,7 @@ class WithListArgArgumentsObject extends ArgumentsObject
     public function setListProperty(array $listProperty)
     {
         $this->listProperty = $listProperty;
-    
+
         return $this;
     }
 }

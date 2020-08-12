@@ -12,7 +12,7 @@ class WithMultipleEnumArgArgumentsObject extends ArgumentsObject
     public function setEnumProperty($some)
     {
         $this->enumProperty = new RawObject($some);
-    
+
         return $this;
     }
 }

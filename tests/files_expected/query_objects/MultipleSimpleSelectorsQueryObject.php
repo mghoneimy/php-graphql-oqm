@@ -11,7 +11,7 @@ class MultipleSimpleSelectorsQueryObject extends QueryObject
     public function selectFirstName()
     {
         $this->selectField("first_name");
-    
+
         return $this;
     }
 
@@ -21,14 +21,14 @@ class MultipleSimpleSelectorsQueryObject extends QueryObject
     public function selectLastName()
     {
         $this->selectField("last_name");
-    
+
         return $this;
     }
 
     public function selectGender()
     {
         $this->selectField("gender");
-    
+
         return $this;
     }
 }

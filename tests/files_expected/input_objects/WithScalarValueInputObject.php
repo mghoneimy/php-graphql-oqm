@@ -11,7 +11,7 @@ class WithScalarValueInputObject extends InputObject
     public function setValOne($valOne)
     {
         $this->valOne = $valOne;
-    
+
         return $this;
     }
 }

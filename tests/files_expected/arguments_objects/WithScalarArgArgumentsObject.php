@@ -11,7 +11,7 @@ class WithScalarArgArgumentsObject extends ArgumentsObject
     public function setScalarProperty($scalarProperty)
     {
         $this->scalarProperty = $scalarProperty;
-    
+
         return $this;
     }
 }

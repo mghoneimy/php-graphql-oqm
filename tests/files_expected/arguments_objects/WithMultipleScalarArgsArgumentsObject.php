@@ -12,14 +12,14 @@ class WithMultipleScalarArgsArgumentsObject extends ArgumentsObject
     public function setScalarProperty($scalarProperty)
     {
         $this->scalarProperty = $scalarProperty;
-    
+
         return $this;
     }
 
     public function setAnotherScalarProperty($anotherScalarProperty)
     {
         $this->another_scalar_property = $anotherScalarProperty;
-    
+
         return $this;
     }
 }

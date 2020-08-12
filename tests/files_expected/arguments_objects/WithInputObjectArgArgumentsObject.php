@@ -11,7 +11,7 @@ class WithInputObjectArgArgumentsObject extends ArgumentsObject
     public function setObjectProperty(SomeInputObject $someInputObject)
     {
         $this->objectProperty = $someInputObject;
-    
+
         return $this;
     }
 }
