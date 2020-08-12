@@ -19,7 +19,8 @@ class TraitFile extends AbstractCodeFile
     protected const FILE_FORMAT = '<?php
 %1$s%2$s
 trait %3$s
-{%4$s%5$s}';
+{%4$s%5$s}
+';
 
     /**
      * This string stores the name of the namespace which this class belongs to
