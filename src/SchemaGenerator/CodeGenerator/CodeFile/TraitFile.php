@@ -104,7 +104,11 @@ trait %3$s
     public function addMethod(string $methodString, bool $isDeprecated = false, ?string $deprecationReason = null)
     {
         if (!empty($methodString)) {
-            $this->methods[] = $this->prependDeprecationComment($methodString, $isDeprecated, $deprecationReason);
+            $methodString = $this->prependDeprecationComment($methodString, $isDeprecated, $deprecationReason);
+
+            // Normalize line endings here to make replacements in generateMethods() work.
+            $methodString = $this->normalizeLineEndings($methodString);
+            $this->methods[] = $methodString;
         }
     }
 
@@ -126,7 +130,8 @@ trait %3$s
         if (!empty($properties)) $properties = PHP_EOL . $properties;
         $methods = $this->generateMethods();
 
-        return sprintf(static::FILE_FORMAT, $namespace, $imports, $className, $properties, $methods);
+        $contents = sprintf(static::FILE_FORMAT, $namespace, $imports, $className, $properties, $methods);
+        return $this->normalizeLineEndings($contents);
     }
 
     /**
@@ -220,6 +225,16 @@ trait %3$s
  * @deprecated".($deprecationReason ? " $deprecationReason" : "")."
  */
 ".$code;
+        }
+
+        return $code;
+    }
+
+    protected function normalizeLineEndings(string $code)
+    {
+        $code = str_replace("\r", '', $code);
+        if (PHP_EOL !== "\n") {
+            $code = str_replace("\n", PHP_EOL, $code);
         }
 
         return $code;

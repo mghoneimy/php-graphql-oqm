@@ -125,7 +125,7 @@ class %3$s
         if (!empty($properties)) $properties = PHP_EOL . $properties;
         $methods = $this->generateMethods();
 
-        return sprintf(
+        $contents = sprintf(
             static::FILE_FORMAT,
             $namespace,
             $imports,
@@ -135,6 +135,7 @@ class %3$s
             $properties,
             $methods
         );
+        return $this->normalizeLineEndings($contents);
     }
 
     /**
