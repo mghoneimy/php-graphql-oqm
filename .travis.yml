@@ -1,43 +1,20 @@
+language: php
+php:
+  - '7.1'
+  - '7.2'
+  - '7.3'
+  - '7.4'
+  - '8.0'
+jobs:
+  allow_failures:
+    - php: 8.0
+
 before_script:
   - composer install
 
-script: vendor/phpunit/phpunit/phpunit tests/ --whitelist src/ --coverage-clover build/coverage/xml
+script: composer run test
 
 after_script:
   - php vendor/bin/codacycoverage clover build/coverage/xml
 
-_install_windows: &install_windows
-  install:
-    - choco install php --version $PHP_VERSION --no-progress --package-parameters='"/InstallDir:C:\tools\PHP"'
-    - choco install composer --no-progress --ia '"/DEV=C:\tools\php /PHP=C:\tools\php"'
-    - export PATH=$PATH:/C/tools/php
-
-_install_osx: &install_osx
-  install:
-    - brew unlink python@2
-    - brew install php@$PHP_VERSION
-    - brew install composer
-
-jobs:
-  include:
-    - os: linux
-      language: php
-      php: 7.1
-    - os: linux
-      language: php
-      php: 7.2
-    - os: linux
-      language: php
-      php: 7.3
-    - os: osx
-      language: sh
-      env: PHP_VERSION='7.2'
-      <<: *install_osx
-    - os: osx
-      language: sh
-      env: PHP_VERSION='7.3'
-      <<: *install_osx
-    - os: windows
-      language: sh
-      env: PHP_VERSION='7.3.9'
-      <<: *install_windows
+os: linux
