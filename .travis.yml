@@ -15,7 +15,7 @@ _install_windows: &install_windows
 _install_osx: &install_osx
   install:
     - brew unlink python@2
-    - brew install php@$PHP_VERSION
+    - brew install --build-from-source php@$PHP_VERSION
     - brew install composer
 
 jobs:
