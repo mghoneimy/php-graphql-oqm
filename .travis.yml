@@ -33,14 +33,17 @@ jobs:
       language: php
       php: 8.0
     - os: osx
+      osx_image: xcode10.2
       language: sh
       env: PHP_VERSION='7.2'
       <<: *install_osx
     - os: osx
+      osx_image: xcode10.2
       language: sh
       env: PHP_VERSION='7.3'
       <<: *install_osx
     - os: osx
+      osx_image: xcode10.2
       language: sh
       env: PHP_VERSION='8.0'
       <<: *install_osx
