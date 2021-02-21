@@ -1,3 +1,6 @@
+env:
+  - OSX_IMAGE_VERSION=xcode10.2
+
 before_script:
   - composer install
 
@@ -33,14 +36,17 @@ jobs:
       language: php
       php: 8.0
     - os: osx
+      osx_image: OSX_IMAGE_VERSION
       language: sh
       env: PHP_VERSION='7.2'
       <<: *install_osx
     - os: osx
+      osx_image: OSX_IMAGE_VERSION
       language: sh
       env: PHP_VERSION='7.3'
       <<: *install_osx
     - os: osx
+      osx_image: OSX_IMAGE_VERSION
       language: sh
       env: PHP_VERSION='8.0'
       <<: *install_osx
