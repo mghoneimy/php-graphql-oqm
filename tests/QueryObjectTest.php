@@ -2,7 +2,6 @@
 
 namespace GraphQL\Tests;
 
-use GraphQL\Exception\EmptySelectionSetException;
 use GraphQL\SchemaObject\ArgumentsObject;
 use GraphQL\SchemaObject\InputObject;
 use GraphQL\SchemaObject\QueryObject;
@@ -53,16 +52,6 @@ scalar
 }
 }',
             (string) $object->getQuery());
-    }
-
-    /**
-     * @covers \GraphQL\SchemaObject\QueryObject::__construct
-     * @covers \GraphQL\Exception\EmptySelectionSetException
-     */
-    public function testEmptySelectionSet()
-    {
-        $this->expectException(EmptySelectionSetException::class);
-        $this->queryObject->getQuery();
     }
 
     /**
