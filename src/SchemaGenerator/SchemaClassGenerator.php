@@ -9,6 +9,7 @@ use GraphQL\SchemaGenerator\CodeGenerator\EnumObjectBuilder;
 use GraphQL\SchemaGenerator\CodeGenerator\InputObjectClassBuilder;
 use GraphQL\SchemaGenerator\CodeGenerator\ObjectBuilderInterface;
 use GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder;
+use GraphQL\SchemaGenerator\CodeGenerator\UnionObjectBuilder;
 use GraphQL\SchemaObject\QueryObject;
 use GraphQL\Util\StringLiteralFormatter;
 use RuntimeException;
@@ -118,7 +119,7 @@ class SchemaClassGenerator
                     if ($argsObjectGenerated) {
 
                         // Add sub type as a field to the query object if all generation happened successfully
-                        $queryObjectBuilder->addObjectField($name, $typeName, $argsObjectName, $fieldArray['isDeprecated'], $fieldArray['deprecationReason']);
+                        $queryObjectBuilder->addObjectField($name, $typeName, $typeKind, $argsObjectName, $fieldArray['isDeprecated'], $fieldArray['deprecationReason']);
                     }
                 }
             }
@@ -140,6 +141,8 @@ class SchemaClassGenerator
                 return $this->generateInputObject($objectName);
             case FieldTypeKindEnum::ENUM_OBJECT:
                 return $this->generateEnumObject($objectName);
+            case FieldTypeKindEnum::UNION_OBJECT:
+                return $this->generateUnionObject($objectName);
             default:
                 print "Couldn't generate type $objectName: generating $objectKind kind is not supported yet" . PHP_EOL;
                 return false;
@@ -229,11 +232,37 @@ class SchemaClassGenerator
         $objectArray   = $this->schemaInspector->getEnumObjectSchema($objectName);
         $objectName    = $objectArray['name'];
         $objectBuilder = new EnumObjectBuilder($this->writeDir, $objectName, $this->generationNamespace);
-        
+
         foreach ($objectArray['enumValues'] as $enumValue) {
             $name        = $enumValue['name'];
             //$description = $enumValue['description'];
             $objectBuilder->addEnumValue($name);
+        }
+        $objectBuilder->build();
+
+        return true;
+    }
+
+    /**
+     * @param string $objectName
+     *
+     * @return bool
+     */
+    protected function generateUnionObject(string $objectName): bool
+    {
+        if (array_key_exists($objectName, $this->generatedObjects)) {
+            return true;
+        }
+
+        $this->generatedObjects[$objectName] = true;
+
+        $objectArray   = $this->schemaInspector->getUnionObjectSchema($objectName);
+        $objectName    = $objectArray['name'];
+        $objectBuilder = new UnionObjectBuilder($this->writeDir, $objectName, $this->generationNamespace);
+
+        foreach ($objectArray['possibleTypes'] as $possibleType) {
+            $this->generateObject($possibleType['name'], $possibleType['kind']);
+            $objectBuilder->addPossibleType($possibleType['name']);
         }
         $objectBuilder->build();
 
@@ -255,7 +284,7 @@ class SchemaClassGenerator
         $this->generatedObjects[$argsObjectName] = true;
 
         $objectBuilder = new ArgumentsObjectClassBuilder($this->writeDir, $argsObjectName, $this->generationNamespace);
-        
+
         foreach ($arguments as $argumentArray) {
             $name = $argumentArray['name'];
             //$description = $inputFieldArray['description'];
