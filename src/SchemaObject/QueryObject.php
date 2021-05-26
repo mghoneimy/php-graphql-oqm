@@ -2,7 +2,6 @@
 
 namespace GraphQL\SchemaObject;
 
-use GraphQL\Exception\EmptySelectionSetException;
 use GraphQL\Query;
 use GraphQL\QueryBuilder\AbstractQueryBuilder;
 
