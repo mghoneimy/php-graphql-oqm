@@ -780,7 +780,7 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
             static::getExpectedFilesDir() . "/query_objects/$objectName.php",
             static::getGeneratedFilesDir() . "/$objectName.php"
         );
-        
+
         // Test if the right classes are generated.
         $this->assertFileExists(static::getGeneratedFilesDir() . "/LeftQueryObject.php", "The query object name for the left field should consist of the type name Left plus QueryObject");
         $this->assertFileExists(static::getGeneratedFilesDir() . "/MultipleObjectSelectorsLeftObjectsArgumentsObject.php", "The argument object name for the left field should consist of the parent type name MultipleObjectSelectors plus the field name LeftObjects plus ArgumentsObject");
@@ -811,6 +811,80 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
         $objectName = 'RootQueryObject';
         $this->assertFileEquals(
             static::getExpectedFilesDir() . "/query_objects/$objectName.php",
+            static::getGeneratedFilesDir() . "/$objectName.php"
+        );
+    }
+
+    /**
+     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateUnionObject
+     */
+    public function testGenerateUnionObject()
+    {
+        $objectName = 'UnionTestObject';
+        // Add mock responses
+        $this->mockHandler->append(new Response(200, [], json_encode([
+            'data' => [
+                '__type' => [
+                    'name' => $objectName,
+                    'kind' => FieldTypeKindEnum::UNION_OBJECT,
+                    'possibleTypes' => [
+                        [
+                            'kind' => FieldTypeKindEnum::OBJECT,
+                            'name' => 'UnionObject1',
+                        ], [
+                            'kind' => FieldTypeKindEnum::OBJECT,
+                            'name' => 'UnionObject2',
+                        ],
+                    ]
+                ]
+            ]
+        ])));
+        $this->mockHandler->append(new Response(200, [], json_encode([
+            'data' => [
+                '__type' => [
+                    'name' => 'UnionObject1',
+                    'kind' => FieldTypeKindEnum::OBJECT,
+                    'fields' => [
+                        [
+                            'name' => 'union',
+                            'description' => null,
+                            'isDeprecated' => false,
+                            'deprecationReason' => null,
+                            'type' => [
+                                'name' => $objectName,
+                                'kind' => FieldTypeKindEnum::UNION_OBJECT,
+                                'description' => null,
+                                'ofType' => null,
+                            ],
+                            'args' => null,
+                        ],
+                    ],
+                ]
+            ]
+        ])));
+        $this->mockHandler->append(new Response(200, [], json_encode([
+            'data' => [
+                '__type' => [
+                    'name' => 'UnionObject2',
+                    'kind' => FieldTypeKindEnum::OBJECT,
+                    'fields' => [],
+                ]
+            ]
+        ])));
+
+        $this->classGenerator->generateUnionObject($objectName);
+
+        $objectName .= 'UnionObject';
+        $this->assertFileEquals(
+            static::getExpectedFilesDir() . "/union_objects/UnionObject1QueryObject.php",
+            static::getGeneratedFilesDir() . "/UnionObject1QueryObject.php"
+        );
+        $this->assertFileEquals(
+            static::getExpectedFilesDir() . "/union_objects/UnionObject2QueryObject.php",
+            static::getGeneratedFilesDir() . "/UnionObject2QueryObject.php"
+        );
+        $this->assertFileEquals(
+            static::getExpectedFilesDir() . "/union_objects/$objectName.php",
             static::getGeneratedFilesDir() . "/$objectName.php"
         );
     }
@@ -868,5 +942,10 @@ class TransparentSchemaClassGenerator extends SchemaClassGenerator
     public function getTypeInfo(array $dataArray): array
     {
         return parent::getTypeInfo($dataArray);
+    }
+
+    public function generateUnionObject(string $objectName): bool
+    {
+        return parent::generateUnionObject($objectName);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace GraphQL\Tests;
 
+use GraphQL\Enumeration\FieldTypeKindEnum;
 use GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder;
 use GraphQL\SchemaObject\QueryObject;
 
@@ -100,7 +101,7 @@ class QueryObjectClassBuilderTest extends CodeFileTestCase
         $objectName = 'ObjectSelector';
         $classBuilder = new QueryObjectClassBuilder(static::getGeneratedFilesDir(), $objectName, static::TESTING_NAMESPACE);
         $objectName .= 'QueryObject';
-        $classBuilder->addObjectField('others', 'Other', 'RootOthersArgumentsObject', false, null);
+        $classBuilder->addObjectField('others', 'Other', FieldTypeKindEnum::OBJECT, 'RootOthersArgumentsObject', false, null);
         $classBuilder->build();
 
         $this->assertFileEquals(
@@ -120,8 +121,8 @@ class QueryObjectClassBuilderTest extends CodeFileTestCase
         $objectName = 'MultipleObjectSelectors';
         $classBuilder = new QueryObjectClassBuilder(static::getGeneratedFilesDir(), $objectName, static::TESTING_NAMESPACE);
         $objectName .= 'QueryObject';
-        $classBuilder->addObjectField('right', 'MultipleObjectSelectorsRight', 'MultipleObjectSelectorsRightArgumentsObject', false, null);
-        $classBuilder->addObjectField('left_objects', 'Left', 'MultipleObjectSelectorsLeftObjectsArgumentsObject', true, null);
+        $classBuilder->addObjectField('right', 'MultipleObjectSelectorsRight', FieldTypeKindEnum::OBJECT, 'MultipleObjectSelectorsRightArgumentsObject', false, null);
+        $classBuilder->addObjectField('left_objects', 'Left', FieldTypeKindEnum::OBJECT, 'MultipleObjectSelectorsLeftObjectsArgumentsObject', true, null);
         $classBuilder->build();
 
         $this->assertFileEquals(

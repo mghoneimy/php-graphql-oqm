@@ -161,4 +161,26 @@ QUERY;
 
         return $response->getData()['__type'];
     }
+
+    /**
+     * @param string $objectName
+     *
+     * @return array
+     */
+    public function getUnionObjectSchema(string $objectName): array
+    {
+        $schemaQuery = "{
+  __type(name: \"$objectName\") {
+    name
+    kind
+    possibleTypes {
+      kind
+      name
+    }
+  }
+}";
+        $response = $this->client->runRawQuery($schemaQuery, true);
+
+        return $response->getData()['__type'];
+    }
 }

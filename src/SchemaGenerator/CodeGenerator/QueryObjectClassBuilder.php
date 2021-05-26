@@ -2,6 +2,7 @@
 
 namespace GraphQL\SchemaGenerator\CodeGenerator;
 
+use GraphQL\Enumeration\FieldTypeKindEnum;
 use GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile;
 use GraphQL\SchemaObject\QueryObject;
 use GraphQL\Util\StringLiteralFormatter;
@@ -50,12 +51,15 @@ class QueryObjectClassBuilder extends ObjectClassBuilder
     /**
      * @param string $fieldName
      * @param string $typeName
+     * @param string $typeKind
      * @param string $argsObjectName
+     * @param bool $isDeprecated
+     * @param string|null $deprecationReason
      */
-    public function addObjectField(string $fieldName, string $typeName, string $argsObjectName, bool $isDeprecated, ?string $deprecationReason)
+    public function addObjectField(string $fieldName, string $typeName, string $typeKind, string $argsObjectName, bool $isDeprecated, ?string $deprecationReason)
     {
         $upperCamelCaseProp = StringLiteralFormatter::formatUpperCamelCase($fieldName);
-        $this->addObjectSelector($fieldName, $upperCamelCaseProp, $typeName, $argsObjectName, $isDeprecated, $deprecationReason);
+        $this->addObjectSelector($fieldName, $upperCamelCaseProp, $typeName, $typeKind, $argsObjectName, $isDeprecated, $deprecationReason);
     }
 
     /**
@@ -79,14 +83,17 @@ class QueryObjectClassBuilder extends ObjectClassBuilder
      * @param string $fieldName
      * @param string $upperCamelName
      * @param string $fieldTypeName
+     * @param string $fieldTypeKind
      * @param string $argsObjectName
+     * @param bool $isDeprecated
+     * @param string|null $deprecationReason
      */
-    protected function addObjectSelector(string $fieldName, string $upperCamelName, string $fieldTypeName, string $argsObjectName, bool $isDeprecated, ?string $deprecationReason)
+    protected function addObjectSelector(string $fieldName, string $upperCamelName, string $fieldTypeName, string $fieldTypeKind, string $argsObjectName, bool $isDeprecated, ?string $deprecationReason)
     {
-        $objectClassName  = $fieldTypeName . 'QueryObject';
+        $objectClass = $fieldTypeName . ($fieldTypeKind === FieldTypeKindEnum::UNION_OBJECT ? 'UnionObject' : 'QueryObject');
         $method = "public function select$upperCamelName($argsObjectName \$argsObject = null)
 {
-    \$object = new $objectClassName(\"$fieldName\");
+    \$object = new $objectClass(\"$fieldName\");
     if (\$argsObject !== null) {
         \$object->appendArguments(\$argsObject->toArray());
     }
