@@ -56,16 +56,6 @@ scalar
     }
 
     /**
-     * @covers \gmostafa\GraphQL\SchemaObject\QueryObject::__construct
-     * @covers \GraphQL\Exception\EmptySelectionSetException
-     */
-    public function testEmptySelectionSet()
-    {
-        $this->expectException(EmptySelectionSetException::class);
-        $this->queryObject->getQuery();
-    }
-
-    /**
      * @covers \gmostafa\GraphQL\SchemaObject\QueryObject::selectField
      * @covers \gmostafa\GraphQL\SchemaObject\QueryObject::getQuery
      */
