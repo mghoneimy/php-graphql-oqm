@@ -2,7 +2,7 @@
 
 namespace GraphQL\Tests;
 
-use GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder;
+use gmostafa\GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder;
 use gmostafa\GraphQL\SchemaObject\QueryObject;
 
 class QueryObjectClassBuilderTest extends CodeFileTestCase
@@ -18,8 +18,8 @@ class QueryObjectClassBuilderTest extends CodeFileTestCase
     }
 
     /**
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder::__construct
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder::build
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder::__construct
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder::build
      */
     public function testBuildEmptyQueryObject()
     {
@@ -35,8 +35,8 @@ class QueryObjectClassBuilderTest extends CodeFileTestCase
     }
 
     /**
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder::__construct
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder::build
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder::__construct
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder::build
      */
     public function testBuildRootQueryObject()
     {
@@ -52,8 +52,8 @@ class QueryObjectClassBuilderTest extends CodeFileTestCase
     }
 
     /**
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder::addScalarField
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder::addSimpleSelector
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder::addScalarField
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder::addSimpleSelector
      */
     public function testAddSimpleSelector()
     {
@@ -72,8 +72,8 @@ class QueryObjectClassBuilderTest extends CodeFileTestCase
     /**
      * @depends testAddSimpleSelector
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder::addScalarField
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder::addSimpleSelector
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder::addScalarField
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder::addSimpleSelector
      */
     public function testAddMultipleSimpleSelectors()
     {
@@ -92,8 +92,8 @@ class QueryObjectClassBuilderTest extends CodeFileTestCase
     }
 
     /**
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder::addObjectField
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder::addObjectSelector
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder::addObjectField
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder::addObjectSelector
      */
     public function testAddObjectSelector()
     {
@@ -112,8 +112,8 @@ class QueryObjectClassBuilderTest extends CodeFileTestCase
     /**
      * @depends testAddObjectSelector
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder::addObjectField
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder::addObjectSelector
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder::addObjectField
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder::addObjectSelector
      */
     public function testAddMultipleObjectSelectors()
     {

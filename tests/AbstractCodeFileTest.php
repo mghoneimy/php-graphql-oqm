@@ -2,7 +2,7 @@
 
 namespace GraphQL\Tests;
 
-use GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile;
+use gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile;
 
 /**
  * Class AbstractCodeFileTest
@@ -45,8 +45,8 @@ class AbstractCodeFileTest extends CodeFileTestCase
     /**
      * @testdox Test the behavior of the constructor when provided with an invalid directory
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::__construct
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::validateDirectory
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::__construct
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::validateDirectory
      */
     public function testInvalidWriteDirInConstructor()
     {
@@ -61,8 +61,8 @@ class AbstractCodeFileTest extends CodeFileTestCase
     /**
      * @testdox Test the behavior of the constructor when provided with a non-writable directory
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::__construct()
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::validateDirectory
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::__construct()
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::validateDirectory
      */
     public function testUnwritableDirInConstructor()
     {
@@ -81,8 +81,8 @@ class AbstractCodeFileTest extends CodeFileTestCase
     /**
      * @testdox Test the behavior of changeWriteDir method when provided with an invalid directory
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::changeWriteDir
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::validateDirectory
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::changeWriteDir
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::validateDirectory
      */
     public function testInvalidWriteDir()
     {
@@ -93,8 +93,8 @@ class AbstractCodeFileTest extends CodeFileTestCase
     /**
      * @testdox Test the behavior of changeWriteDir method when provided with a non-writable directory
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::changeWriteDir
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::validateDirectory
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::changeWriteDir
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::validateDirectory
      */
     public function testUnwritableDir()
     {
@@ -107,7 +107,7 @@ class AbstractCodeFileTest extends CodeFileTestCase
     }
 
     /**
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::getWritePath
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::getWritePath
      */
     public function testWritePathGetter()
     {
@@ -117,9 +117,9 @@ class AbstractCodeFileTest extends CodeFileTestCase
     /**
      * @depends testWritePathGetter
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::writeFile
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::writeFileToPath
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::generateFileContents
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::writeFile
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::writeFileToPath
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::generateFileContents
      */
     public function testFileWritingWorks()
     {
@@ -130,9 +130,9 @@ class AbstractCodeFileTest extends CodeFileTestCase
     /**
      * @depends testFileWritingWorks
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::changeWriteDir
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::changeFileName
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::WriteFile
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::changeWriteDir
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::changeFileName
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile::WriteFile
      */
     public function testFileWritingWorksWithTrailingSlash()
     {

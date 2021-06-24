@@ -1,6 +1,6 @@
 <?php
 
-namespace GraphQL\SchemaGenerator\CodeGenerator\CodeFile;
+namespace gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile;
 
 /**
  * Interface that all classes which represent code files have to implement

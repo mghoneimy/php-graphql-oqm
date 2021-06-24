@@ -1,6 +1,6 @@
 <?php
 
-namespace GraphQL\SchemaGenerator;
+namespace gmostafa\GraphQL\SchemaGenerator;
 
 use GraphQL\Client;
 

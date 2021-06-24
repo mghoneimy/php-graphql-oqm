@@ -3,8 +3,8 @@
 namespace GraphQL\Tests;
 
 use GraphQL\Client;
-use GraphQL\Enumeration\FieldTypeKindEnum;
-use GraphQL\SchemaGenerator\SchemaClassGenerator;
+use gmostafa\GraphQL\Enumeration\FieldTypeKindEnum;
+use gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
@@ -35,9 +35,9 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
     }
 
     /**
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::__construct
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::setWriteDir
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::getWriteDir
+     * @covers \gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator::__construct
+     * @covers \gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator::setWriteDir
+     * @covers \gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator::getWriteDir
      */
     public function testSetWriteDirectory()
     {
@@ -54,7 +54,7 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
     }
 
     /**
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::getTypeInfo
+     * @covers \gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator::getTypeInfo
      */
     public function testGetTypeInfo()
     {
@@ -78,7 +78,7 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
     }
 
     /**
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::getTypeInfo
+     * @covers \gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator::getTypeInfo
      */
     public function testGetTypeInfoForMultiLevels()
     {
@@ -110,7 +110,7 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
     }
 
     /**
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::getTypeInfo
+     * @covers \gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator::getTypeInfo
      */
     public function testCrossNestingLimitForGetTypeInfo()
     {
@@ -138,7 +138,7 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
     }
 
     /**
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateEnumObject
+     * @covers \gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator::generateEnumObject
      */
     public function testGenerateEnumObject()
     {
@@ -174,8 +174,8 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
     }
 
     /**
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateInputObject
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateObject
+     * @covers \gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator::generateInputObject
+     * @covers \gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator::generateObject
      */
     public function testGenerateInputObjectWithScalarValues()
     {
@@ -222,8 +222,8 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
     }
 
     /**
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateInputObject
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateObject
+     * @covers \gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator::generateInputObject
+     * @covers \gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator::generateObject
      */
     public function testGenerateInputObjectWithEnumValue()
     {
@@ -279,8 +279,8 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
     }
 
     /**
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateInputObject
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateObject
+     * @covers \gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator::generateInputObject
+     * @covers \gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator::generateObject
      */
     public function testGenerateInputObjectWithListValues()
     {
@@ -342,8 +342,8 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
     }
 
     /**
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateInputObject
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateObject
+     * @covers \gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator::generateInputObject
+     * @covers \gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator::generateObject
      */
     public function testGenerateInputObjectWithNestedObjectValues()
     {
@@ -408,8 +408,8 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
     }
 
     /**
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateArgumentsObject
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateObject
+     * @covers \gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator::generateArgumentsObject
+     * @covers \gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator::generateObject
      */
     public function testGenerateArgumentsObjectWithScalarArgs()
     {
@@ -446,8 +446,8 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
     }
 
     /**
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateArgumentsObject
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateObject
+     * @covers \gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator::generateArgumentsObject
+     * @covers \gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator::generateObject
      */
     public function testGenerateArgumentsObjectWithEnumArg()
     {
@@ -489,8 +489,8 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
     }
 
     /**
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateArgumentsObject
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateObject
+     * @covers \gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator::generateArgumentsObject
+     * @covers \gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator::generateObject
      */
     public function testGenerateArgumentsObjectWithListArgs()
     {
@@ -557,8 +557,8 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
     }
 
     /**
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateArgumentsObject
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateObject
+     * @covers \gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator::generateArgumentsObject
+     * @covers \gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator::generateObject
      */
     public function testGenerateArgumentsObjectWithInputObjectArgs()
     {
@@ -615,9 +615,9 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
     }
 
     /**
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateQueryObject
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::appendQueryObjectFields
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateObject
+     * @covers \gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator::generateQueryObject
+     * @covers \gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator::appendQueryObjectFields
+     * @covers \gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator::generateObject
      */
     public function testGenerateQueryObjectWithScalarFields()
     {
@@ -702,9 +702,9 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
     }
 
     /**
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateQueryObject
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::appendQueryObjectFields
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateObject
+     * @covers \gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator::generateQueryObject
+     * @covers \gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator::appendQueryObjectFields
+     * @covers \gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator::generateObject
      */
     public function testGenerateQueryObjectWithObjectFields()
     {
@@ -790,7 +790,7 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
     }
 
     /**
-     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateRootQueryObject
+     * @covers \gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator::generateRootQueryObject
      */
     public function testGenerateRootObject()
     {

@@ -1,14 +1,14 @@
 <?php
 
-namespace GraphQL\SchemaGenerator;
+namespace gmostafa\GraphQL\SchemaGenerator;
 
 use GraphQL\Client;
-use GraphQL\Enumeration\FieldTypeKindEnum;
-use GraphQL\SchemaGenerator\CodeGenerator\ArgumentsObjectClassBuilder;
-use GraphQL\SchemaGenerator\CodeGenerator\EnumObjectBuilder;
-use GraphQL\SchemaGenerator\CodeGenerator\InputObjectClassBuilder;
-use GraphQL\SchemaGenerator\CodeGenerator\ObjectBuilderInterface;
-use GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder;
+use gmostafa\GraphQL\Enumeration\FieldTypeKindEnum;
+use gmostafa\GraphQL\SchemaGenerator\CodeGenerator\ArgumentsObjectClassBuilder;
+use gmostafa\GraphQL\SchemaGenerator\CodeGenerator\EnumObjectBuilder;
+use gmostafa\GraphQL\SchemaGenerator\CodeGenerator\InputObjectClassBuilder;
+use gmostafa\GraphQL\SchemaGenerator\CodeGenerator\ObjectBuilderInterface;
+use gmostafa\GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder;
 use gmostafa\GraphQL\SchemaObject\QueryObject;
 use GraphQL\Util\StringLiteralFormatter;
 use RuntimeException;

@@ -3,7 +3,7 @@
 namespace GraphQL\Tests;
 
 use Exception;
-use GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile;
+use gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile;
 
 class TraitFileTest extends CodeFileTestCase
 {
@@ -20,7 +20,7 @@ class TraitFileTest extends CodeFileTestCase
      *
      * @throws Exception
      *                  
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::__construct
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::__construct
      */
     public function testEmptyTrait()
     {
@@ -36,8 +36,8 @@ class TraitFileTest extends CodeFileTestCase
      *
      * @depends testEmptyTrait
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::setNamespace
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::generateNamespace
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::setNamespace
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::generateNamespace
      */
     public function testTraitWithNamespace()
     {
@@ -54,8 +54,8 @@ class TraitFileTest extends CodeFileTestCase
      *
      * @depends testEmptyTrait
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::setNamespace
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::generateNamespace
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::setNamespace
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::generateNamespace
      */
     public function testTraitWithEmptyNamespace()
     {
@@ -72,8 +72,8 @@ class TraitFileTest extends CodeFileTestCase
      *
      * @depends testEmptyTrait
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::addImport
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::generateImports
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::addImport
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::generateImports
      */
     public function testTraitWithImports()
     {
@@ -91,8 +91,8 @@ class TraitFileTest extends CodeFileTestCase
      *
      * @depends testEmptyTrait
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::addImport
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::generateImports
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::addImport
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::generateImports
      */
     public function testTraitWithEmptyImport()
     {
@@ -131,8 +131,8 @@ class TraitFileTest extends CodeFileTestCase
      *
      * @depends testEmptyTrait
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::addProperty
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::generateProperties
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::addProperty
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::generateProperties
      */
     public function testTraitWithProperties()
     {
@@ -153,8 +153,8 @@ class TraitFileTest extends CodeFileTestCase
      *
      * @depends testTraitWithProperties
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::addProperty
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::generateProperties
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::addProperty
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::generateProperties
      */
     public function testTraitWithEmptyProperty()
     {
@@ -171,8 +171,8 @@ class TraitFileTest extends CodeFileTestCase
      *
      * @depends clone testTraitWithProperties
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::addProperty
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::generateProperties
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::addProperty
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::generateProperties
      */
     public function testTraitWithDuplicateProperties(TraitFile $trait)
     {
@@ -188,9 +188,9 @@ class TraitFileTest extends CodeFileTestCase
      *
      * @depends testTraitWithProperties
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::addProperty
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::generateProperties
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::serializeParameterValue
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::addProperty
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::generateProperties
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::serializeParameterValue
      */
     public function testTraitWithPropertiesAndValues()
     {
@@ -213,8 +213,8 @@ class TraitFileTest extends CodeFileTestCase
      *
      * @depends testEmptyTrait
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::addMethod
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::generateMethods
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::addMethod
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::generateMethods
      */
     public function testTraitWithOneMethod()
     {
@@ -235,8 +235,8 @@ class TraitFileTest extends CodeFileTestCase
      *
      * @depends testTraitWithOneMethod
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::addMethod
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::generateMethods
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::addMethod
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::generateMethods
      */
     public function testTraitWithMultipleMethods()
     {
@@ -262,8 +262,8 @@ class TraitFileTest extends CodeFileTestCase
      *
      * @depends testEmptyTrait
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::addMethod
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::generateMethods
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::addMethod
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::generateMethods
      */
     public function testTraitWithEmptyMethod()
     {
@@ -281,7 +281,7 @@ class TraitFileTest extends CodeFileTestCase
      * @depends testTraitWithProperties
      * @depends testTraitWithMultipleMethods
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::generateFileContents
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::generateFileContents
      */
     public function testTraitWithPropertiesAndMethods()
     {
@@ -309,7 +309,7 @@ class TraitFileTest extends CodeFileTestCase
      * @depends testTraitWithNamespaceAndImports
      * @depends testTraitWithPropertiesAndMethods
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::generateFileContents
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::generateFileContents
      */
     public function testTraitWithEverything()
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace GraphQL\SchemaGenerator\CodeGenerator\CodeFile;
+namespace gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile;
 
 use GraphQL\Util\StringLiteralFormatter;
 

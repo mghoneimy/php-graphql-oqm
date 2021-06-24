@@ -2,7 +2,7 @@
 
 namespace GraphQL\Tests;
 
-use GraphQL\SchemaGenerator\CodeGenerator\EnumObjectBuilder;
+use gmostafa\GraphQL\SchemaGenerator\CodeGenerator\EnumObjectBuilder;
 
 /**
  * Created by PhpStorm.
@@ -24,8 +24,8 @@ class EnumObjectBuilderTest extends CodeFileTestCase
     }
 
     /**
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\EnumObjectBuilder::build
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\EnumObjectBuilder::__construct
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\EnumObjectBuilder::build
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\EnumObjectBuilder::__construct
      */
     public function testBuildEmptyEnum()
     {
@@ -43,7 +43,7 @@ class EnumObjectBuilderTest extends CodeFileTestCase
     /**
      * @depends testBuildEmptyEnum
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\EnumObjectBuilder::addEnumValue
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\EnumObjectBuilder::addEnumValue
      */
     public function testAddValue()
     {
@@ -62,7 +62,7 @@ class EnumObjectBuilderTest extends CodeFileTestCase
     /**
      * @depends testBuildEmptyEnum
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\EnumObjectBuilder::addEnumValue
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\EnumObjectBuilder::addEnumValue
      */
     public function testAddMultipleValues()
     {

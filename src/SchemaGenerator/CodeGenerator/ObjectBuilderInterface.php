@@ -1,6 +1,6 @@
 <?php
 
-namespace GraphQL\SchemaGenerator\CodeGenerator;
+namespace gmostafa\GraphQL\SchemaGenerator\CodeGenerator;
 
 /**
  * Interface ObjectBuilderInterface

@@ -1,6 +1,6 @@
 <?php
 
-namespace GraphQL\Enumeration;
+namespace gmostafa\GraphQL\Enumeration;
 
 /**
  * Class FieldTypeKindEnum

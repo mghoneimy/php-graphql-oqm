@@ -2,7 +2,7 @@
 
 namespace GraphQL\Tests;
 
-use GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile;
+use gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile;
 
 class ClassFileTest extends CodeFileTestCase
 {
@@ -17,8 +17,8 @@ class ClassFileTest extends CodeFileTestCase
     /**
      * @throws Exception
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::__construct
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::writeFile
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::__construct
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::writeFile
      */
     public function testEmptyClass()
     {
@@ -36,8 +36,8 @@ class ClassFileTest extends CodeFileTestCase
      *
      * @depends testEmptyClass
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::extendsClass
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::generateClassName
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::extendsClass
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::generateClassName
      */
     public function testExtendsClass()
     {
@@ -68,8 +68,8 @@ class ClassFileTest extends CodeFileTestCase
      *
      * @depends testEmptyClass
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::implementsInterface
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::generateClassName
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::implementsInterface
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::generateClassName
      */
     public function testImplementsInterfaces()
     {
@@ -95,7 +95,7 @@ class ClassFileTest extends CodeFileTestCase
      *
      * @depends clone testImplementsInterfaces
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::generateClassName
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::generateClassName
      */
     public function testImplementDuplicateInterfaces(ClassFile $class)
     {
@@ -125,8 +125,8 @@ class ClassFileTest extends CodeFileTestCase
      *
      * @depends testEmptyClass
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::addTrait
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::generateTraits
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::addTrait
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::generateTraits
      */
     public function testUseTraits()
     {
@@ -153,7 +153,7 @@ class ClassFileTest extends CodeFileTestCase
      *
      * @depends clone testUseTraits
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::generateTraits
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::generateTraits
      */
     public function testUseDuplicateTraits(ClassFile $class)
     {
@@ -183,9 +183,9 @@ class ClassFileTest extends CodeFileTestCase
      *
      * @depends testEmptyClass
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::addConstant
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::generateConstants
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::serializeParameterValue
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::addConstant
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::generateConstants
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::serializeParameterValue
      */
     public function testClassWithConstants()
     {
@@ -215,7 +215,7 @@ class ClassFileTest extends CodeFileTestCase
      *
      * @depends clone testClassWithConstants
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::generateConstants
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::generateConstants
      */
     public function testClassWithDuplicateConstants(ClassFile $class)
     {
@@ -248,15 +248,15 @@ class ClassFileTest extends CodeFileTestCase
      * @depends testExtendsClass
      * @depends testImplementsInterfaces
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::generateFileContents
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::setNamespace
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::generateNamespace
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::addImport
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::generateImports
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::addProperty
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::generateProperties
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::addMethod
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::generateMethods
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::generateFileContents
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::setNamespace
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::generateNamespace
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::addImport
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::generateImports
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::addProperty
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::generateProperties
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::addMethod
+     * @covers \gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::generateMethods
      */
     public function testFullClass()
     {

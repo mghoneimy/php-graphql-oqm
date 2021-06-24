@@ -1,8 +1,8 @@
 <?php
 
-namespace GraphQL\SchemaGenerator\CodeGenerator;
+namespace gmostafa\GraphQL\SchemaGenerator\CodeGenerator;
 
-use GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile;
+use gmostafa\GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile;
 
 /**
  * Class ObjectClassBuilder
