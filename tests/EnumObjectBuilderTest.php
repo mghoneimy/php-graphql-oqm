@@ -13,7 +13,7 @@ use GraphQL\SchemaGenerator\CodeGenerator\EnumObjectBuilder;
 
 class EnumObjectBuilderTest extends CodeFileTestCase
 {
-    private const TESTING_NAMESPACE = 'GraphQL\\Tests\\SchemaObject';
+    private const TESTING_NAMESPACE = 'gmostafa\\GraphQL\\Tests\\SchemaObject';
 
     /**
      * @return string

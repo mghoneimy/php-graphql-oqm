@@ -827,12 +827,14 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
 
 class TransparentSchemaClassGenerator extends SchemaClassGenerator
 {
+    private const TESTING_NAMESPACE = 'gmostafa\\GraphQL\\Tests\\SchemaObject';
+
     public function __construct(
         Client $client,
         string $writeDir = ''
     )
     {
-        parent::__construct($client, $writeDir, 'GraphQL\\Tests\\SchemaObject');
+        parent::__construct($client, $writeDir, self::TESTING_NAMESPACE);
     }
 
     public function generateRootQueryObject(): bool

@@ -3,7 +3,7 @@
 namespace GraphQL\SchemaGenerator\CodeGenerator;
 
 use GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile;
-use GraphQL\SchemaObject\QueryObject;
+use gmostafa\GraphQL\SchemaObject\QueryObject;
 use GraphQL\Util\StringLiteralFormatter;
 
 /**
@@ -27,7 +27,7 @@ class QueryObjectClassBuilder extends ObjectClassBuilder
         $this->classFile = new ClassFile($writeDir, $className);
         $this->classFile->setNamespace($namespace);
         if ($namespace !== self::DEFAULT_NAMESPACE) {
-            $this->classFile->addImport('GraphQL\\SchemaObject\\QueryObject');
+            $this->classFile->addImport('gmostafa\\GraphQL\\SchemaObject\\QueryObject');
         }
         $this->classFile->extendsClass('QueryObject');
 

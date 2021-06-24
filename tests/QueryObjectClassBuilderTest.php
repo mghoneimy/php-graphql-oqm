@@ -3,11 +3,11 @@
 namespace GraphQL\Tests;
 
 use GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder;
-use GraphQL\SchemaObject\QueryObject;
+use gmostafa\GraphQL\SchemaObject\QueryObject;
 
 class QueryObjectClassBuilderTest extends CodeFileTestCase
 {
-    private const TESTING_NAMESPACE = 'GraphQL\\Tests\\SchemaObject';
+    private const TESTING_NAMESPACE = 'gmostafa\\GraphQL\\Tests\\SchemaObject';
 
     /**
      * @return string

@@ -3,9 +3,9 @@
 namespace GraphQL\Tests;
 
 use GraphQL\Exception\EmptySelectionSetException;
-use GraphQL\SchemaObject\ArgumentsObject;
-use GraphQL\SchemaObject\InputObject;
-use GraphQL\SchemaObject\QueryObject;
+use gmostafa\GraphQL\SchemaObject\ArgumentsObject;
+use gmostafa\GraphQL\SchemaObject\InputObject;
+use gmostafa\GraphQL\SchemaObject\QueryObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -29,8 +29,8 @@ class QueryObjectTest extends TestCase
     }
 
     /**
-     * @covers \GraphQL\SchemaObject\QueryObject::__construct
-     * @covers \GraphQL\SchemaObject\QueryObject::getQuery
+     * @covers \gmostafa\GraphQL\SchemaObject\QueryObject::__construct
+     * @covers \gmostafa\GraphQL\SchemaObject\QueryObject::getQuery
      */
     public function testConstruct()
     {
@@ -56,7 +56,7 @@ scalar
     }
 
     /**
-     * @covers \GraphQL\SchemaObject\QueryObject::__construct
+     * @covers \gmostafa\GraphQL\SchemaObject\QueryObject::__construct
      * @covers \GraphQL\Exception\EmptySelectionSetException
      */
     public function testEmptySelectionSet()
@@ -66,8 +66,8 @@ scalar
     }
 
     /**
-     * @covers \GraphQL\SchemaObject\QueryObject::selectField
-     * @covers \GraphQL\SchemaObject\QueryObject::getQuery
+     * @covers \gmostafa\GraphQL\SchemaObject\QueryObject::selectField
+     * @covers \gmostafa\GraphQL\SchemaObject\QueryObject::getQuery
      */
     public function testSelectFields()
     {
@@ -108,8 +108,8 @@ scalar
     }
 
     /**
-     * @covers \GraphQL\SchemaObject\QueryObject::appendArguments
-     * @covers \GraphQL\SchemaObject\QueryObject::getQuery
+     * @covers \gmostafa\GraphQL\SchemaObject\QueryObject::appendArguments
+     * @covers \gmostafa\GraphQL\SchemaObject\QueryObject::getQuery
      */
     public function testSelectSubFieldsWithArguments()
     {

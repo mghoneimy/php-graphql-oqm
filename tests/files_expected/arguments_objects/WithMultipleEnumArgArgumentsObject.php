@@ -1,8 +1,8 @@
 <?php
 
-namespace GraphQL\Tests\SchemaObject;
+namespace gmostafa\GraphQL\Tests\SchemaObject;
 
-use GraphQL\SchemaObject\ArgumentsObject;
+use gmostafa\GraphQL\SchemaObject\ArgumentsObject;
 use GraphQL\RawObject;
 
 class WithMultipleEnumArgArgumentsObject extends ArgumentsObject

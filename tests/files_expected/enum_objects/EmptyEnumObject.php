@@ -1,8 +1,8 @@
 <?php
 
-namespace GraphQL\Tests\SchemaObject;
+namespace gmostafa\GraphQL\Tests\SchemaObject;
 
-use GraphQL\SchemaObject\EnumObject;
+use gmostafa\GraphQL\SchemaObject\EnumObject;
 
 class EmptyEnumObject extends EnumObject
 {}

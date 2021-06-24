@@ -9,7 +9,7 @@ use GraphQL\SchemaGenerator\CodeGenerator\InputObjectClassBuilder;
  */
 class InputObjectClassBuilderTest extends CodeFileTestCase
 {
-    private const TESTING_NAMESPACE = 'GraphQL\\Tests\\SchemaObject';
+    private const TESTING_NAMESPACE = 'gmostafa\\GraphQL\\Tests\\SchemaObject';
 
     /**
      * @return string

@@ -1,6 +1,6 @@
 <?php
 
-namespace GraphQL\SchemaObject;
+namespace gmostafa\GraphQL\SchemaObject;
 
 use GraphQL\RawObject;
 use GraphQL\Util\StringLiteralFormatter;

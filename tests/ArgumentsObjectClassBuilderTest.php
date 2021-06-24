@@ -12,7 +12,7 @@ use GraphQL\SchemaGenerator\CodeGenerator\ArgumentsObjectClassBuilder;
  */
 class ArgumentsObjectClassBuilderTest extends CodeFileTestCase
 {
-    private const TESTING_NAMESPACE = 'GraphQL\\Tests\\SchemaObject';
+    private const TESTING_NAMESPACE = 'gmostafa\\GraphQL\\Tests\\SchemaObject';
 
     /**
      * @return string

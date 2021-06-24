@@ -4,7 +4,7 @@ namespace GraphQL\Tests;
 
 require_once 'files_expected/input_objects/_TestFilterInputObject.php';
 
-use GraphQL\Tests\SchemaObject\_TestFilterInputObject;
+use gmostafa\GraphQL\Tests\SchemaObject\_TestFilterInputObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -26,7 +26,7 @@ class InputObjectTest extends TestCase
     }
 
     /**
-     * @covers \GraphQL\SchemaObject\InputObject::__toString
+     * @covers \gmostafa\GraphQL\SchemaObject\InputObject::__toString
      */
     public function testEmptyInputObject()
     {
@@ -34,7 +34,7 @@ class InputObjectTest extends TestCase
     }
 
     /**
-     * @covers \GraphQL\SchemaObject\InputObject::toRawObject
+     * @covers \gmostafa\GraphQL\SchemaObject\InputObject::toRawObject
      */
     public function testConvertToRawObject()
     {
@@ -42,8 +42,8 @@ class InputObjectTest extends TestCase
     }
 
     /**
-     * @covers \GraphQL\SchemaObject\InputObject::toRawObject
-     * @covers \GraphQL\SchemaObject\InputObject::__toString
+     * @covers \gmostafa\GraphQL\SchemaObject\InputObject::toRawObject
+     * @covers \gmostafa\GraphQL\SchemaObject\InputObject::__toString
      */
     public function testSetInputValues()
     {

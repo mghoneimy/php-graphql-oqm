@@ -9,7 +9,7 @@ use GraphQL\SchemaGenerator\CodeGenerator\EnumObjectBuilder;
 use GraphQL\SchemaGenerator\CodeGenerator\InputObjectClassBuilder;
 use GraphQL\SchemaGenerator\CodeGenerator\ObjectBuilderInterface;
 use GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder;
-use GraphQL\SchemaObject\QueryObject;
+use gmostafa\GraphQL\SchemaObject\QueryObject;
 use GraphQL\Util\StringLiteralFormatter;
 use RuntimeException;
 

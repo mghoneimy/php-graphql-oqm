@@ -1,6 +1,6 @@
 <?php
 
-namespace GraphQL\SchemaObject;
+namespace gmostafa\GraphQL\SchemaObject;
 
 use GraphQL\Exception\EmptySelectionSetException;
 use GraphQL\Query;

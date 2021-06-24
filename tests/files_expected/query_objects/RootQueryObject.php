@@ -1,8 +1,8 @@
 <?php
 
-namespace GraphQL\Tests\SchemaObject;
+namespace gmostafa\GraphQL\Tests\SchemaObject;
 
-use GraphQL\SchemaObject\QueryObject;
+use gmostafa\GraphQL\SchemaObject\QueryObject;
 
 class RootQueryObject extends QueryObject
 {
