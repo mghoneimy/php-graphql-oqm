@@ -17,7 +17,7 @@ if (!$autoLoadFound) {
 }
 
 use GraphQL\Client;
-use GraphQL\SchemaGenerator\SchemaClassGenerator;
+use gmostafa\GraphQL\SchemaGenerator\SchemaClassGenerator;
 
 $endpointUrl = readline('GraphlQL endpoint URL: ');
 

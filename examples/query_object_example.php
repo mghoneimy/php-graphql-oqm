@@ -4,8 +4,8 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use GraphQL\Client;
 use GraphQL\Exception\QueryError;
-use GraphQL\SchemaObject\RootPokemonArgumentsObject;
-use GraphQL\SchemaObject\RootQueryObject;
+use gmostafa\GraphQL\SchemaObject\RootPokemonArgumentsObject;
+use gmostafa\GraphQL\SchemaObject\RootQueryObject;
 
 // Create Client object to contact the GraphQL endpoint
 $client = new Client(

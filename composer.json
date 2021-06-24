@@ -24,7 +24,7 @@
     "autoload": {
         "psr-4": {
             "gmostafa\\GraphQL\\": "src/",
-            "GraphQL\\SchemaObject\\": "schema_object/"
+            "gmostafa\\GraphQL\\SchemaObject\\": "schema_object/"
         }
     },
     "autoload-dev": {
