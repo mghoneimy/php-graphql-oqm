@@ -18,11 +18,45 @@ composer require gmostafa/php-graphql-oqm
 After installing the package, the first step is to generate the schema objects. This can be easily achieved by executing
 the following command:
 ```
-php vendor/bin/generate_schema_objects
+php vendor/bin/generate_schema_objects --endpoint=https://api.appsync-api.us-east-1.amazonaws.com/graphql --auth-type=header --auth-header-name=x-api-key --auth-header-value=hash-value
 ```
 This script will retrieve the API schema types using the introspection feature in GraphQL, then generate the schema
 objects from the types, and save them in the `schema_object` directory in the root directory of the package. You can
 override the default write directory by providing the "Custom classes writing dir" value when running the command.
+
+### Generation options
+| Argument             | Example     |
+| -------------------- | ----------- |
+| `auth-type`          | header, aws_iam |
+| `endpoint`           | https://api.appsync-api.us-east-1.amazonaws.com/graphql |
+| `auth-header-name`   | x-api-key   |
+| `auth-header-value`  | hash        |
+| `directory`          | dir_name    |
+
+# Auth types
+
+Library supports header authorization and AWS IAM authorization.
+
+### Header authorization
+
+Specify type, header name and value:
+```
+php vendor/bin/generate_schema_objects --endpoint=https://api.appsync-api.us-east-1.amazonaws.com/graphql --auth-type=header --auth-header-name=x-api-key --auth-header-value=hash-value
+```
+
+### AWS IAM authorization
+
+1. Set environment variables for signing requests:
+    ```
+    AWS_REGION=us-east-1
+    AWS_ACCESS_KEY_ID=your-key-id
+    AWS_SECRET_ACCESS_KEY=your-access-key
+    AWS_SESSION_TOKEN=your-token
+    ```
+1. Specify type:
+    ```
+    php vendor/bin/generate_schema_objects --endpoint=https://api.appsync-api.us-east-1.amazonaws.com/graphql --auth-type=aws_iam
+   ```
 
 # Usage
 In all the examples below I'm going to use the super cool public Pokemon GraphQL API as an illustration.

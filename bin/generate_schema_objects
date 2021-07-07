@@ -19,19 +19,36 @@ if (!$autoLoadFound) {
 use GraphQL\Client;
 use GraphQL\SchemaGenerator\SchemaClassGenerator;
 
-$endpointUrl = readline('GraphlQL endpoint URL: ');
+$options = [
+    'auth-type:',
+    'endpoint:',
+    'auth-header-name::',
+    'auth-header-value::',
+    'directory::',
+];
 
-$authHeaders    = [];
-$authHeaderName = readline('Authorization header name: ');
-if (!empty($authHeaderName)) {
-    $authHeaderValue = readline('Authorization header value: ');
+$options = getopt('', $options);
+
+$authType = $options['auth-type'];
+$endpointUrl = $options['endpoint'];
+
+$authHeaders = [];
+$authHeaderName = $options['auth-header-name'] ?? null;
+$authHeaderValue = $options['auth-header-value'] ?? null;
+if (!empty($authHeaderName) && !empty($authHeaderValue)) {
     $authHeaders = [$authHeaderName => $authHeaderValue];
 }
 
-$customWriteDir = readline('Custom classes writing dir (optional): ');
-if (empty($customWriteDir)) $customWriteDir = '';
+$customWriteDir = $options['directory'] ?? '';
 
-$client  = new Client($endpointUrl, $authHeaders);
+$client = new Client(
+    $endpointUrl,
+    $authHeaders,
+    [],
+    null,
+    'POST',
+    $authType
+);
 $scanner = new SchemaClassGenerator($client, $customWriteDir);
 
 print "-------------------------------------------\n";
