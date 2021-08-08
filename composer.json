@@ -41,5 +41,8 @@
         "phpunit/phpunit": "^7.5|^8.0",
         "codacy/coverage": "^1.4",
         "ext-json": "*"
+    },
+    "scripts": {
+        "test": "phpunit tests/ --whitelist src/ --coverage-clover build/coverage/xml"
     }
 }
