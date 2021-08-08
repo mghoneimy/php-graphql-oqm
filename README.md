@@ -1,7 +1,5 @@
 # PHP GraphQL OQM
-[![Build Status](https://travis-ci.org/mghoneimy/php-graphql-oqm.svg?branch=master)](https://travis-ci.org/mghoneimy/php-graphql-oqm)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3146530837f64435a79810afd81b1945)](https://www.codacy.com/app/mghoneimy/php-graphql-oqm?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mghoneimy/php-graphql-oqm&amp;utm_campaign=Badge_Grade)
-[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/3146530837f64435a79810afd81b1945)](https://www.codacy.com/app/mghoneimy/php-graphql-oqm?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mghoneimy/php-graphql-oqm&amp;utm_campaign=Badge_Coverage)
+![Build Status](https://github.com/mghoneimy/php-graphql-oqm/actions/workflows/php.yml/badge.svg)
 
 This package utilizes the introspection feature of GraphQL APIs to generate a set of classes that map to the structure
 of the API schema. The generated classes can then be used in a very simple and intuitive way to query the API server.
