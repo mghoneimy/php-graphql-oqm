@@ -8,12 +8,9 @@ class MultipleObjectSelectorsQueryObject extends QueryObject
 {
     const OBJECT_NAME = "MultipleObjectSelectors";
 
-    public function selectRight(MultipleObjectSelectorsRightArgumentsObject $argsObject = null)
+    public function selectRight()
     {
         $object = new MultipleObjectSelectorsRightQueryObject("right");
-        if ($argsObject !== null) {
-            $object->appendArguments($argsObject->toArray());
-        }
         $this->selectField($object);
 
         return $object;
@@ -22,12 +19,9 @@ class MultipleObjectSelectorsQueryObject extends QueryObject
     /**
      * @deprecated
      */
-    public function selectLeftObjects(MultipleObjectSelectorsLeftObjectsArgumentsObject $argsObject = null)
+    public function selectLeftObjects()
     {
         $object = new LeftQueryObject("left_objects");
-        if ($argsObject !== null) {
-            $object->appendArguments($argsObject->toArray());
-        }
         $this->selectField($object);
 
         return $object;

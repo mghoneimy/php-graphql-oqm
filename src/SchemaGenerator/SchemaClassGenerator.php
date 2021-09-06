@@ -112,12 +112,17 @@ class SchemaClassGenerator
                 // Generate nested type object if it wasn't generated
                 $objectGenerated = $this->generateObject($typeName, $typeKind);
                 if ($objectGenerated) {
+                    $arguments = $fieldArray['args'] ?? [];
+                    if (empty($arguments)) {
+                        $argsObjectName = null;
+                        $argsObjectGenerated = true;
+                    } else {
+                        // Generate nested type arguments object if it wasn't generated
+                        $argsObjectName = $currentTypeName . StringLiteralFormatter::formatUpperCamelCase($name) . 'ArgumentsObject';
+                        $argsObjectGenerated = $this->generateArgumentsObject($argsObjectName, $fieldArray['args'] ?? []);
+                    }
 
-                    // Generate nested type arguments object if it wasn't generated
-                    $argsObjectName = $currentTypeName . StringLiteralFormatter::formatUpperCamelCase($name) . 'ArgumentsObject';
-                    $argsObjectGenerated = $this->generateArgumentsObject($argsObjectName, $fieldArray['args'] ?? []);
                     if ($argsObjectGenerated) {
-
                         // Add sub type as a field to the query object if all generation happened successfully
                         $queryObjectBuilder->addObjectField($name, $typeName, $typeKind, $argsObjectName, $fieldArray['isDeprecated'], $fieldArray['deprecationReason']);
                     }

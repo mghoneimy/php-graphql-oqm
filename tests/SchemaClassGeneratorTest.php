@@ -783,10 +783,8 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
 
         // Test if the right classes are generated.
         $this->assertFileExists(static::getGeneratedFilesDir() . "/LeftQueryObject.php", "The query object name for the left field should consist of the type name Left plus QueryObject");
-        $this->assertFileExists(static::getGeneratedFilesDir() . "/MultipleObjectSelectorsLeftObjectsArgumentsObject.php", "The argument object name for the left field should consist of the parent type name MultipleObjectSelectors plus the field name LeftObjects plus ArgumentsObject");
 
         $this->assertFileExists(static::getGeneratedFilesDir() . "/MultipleObjectSelectorsRightQueryObject.php", "The query object name for the right field should consist of the type name MultipleObjectSelectorsRight plus QueryObject");
-        $this->assertFileExists(static::getGeneratedFilesDir() . "/MultipleObjectSelectorsRightArgumentsObject.php", "The argument object name for the right field should consist of the parent type name MultipleObjectSelectors plus the field name Right plus ArgumentsObject");
     }
 
     /**

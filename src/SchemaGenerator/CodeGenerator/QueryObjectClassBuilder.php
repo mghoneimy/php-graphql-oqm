@@ -52,11 +52,11 @@ class QueryObjectClassBuilder extends ObjectClassBuilder
      * @param string $fieldName
      * @param string $typeName
      * @param string $typeKind
-     * @param string $argsObjectName
+     * @param string|null $argsObjectName
      * @param bool $isDeprecated
      * @param string|null $deprecationReason
      */
-    public function addObjectField(string $fieldName, string $typeName, string $typeKind, string $argsObjectName, bool $isDeprecated, ?string $deprecationReason)
+    public function addObjectField(string $fieldName, string $typeName, string $typeKind, ?string $argsObjectName, bool $isDeprecated, ?string $deprecationReason)
     {
         $upperCamelCaseProp = StringLiteralFormatter::formatUpperCamelCase($fieldName);
         $this->addObjectSelector($fieldName, $upperCamelCaseProp, $typeName, $typeKind, $argsObjectName, $isDeprecated, $deprecationReason);
@@ -84,14 +84,24 @@ class QueryObjectClassBuilder extends ObjectClassBuilder
      * @param string $upperCamelName
      * @param string $fieldTypeName
      * @param string $fieldTypeKind
-     * @param string $argsObjectName
+     * @param string|null $argsObjectName
      * @param bool $isDeprecated
      * @param string|null $deprecationReason
      */
-    protected function addObjectSelector(string $fieldName, string $upperCamelName, string $fieldTypeName, string $fieldTypeKind, string $argsObjectName, bool $isDeprecated, ?string $deprecationReason)
+    protected function addObjectSelector(string $fieldName, string $upperCamelName, string $fieldTypeName, string $fieldTypeKind, ?string $argsObjectName, bool $isDeprecated, ?string $deprecationReason)
     {
         $objectClass = $fieldTypeName . ($fieldTypeKind === FieldTypeKindEnum::UNION_OBJECT ? 'UnionObject' : 'QueryObject');
-        $method = "public function select$upperCamelName($argsObjectName \$argsObject = null)
+
+        if ($argsObjectName === null) {
+            $method = "public function select$upperCamelName()
+{
+    \$object = new $objectClass(\"$fieldName\");
+    \$this->selectField(\$object);
+
+    return \$object;
+}";
+        } else {
+            $method = "public function select$upperCamelName($argsObjectName \$argsObject = null)
 {
     \$object = new $objectClass(\"$fieldName\");
     if (\$argsObject !== null) {
@@ -101,6 +111,8 @@ class QueryObjectClassBuilder extends ObjectClassBuilder
 
     return \$object;
 }";
+        }
+
         $this->classFile->addMethod($method, $isDeprecated, $deprecationReason);
     }
 
