@@ -23,6 +23,28 @@ This script will retrieve the API schema types using the introspection feature i
 objects from the types, and save them in the `schema_object` directory in the root directory of the package. You can
 override the default write directory by providing the "Custom classes writing dir" value when running the command.
 
+You can also specify all options via command line options:
+
+```
+php vendor/bin/generate_schema_objects \
+    -u "https://graphql-pokemon.vercel.app/" \
+    -h "Authorization" \
+    -v "Bearer 123" \
+    -d "customClassesWritingDirectory" \
+    -n "Vendor\Custom\Namespace"
+```
+
+or if you prefer long arguments
+
+```
+php vendor/bin/generate_schema_objects \
+    --url "https://graphql-pokemon.vercel.app/" \
+    --authorization-header-name "Authorization" \
+    --authorization-header-value "Bearer 123" \
+    --directory "customClassesWritingDirectory" \
+    --namespace "Vendor\Custom\Namespace"
+```
+
 # Usage
 In all the examples below I'm going to use the super cool public Pokemon GraphQL API as an illustration.
 
