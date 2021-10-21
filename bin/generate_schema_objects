@@ -1,7 +1,46 @@
 #!/usr/bin/env php
 <?php
 
+use GraphQL\Client;
+use GraphQL\SchemaGenerator\CodeGenerator\ObjectBuilderInterface;
+use GraphQL\SchemaGenerator\SchemaClassGenerator;
+
 $autoLoadFiles = [__DIR__ . '/../vendor/autoload.php', __DIR__ . '/../../../autoload.php'];
+
+function readConfig()
+{
+    $shortOptions = implode("", [
+        'u:',
+        'h:',
+        'v:',
+        'd:',
+        'n:'
+    ]);
+
+    $longOptions = [
+        'url:',
+        'authorization-header-name:',
+        'authorization-header-value:',
+        'directory:',
+        'namespace:',
+    ];
+
+    $options = getopt($shortOptions, $longOptions);
+
+    $url = $options['url'] ?? $options['u'] ?? readline('GraphlQL endpoint URL: ');
+    $customWriteDir = $options['directory'] ?? $options['d'] ?? readline('Custom classes writing dir (optional): ');
+    $authHeaderName = $options['authorization-header-name'] ?? $options['h'] ?? readline('Authorization header name: ');
+    $authHeaderValue = $options['authorization-header-value'] ?? $options['v'] ?? readline('Authorization header value: ');
+    $namespace = $options['n'] ?? $options['namespace'] ?? trim(readline('Custom namespace (optional): '));
+
+    $authHeaders = [];
+
+    if (!empty($authHeaderName)) {
+        $authHeaders = [$authHeaderName => $authHeaderValue];
+    }
+
+    return [$url, empty($customWriteDir) ? "" : $customWriteDir, $authHeaders, empty($namespace) ? ObjectBuilderInterface::DEFAULT_NAMESPACE : $namespace];
+}
 
 // Require autoload.php depending on environment
 $autoLoadFound = false;
@@ -16,23 +55,10 @@ if (!$autoLoadFound) {
 	throw new RuntimeException('Could not find vendor/autoload.php');
 }
 
-use GraphQL\Client;
-use GraphQL\SchemaGenerator\SchemaClassGenerator;
-
-$endpointUrl = readline('GraphlQL endpoint URL: ');
-
-$authHeaders    = [];
-$authHeaderName = readline('Authorization header name: ');
-if (!empty($authHeaderName)) {
-    $authHeaderValue = readline('Authorization header value: ');
-    $authHeaders = [$authHeaderName => $authHeaderValue];
-}
-
-$customWriteDir = readline('Custom classes writing dir (optional): ');
-if (empty($customWriteDir)) $customWriteDir = '';
+[$endpointUrl, $customWriteDir, $authHeaders, $namespace] = readConfig();
 
 $client  = new Client($endpointUrl, $authHeaders);
-$scanner = new SchemaClassGenerator($client, $customWriteDir);
+$scanner = new SchemaClassGenerator($client, $customWriteDir, $namespace);
 
 print "-------------------------------------------\n";
 print "Generating schema objects from schema types\n";
