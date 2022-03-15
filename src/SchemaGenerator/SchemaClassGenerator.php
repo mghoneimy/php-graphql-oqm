@@ -110,7 +110,7 @@ class SchemaClassGenerator
                     $argsObjectGenerated = $this->generateArgumentsObject($argsObjectName, $fieldArray['args'] ?? []);
                     if ($argsObjectGenerated) {
                         // Add sub type as a field to the query object if all generation happened successfully
-                        $queryObjectBuilder->addObjectField($name, $typeName, $typeKind, '\\' . $this->generationNamespace.'\\'.$argsObjectName, $fieldArray['isDeprecated'], $fieldArray['deprecationReason']);
+                        $queryObjectBuilder->addObjectField($name, $typeName, $typeKind, '\\'.$this->generationNamespace.'\\'.$argsObjectName, $fieldArray['isDeprecated'], $fieldArray['deprecationReason']);
                     }
                 }
             }
