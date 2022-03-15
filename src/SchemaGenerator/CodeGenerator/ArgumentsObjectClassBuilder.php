@@ -1,41 +1,52 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GraphQL\SchemaGenerator\CodeGenerator;
 
 use GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile;
+use GraphQL\SchemaObject\ArgumentsObject;
 use GraphQL\Util\StringLiteralFormatter;
 
 /**
- * Class ArgumentsObjectClassBuilder
- *
- * @package GraphQL\SchemaGenerator\CodeGenerator
+ * Class ArgumentsObjectClassBuilder.
  */
 class ArgumentsObjectClassBuilder extends ObjectClassBuilder
 {
     /**
      * ArgumentsObjectClassBuilder constructor.
-     *
-     * @param string $writeDir
-     * @param string $objectName
-     * @param string $namespace
      */
     public function __construct(string $writeDir, string $objectName, string $namespace = self::DEFAULT_NAMESPACE)
     {
-        $this->classFile = new ClassFile($writeDir, $objectName);
-        $this->classFile->setNamespace($namespace);
-        if ($namespace !== self::DEFAULT_NAMESPACE) {
-            $this->classFile->addImport('GraphQL\\SchemaObject\\ArgumentsObject');
-        }
-        $this->classFile->extendsClass('ArgumentsObject');
+        $this->classFile = new ClassFile($writeDir, $objectName, $namespace);
+        $this->classFile->extendsClass(ArgumentsObject::class);
     }
 
-    /**
-     * @param string $argumentName
-     */
-    public function addScalarArgument(string $argumentName)
+    public function addScalarArgument(string $argumentName, ?string $typeName = ''): void
     {
+        $lowerTypeName = strtolower($typeName);
+        if ($lowerTypeName === 'boolean') {
+            $lowerTypeName = 'bool';
+        }
+
+        if ($lowerTypeName === 'id') {
+            $lowerTypeName = 'string';
+        }
+
+        if ($lowerTypeName === 'money') {
+            $lowerTypeName = 'string';
+        }
+
+        if ($lowerTypeName === 'url') {
+            $lowerTypeName = 'string';
+        }
+
+        if ($lowerTypeName) {
+            assert(in_array($lowerTypeName, ['bool', 'int', 'float', 'string']), $lowerTypeName);
+        }
+
         $upperCamelCaseArg = StringLiteralFormatter::formatUpperCamelCase($argumentName);
-        $this->addProperty($argumentName);
+        $this->addProperty($argumentName, null, $lowerTypeName);
         $this->addScalarSetter($argumentName, $upperCamelCaseArg);
     }
 
@@ -43,41 +54,26 @@ class ArgumentsObjectClassBuilder extends ObjectClassBuilder
      * @param string string $argumentName
      * @param string string $typeName
      */
-    public function addListArgument(string $argumentName, string $typeName)
+    public function addListArgument(string $argumentName, string $typeName): void
     {
         $upperCamelCaseArg = StringLiteralFormatter::formatUpperCamelCase($argumentName);
-        $this->addProperty($argumentName);
+        $this->addProperty($argumentName, null, 'array');
         $this->addListSetter($argumentName, $upperCamelCaseArg, $typeName);
     }
 
-    /**
-     * @param string $argumentName
-     * @param string $typeName
-     */
-    public function addInputEnumArgument(string $argumentName, string $typeName)
+    public function addInputEnumArgument(string $argumentName, string $typeName): void
     {
+        $typeName .= 'EnumObject';
         $upperCamelCaseArg = StringLiteralFormatter::formatUpperCamelCase($argumentName);
-        $this->addProperty($argumentName);
+        $this->addProperty($argumentName, null, $typeName);
         $this->addEnumSetter($argumentName, $upperCamelCaseArg, $typeName);
     }
 
-    /**
-     * @param string $argumentName
-     * @param string $typeName
-     */
-    public function addInputObjectArgument(string $argumentName, string $typeName)
+    public function addInputObjectArgument(string $argumentName, string $typeName): void
     {
         $typeName .= 'InputObject';
         $upperCamelCaseArg = StringLiteralFormatter::formatUpperCamelCase($argumentName);
-        $this->addProperty($argumentName);
+        $this->addProperty($argumentName, null, $typeName);
         $this->addObjectSetter($argumentName, $upperCamelCaseArg, $typeName);
-    }
-
-    /**
-     * @return void
-     */
-    public function build(): void
-    {
-        $this->classFile->writeFile();
     }
 }

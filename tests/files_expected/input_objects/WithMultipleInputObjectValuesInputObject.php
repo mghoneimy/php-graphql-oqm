@@ -2,24 +2,20 @@
 
 namespace GraphQL\Tests\SchemaObject;
 
-use GraphQL\SchemaObject\InputObject;
-
-class WithMultipleInputObjectValuesInputObject extends InputObject
+class WithMultipleInputObjectValuesInputObject extends \GraphQL\SchemaObject\InputObject
 {
     protected $inputObject;
     protected $inputObjectTwo;
 
-    public function setInputObject(WithListValueInputObject $withListValueInputObject)
+    public function setInputObject(WithListValueInputObject $inputObject)
     {
-        $this->inputObject = $withListValueInputObject;
-
+        $this->inputObject = $inputObject;
         return $this;
     }
 
-    public function setInputObjectTwo(_TestFilterInputObject $testFilterInputObject)
+    public function setInputObjectTwo(_TestFilterInputObject $inputObjectTwo)
     {
-        $this->inputObjectTwo = $testFilterInputObject;
-
+        $this->inputObjectTwo = $inputObjectTwo;
         return $this;
     }
 }

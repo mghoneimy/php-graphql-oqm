@@ -2,9 +2,7 @@
 
 namespace GraphQL\Tests\SchemaObject;
 
-use GraphQL\SchemaObject\QueryObject;
-
-class RootQueryObject extends QueryObject
+class RootQueryObject extends \GraphQL\SchemaObject\QueryObject
 {
-    const OBJECT_NAME = "";
+    public const OBJECT_NAME = '';
 }

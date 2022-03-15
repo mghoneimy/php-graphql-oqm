@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GraphQL\Tests;
 
 use GraphQL\Enumeration\FieldTypeKindEnum;
@@ -15,7 +17,7 @@ class QueryObjectClassBuilderTest extends CodeFileTestCase
      */
     protected static function getExpectedFilesDir()
     {
-        return parent::getExpectedFilesDir() . '/query_objects';
+        return parent::getExpectedFilesDir().'/query_objects';
     }
 
     /**
@@ -30,8 +32,8 @@ class QueryObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->build();
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -47,8 +49,8 @@ class QueryObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->build();
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -65,8 +67,8 @@ class QueryObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->build();
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -87,8 +89,8 @@ class QueryObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->build();
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -105,8 +107,8 @@ class QueryObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->build();
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -121,13 +123,13 @@ class QueryObjectClassBuilderTest extends CodeFileTestCase
         $objectName = 'MultipleObjectSelectors';
         $classBuilder = new QueryObjectClassBuilder(static::getGeneratedFilesDir(), $objectName, static::TESTING_NAMESPACE);
         $objectName .= 'QueryObject';
-        $classBuilder->addObjectField('right', 'MultipleObjectSelectorsRight', FieldTypeKindEnum::OBJECT, 'MultipleObjectSelectorsRightArgumentsObject', false, null);
-        $classBuilder->addObjectField('left_objects', 'Left', FieldTypeKindEnum::OBJECT, 'MultipleObjectSelectorsLeftObjectsArgumentsObject', true, null);
+        $classBuilder->addObjectField('right', 'MultipleObjectSelectorsRight', FieldTypeKindEnum::OBJECT, static::TESTING_NAMESPACE . '\\MultipleObjectSelectorsRightArgumentsObject', false, null);
+        $classBuilder->addObjectField('left_objects', 'Left', FieldTypeKindEnum::OBJECT, static::TESTING_NAMESPACE . '\\MultipleObjectSelectorsLeftObjectsArgumentsObject', true, null);
         $classBuilder->build();
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 }

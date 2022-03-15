@@ -2,20 +2,17 @@
 
 namespace GraphQL\Tests\SchemaObject;
 
-use GraphQL\SchemaObject\QueryObject;
-
-class ObjectSelectorQueryObject extends QueryObject
+class ObjectSelectorQueryObject extends \GraphQL\SchemaObject\QueryObject
 {
-    const OBJECT_NAME = "ObjectSelector";
+    public const OBJECT_NAME = 'ObjectSelector';
 
-    public function selectOthers(RootOthersArgumentsObject $argsObject = null)
+    public function selectOthers(\RootOthersArgumentsObject $argsObject = null)
     {
-        $object = new OtherQueryObject("others");
+        $object = new OtherQueryObject('others');
         if ($argsObject !== null) {
             $object->appendArguments($argsObject->toArray());
         }
         $this->selectField($object);
-
         return $object;
     }
 }

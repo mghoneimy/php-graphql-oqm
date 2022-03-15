@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GraphQL\Tests;
 
 use GraphQL\SchemaObject\ArgumentsObject;
@@ -8,9 +10,7 @@ use GraphQL\SchemaObject\QueryObject;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class QueryObjectTest
- *
- * @package GraphQL\Tests
+ * Class QueryObjectTest.
  */
 class QueryObjectTest extends TestCase
 {
@@ -19,9 +19,6 @@ class QueryObjectTest extends TestCase
      */
     protected $queryObject;
 
-    /**
-     *
-     */
     public function setUp(): void
     {
         $this->queryObject = new SimpleQueryObject('simples');
@@ -102,7 +99,7 @@ scalar
      */
     public function testSelectSubFieldsWithArguments()
     {
-        $this->queryObject->selectSiblings((new SimpleSiblingsArgumentObject())->setFirst(5)->setIds([1,2]))->selectScalar();
+        $this->queryObject->selectSiblings((new SimpleSiblingsArgumentObject())->setFirst(5)->setIds([1, 2]))->selectScalar();
         $this->assertEquals(
             'query {
 simples {
@@ -119,11 +116,13 @@ scalar
             ->selectSiblings(
                 (new SimpleSiblingsArgumentObject())
                     ->setObject(
-                        (new class extends InputObject {
+                        (new class() extends InputObject {
                             protected $field;
 
-                            public function setField($field) {
+                            public function setField($field)
+                            {
                                 $this->field = $field;
+
                                 return $this;
                             }
                         })->setField('something')
@@ -145,7 +144,7 @@ scalar
 
 class SimpleQueryObject extends QueryObject
 {
-    const OBJECT_NAME = 'Simple';
+    public const OBJECT_NAME = 'Simple';
 
     public function selectScalar()
     {
@@ -182,18 +181,21 @@ class SimpleSiblingsArgumentObject extends ArgumentsObject
     public function setFirst($first)
     {
         $this->first = $first;
+
         return $this;
     }
 
     public function setIds(array $ids)
     {
         $this->ids = $ids;
+
         return $this;
     }
 
     public function setObject($obj)
     {
         $this->obj = $obj;
+
         return $this;
     }
 }

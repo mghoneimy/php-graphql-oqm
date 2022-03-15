@@ -1,15 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GraphQL\SchemaGenerator;
 
 use GraphQL\Client;
 
 /**
- * Class SchemaInspector
+ * Class SchemaInspector.
  *
  * @codeCoverageIgnore
- *
- * @package GraphQL\SchemaGenerator
  */
 class SchemaInspector
 {
@@ -37,7 +37,6 @@ type{
 }
 QUERY;
 
-
     /**
      * @var Client
      */
@@ -45,51 +44,118 @@ QUERY;
 
     /**
      * SchemaInspector constructor.
-     *
-     * @param Client $client
      */
     public function __construct(Client $client)
     {
         $this->client = $client;
     }
 
-    /**
-     * @return array
-     */
     public function getQueryTypeSchema(): array
     {
-        $schemaQuery = "{
-  __schema{
-    queryType{
+        $schemaQuery = '
+query IntrospectionQuery {
+  __schema {
+    queryType {
+      ...FullType
+    }
+    mutationType {
+      ...FullType
+    }
+    subscriptionType {
+      ...FullType
+    }
+    types {
+      ...FullType
+    }
+    directives {
       name
-      kind
       description
-      fields(includeDeprecated: true){
+      locations
+      args {
+        ...InputValue
+      }
+    }
+  }
+}
+fragment FullType on __Type {
+  kind
+  name
+  description
+  fields(includeDeprecated: true) {
+    name
+    description
+    args {
+      ...InputValue
+    }
+    type {
+      ...TypeRef
+    }
+    isDeprecated
+    deprecationReason
+  }
+  inputFields {
+    ...InputValue
+  }
+  interfaces {
+    ...TypeRef
+  }
+  enumValues(includeDeprecated: true) {
+    name
+    description
+    isDeprecated
+    deprecationReason
+  }
+  possibleTypes {
+    ...TypeRef
+  }
+}
+
+fragment InputValue on __InputValue {
+  name
+  description
+  type {
+    ...TypeRef
+  }
+  defaultValue
+}
+
+fragment TypeRef on __Type {
+  kind
+  name
+  ofType {
+    kind
+    name
+    ofType {
+      kind
+      name
+      ofType {
+        kind
         name
-        description
-        isDeprecated
-        deprecationReason
-        " . static::TYPE_SUB_QUERY . "
-        args{
+        ofType {
+          kind
           name
-          description
-          defaultValue
-          " . static::TYPE_SUB_QUERY . "
+          ofType {
+            kind
+            name
+            ofType {
+              kind
+              name
+              ofType {
+                kind
+                name
+              }
+            }
+          }
         }
       }
     }
   }
-}";
+}';
         $response = $this->client->runRawQuery($schemaQuery, true);
 
         return $response->getData()['__schema']['queryType'];
     }
 
-    /**
-     * @param string $objectName
-     *
-     * @return array
-     */
     public function getObjectSchema(string $objectName): array
     {
         $schemaQuery = "{
@@ -101,26 +167,21 @@ QUERY;
       description
       isDeprecated
       deprecationReason
-      " . static::TYPE_SUB_QUERY . "
+      ".static::TYPE_SUB_QUERY.'
       args{
         name
         description
         defaultValue
-        " . static::TYPE_SUB_QUERY . "
+        '.static::TYPE_SUB_QUERY.'
       }
     }
   }
-}";
+}';
         $response = $this->client->runRawQuery($schemaQuery, true);
 
         return $response->getData()['__type'];
     }
 
-    /**
-     * @param string $objectName
-     *
-     * @return array
-     */
     public function getInputObjectSchema(string $objectName): array
     {
         $schemaQuery = "{
@@ -131,20 +192,15 @@ QUERY;
       name
       description
       defaultValue
-      " . static::TYPE_SUB_QUERY . "
+      ".static::TYPE_SUB_QUERY.'
     }
   }
-}";
+}';
         $response = $this->client->runRawQuery($schemaQuery, true);
 
         return $response->getData()['__type'];
     }
 
-    /**
-     * @param string $objectName
-     *
-     * @return array
-     */
     public function getEnumObjectSchema(string $objectName): array
     {
         $schemaQuery = "{
@@ -162,11 +218,6 @@ QUERY;
         return $response->getData()['__type'];
     }
 
-    /**
-     * @param string $objectName
-     *
-     * @return array
-     */
     public function getUnionObjectSchema(string $objectName): array
     {
         $schemaQuery = "{

@@ -2,16 +2,13 @@
 
 namespace GraphQL\Tests\SchemaObject;
 
-use GraphQL\SchemaObject\ArgumentsObject;
-
-class WithListArgArgumentsObject extends ArgumentsObject
+class WithListArgArgumentsObject extends \GraphQL\SchemaObject\ArgumentsObject
 {
-    protected $listProperty;
+    protected array $listProperty;
 
     public function setListProperty(array $listProperty)
     {
         $this->listProperty = $listProperty;
-
         return $this;
     }
 }

@@ -2,9 +2,7 @@
 
 namespace GraphQL\Tests\SchemaObject;
 
-use GraphQL\SchemaObject\InputObject;
-
-class _TestFilterInputObject extends InputObject
+class _TestFilterInputObject extends \GraphQL\SchemaObject\InputObject
 {
     protected $first_name;
     protected $lastName;
@@ -14,28 +12,24 @@ class _TestFilterInputObject extends InputObject
     public function setFirstName($firstName)
     {
         $this->first_name = $firstName;
-
         return $this;
     }
 
     public function setLastName($lastName)
     {
         $this->lastName = $lastName;
-
         return $this;
     }
 
     public function setIds(array $ids)
     {
         $this->ids = $ids;
-
         return $this;
     }
 
-    public function setTestFilter(_TestFilterInputObject $testFilterInputObject)
+    public function setTestFilter(\_TestFilterInputObject $testFilter)
     {
-        $this->testFilter = $testFilterInputObject;
-
+        $this->testFilter = $testFilter;
         return $this;
     }
 }

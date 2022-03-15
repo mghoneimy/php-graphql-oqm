@@ -2,9 +2,7 @@
 
 namespace GraphQL\Tests\SchemaObject;
 
-use GraphQL\SchemaObject\QueryObject;
-
-class EmptyQueryObject extends QueryObject
+class EmptyQueryObject extends \GraphQL\SchemaObject\QueryObject
 {
-    const OBJECT_NAME = "Empty";
+    public const OBJECT_NAME = 'Empty';
 }

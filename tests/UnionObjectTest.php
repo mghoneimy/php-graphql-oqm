@@ -1,16 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GraphQL\Tests;
 
-use GraphQL\Query;
 use GraphQL\SchemaObject\QueryObject;
 use GraphQL\SchemaObject\UnionObject;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class QueryObjectTest
- *
- * @package GraphQL\Tests
+ * Class QueryObjectTest.
  */
 class UnionObjectTest extends TestCase
 {
@@ -39,9 +38,7 @@ anotherScalar
 
 class SimpleUnionObject extends UnionObject
 {
-    const OBJECT_NAME = 'Simple';
-
-
+    public const OBJECT_NAME = 'Simple';
 
     public function onType1()
     {
@@ -81,11 +78,10 @@ abstract class SimpleSubTypeQueryObject extends QueryObject
 
 class Type1QueryObject extends SimpleSubTypeQueryObject
 {
-    const OBJECT_NAME = 'Type1';
+    public const OBJECT_NAME = 'Type1';
 }
 
 class Type2QueryObject extends SimpleSubTypeQueryObject
 {
-    const OBJECT_NAME = 'Type2';
+    public const OBJECT_NAME = 'Type2';
 }
-

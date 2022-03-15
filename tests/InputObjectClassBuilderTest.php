@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GraphQL\Tests;
 
 use GraphQL\SchemaGenerator\CodeGenerator\InputObjectClassBuilder;
 
 /**
- * Class InputObjectClassBuilderTest
+ * Class InputObjectClassBuilderTest.
  */
 class InputObjectClassBuilderTest extends CodeFileTestCase
 {
@@ -16,7 +18,7 @@ class InputObjectClassBuilderTest extends CodeFileTestCase
      */
     protected static function getExpectedFilesDir()
     {
-        return parent::getExpectedFilesDir() . '/input_objects';
+        return parent::getExpectedFilesDir().'/input_objects';
     }
 
     /**
@@ -36,8 +38,8 @@ class InputObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->build();
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -59,8 +61,8 @@ class InputObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->build();
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -81,8 +83,8 @@ class InputObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->build();
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -104,8 +106,8 @@ class InputObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->build();
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -126,8 +128,8 @@ class InputObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->build();
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -144,13 +146,13 @@ class InputObjectClassBuilderTest extends CodeFileTestCase
         $objectName = 'WithMultipleInputObjectValues';
         $classBuilder = new InputObjectClassBuilder(static::getGeneratedFilesDir(), $objectName, static::TESTING_NAMESPACE);
         $objectName .= 'InputObject';
-        $classBuilder->addInputObjectValue('inputObject', 'WithListValue');
-        $classBuilder->addInputObjectValue('inputObjectTwo', '_TestFilter');
+        $classBuilder->addInputObjectValue('inputObject', static::TESTING_NAMESPACE . '\\WithListValue');
+        $classBuilder->addInputObjectValue('inputObjectTwo', static::TESTING_NAMESPACE . '\\_TestFilter');
         $classBuilder->build();
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -170,8 +172,8 @@ class InputObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->build();
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 }

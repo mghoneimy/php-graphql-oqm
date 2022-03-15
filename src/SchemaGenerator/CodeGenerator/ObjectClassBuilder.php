@@ -1,27 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GraphQL\SchemaGenerator\CodeGenerator;
 
-use GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile;
-
 /**
- * Class ObjectClassBuilder
- *
- * @package GraphQL\SchemaGenerator\CodeGenerator
+ * Class ObjectClassBuilder.
  */
-abstract class ObjectClassBuilder implements ObjectBuilderInterface
+abstract class ObjectClassBuilder extends AbstractObjectBuilder
 {
-    /**
-     * @var ClassFile
-     */
-    protected $classFile;
-
-    /**
-     * @param string $propertyName
-     */
-    protected function addProperty($propertyName)
+    protected function addProperty(string $propertyName, ?string $defaultValue = null, ?string $propertyType = null)
     {
-        $this->classFile->addProperty($propertyName);
+        $this->classFile->addProperty($propertyName, $defaultValue, $propertyType);
     }
 
     /**
@@ -31,64 +21,31 @@ abstract class ObjectClassBuilder implements ObjectBuilderInterface
     protected function addScalarSetter($propertyName, $upperCamelName)
     {
         $lowerCamelName = lcfirst($upperCamelName);
-        $method = "public function set$upperCamelName($$lowerCamelName)
-{
-    \$this->$propertyName = $$lowerCamelName;
-
-    return \$this;
-}";
-        $this->classFile->addMethod($method);
+        $method = $this->classFile->addMethod("set$upperCamelName");
+        $method->addParameter($lowerCamelName);
+        $method->addBody('$this->? = $?;', [$propertyName, $lowerCamelName]);
+        $method->addBody('return $this;');
     }
 
-    /**
-     * @param string $propertyName
-     * @param string $upperCamelName
-     * @param string $propertyType
-     */
     protected function addListSetter(string $propertyName, string $upperCamelName, string $propertyType)
     {
         $lowerCamelName = lcfirst($upperCamelName);
-        $method = "public function set$upperCamelName(array $$lowerCamelName)
-{
-    \$this->$propertyName = $$lowerCamelName;
-
-    return \$this;
-}";
-        $this->classFile->addMethod($method);
+        $method = $this->classFile->addMethod("set$upperCamelName");
+        $method->addParameter($lowerCamelName)->setType('array');
+        $method->addBody('$this->? = $?;', [$propertyName, $lowerCamelName]);
+        $method->addBody('return $this;');
     }
 
-    /**
-     * @param string $propertyName
-     * @param string $upperCamelName
-     * @param string $objectClass
-     */
     protected function addEnumSetter(string $propertyName, string $upperCamelName, string $objectClass)
     {
-        $lowerCamelName = lcfirst(str_replace('_', '', $objectClass));
-        $method         = "public function set$upperCamelName($$lowerCamelName)
-{
-    \$this->$propertyName = new RawObject($$lowerCamelName);
-
-    return \$this;
-}";
-        $this->classFile->addMethod($method);
-        $this->classFile->addImport('GraphQL\\RawObject');
+        $this->addObjectSetter($propertyName, $upperCamelName, $objectClass);
     }
 
-    /**
-     * @param string $propertyName
-     * @param string $upperCamelName
-     * @param string $objectClass
-     */
     protected function addObjectSetter(string $propertyName, string $upperCamelName, string $objectClass)
     {
-        $lowerCamelName = lcfirst(str_replace('_', '', $objectClass));
-        $method         = "public function set$upperCamelName($objectClass $$lowerCamelName)
-{
-    \$this->$propertyName = $$lowerCamelName;
-
-    return \$this;
-}";
-        $this->classFile->addMethod($method);
+        $method = $this->classFile->addMethod("set$upperCamelName");
+        $method->addParameter($propertyName)->setType($objectClass);
+        $method->addBody('$this->? = $?;', [$propertyName, $propertyName]);
+        $method->addBody('return $this;');
     }
 }

@@ -2,24 +2,20 @@
 
 namespace GraphQL\Tests\SchemaObject;
 
-use GraphQL\SchemaObject\ArgumentsObject;
-
-class WithMultipleInputObjectArgsArgumentsObject extends ArgumentsObject
+class WithMultipleInputObjectArgsArgumentsObject extends \GraphQL\SchemaObject\ArgumentsObject
 {
-    protected $objectProperty;
-    protected $another_object_property;
+    protected SomeInputObject $objectProperty;
+    protected AnotherInputObject $another_object_property;
 
-    public function setObjectProperty(SomeInputObject $someInputObject)
+    public function setObjectProperty(SomeInputObject $objectProperty)
     {
-        $this->objectProperty = $someInputObject;
-
+        $this->objectProperty = $objectProperty;
         return $this;
     }
 
-    public function setAnotherObjectProperty(AnotherInputObject $anotherInputObject)
+    public function setAnotherObjectProperty(AnotherInputObject $another_object_property)
     {
-        $this->another_object_property = $anotherInputObject;
-
+        $this->another_object_property = $another_object_property;
         return $this;
     }
 }

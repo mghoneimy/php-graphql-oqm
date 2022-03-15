@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GraphQL\Tests;
 
 use GraphQL\Client;
@@ -21,9 +23,6 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
      */
     protected $mockHandler;
 
-    /**
-     *
-     */
     protected function setUp(): void
     {
         $this->mockHandler = new MockHandler();
@@ -63,7 +62,7 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                 'name' => 'String',
                 'kind' => FieldTypeKindEnum::SCALAR,
                 'ofType' => null,
-            ]
+            ],
         ];
 
         $typeInfo = $this->classGenerator->getTypeInfo($dataArray);
@@ -71,7 +70,7 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
             [
                 'String',
                 FieldTypeKindEnum::SCALAR,
-                []
+                [],
             ],
             $typeInfo
         );
@@ -92,10 +91,10 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                     'ofType' => [
                         'name' => 'WrappedObject',
                         'kind' => FieldTypeKindEnum::OBJECT,
-                        'ofType' => null
-                    ]
-                ]
-            ]
+                        'ofType' => null,
+                    ],
+                ],
+            ],
         ];
 
         $typeInfo = $this->classGenerator->getTypeInfo($dataArray);
@@ -103,7 +102,7 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
             [
                 'WrappedObject',
                 FieldTypeKindEnum::OBJECT,
-                [FieldTypeKindEnum::LIST, FieldTypeKindEnum::NON_NULL]
+                [FieldTypeKindEnum::LIST, FieldTypeKindEnum::NON_NULL],
             ],
             $typeInfo
         );
@@ -126,11 +125,11 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                         'kind' => FieldTypeKindEnum::NON_NULL,
                         'ofType' => [
                             'name' => 'WrappedObject',
-                            'kind' => 'OBJECT'
-                        ]
-                    ]
-                ]
-            ]
+                            'kind' => 'OBJECT',
+                        ],
+                    ],
+                ],
+            ],
         ];
 
         $this->expectExceptionMessage('Reached the limit of nesting in type info');
@@ -160,16 +159,16 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                             'name' => 'oneMoreValue',
                             'description' => null,
                         ],
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ])));
         $this->classGenerator->generateEnumObject($objectName);
 
         $objectName .= 'EnumObject';
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/enum_objects/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/enum_objects/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -208,16 +207,16 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                                 'ofType' => null,
                             ],
                         ],
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ])));
         $this->classGenerator->generateInputObject($objectName);
 
         $objectName .= 'InputObject';
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/input_objects/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/input_objects/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -248,12 +247,12 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                                     'kind' => FieldTypeKindEnum::ENUM_OBJECT,
                                     'description' => null,
                                     'ofType' => null,
-                                ]
-                            ]
+                                ],
+                            ],
                         ],
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ])));
         $this->mockHandler->append(new Response(200, [], json_encode([
             'data' => [
@@ -264,17 +263,17 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                         [
                             'name' => 'some_value',
                             'description' => null,
-                        ]
-                    ]
-                ]
-            ]
+                        ],
+                    ],
+                ],
+            ],
         ])));
         $this->classGenerator->generateInputObject($objectName);
 
         $objectName .= 'InputObject';
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/input_objects/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/input_objects/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -328,16 +327,16 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                                 ],
                             ],
                         ],
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ])));
         $this->classGenerator->generateInputObject($objectName);
 
         $objectName .= 'InputObject';
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/input_objects/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/input_objects/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -376,34 +375,34 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                                 'ofType' => null,
                             ],
                         ],
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ])));
         $this->mockHandler->append(new Response(200, [], json_encode([
             'data' => [
                 '__type' => [
                     'name' => 'WithListValue',
                     'kind' => FieldTypeKindEnum::INPUT_OBJECT,
-                    'inputFields' => []
-                ]
-            ]
+                    'inputFields' => [],
+                ],
+            ],
         ])));
         $this->mockHandler->append(new Response(200, [], json_encode([
             'data' => [
                 '__type' => [
                     'name' => '_TestFilter',
                     'kind' => FieldTypeKindEnum::INPUT_OBJECT,
-                    'inputFields' => []
-                ]
-            ]
+                    'inputFields' => [],
+                ],
+            ],
         ])));
         $this->classGenerator->generateInputObject($objectName);
 
         $objectName .= 'InputObject';
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/input_objects/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/input_objects/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -424,7 +423,7 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                     'kind' => FieldTypeKindEnum::SCALAR,
                     'description' => null,
                     'ofType' => null,
-                ]
+                ],
             ], [
                 'name' => 'another_scalar_property',
                 'description' => null,
@@ -434,14 +433,14 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                     'kind' => FieldTypeKindEnum::SCALAR,
                     'description' => null,
                     'ofType' => null,
-                ]
-            ]
+                ],
+            ],
         ];
         $this->classGenerator->generateArgumentsObject($objectName, $argsArray);
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/arguments_objects/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/arguments_objects/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -462,12 +461,12 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                         [
                             'name' => 'some_value',
                             'description' => null,
-                        ]
-                    ]
-                ]
-            ]
+                        ],
+                    ],
+                ],
+            ],
         ])));
-        $argsArray  = [
+        $argsArray = [
             [
                 'name' => 'enumProperty',
                 'description' => null,
@@ -477,14 +476,14 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                     'kind' => FieldTypeKindEnum::ENUM_OBJECT,
                     'description' => null,
                     'ofType' => null,
-                ]
-            ]
+                ],
+            ],
         ];
         $this->classGenerator->generateArgumentsObject($objectName, $argsArray);
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/arguments_objects/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/arguments_objects/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -505,10 +504,10 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                         [
                             'name' => 'some_value',
                             'description' => null,
-                        ]
-                    ]
-                ]
-            ]
+                        ],
+                    ],
+                ],
+            ],
         ])));
         $argsArray = [
             [
@@ -524,8 +523,8 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                         'kind' => FieldTypeKindEnum::ENUM_OBJECT,
                         'description' => null,
                         'ofType' => null,
-                    ]
-                ]
+                    ],
+                ],
             ], [
                 'name' => 'another_list_property',
                 'description' => null,
@@ -543,16 +542,16 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                             'kind' => FieldTypeKindEnum::SCALAR,
                             'description' => null,
                             'ofType' => null,
-                        ]
-                    ]
-                ]
-            ]
+                        ],
+                    ],
+                ],
+            ],
         ];
         $this->classGenerator->generateArgumentsObject($objectName, $argsArray);
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/arguments_objects/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/arguments_objects/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -568,18 +567,18 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                 '__type' => [
                     'name' => 'Some',
                     'kind' => FieldTypeKindEnum::INPUT_OBJECT,
-                    'inputFields' => []
-                ]
-            ]
+                    'inputFields' => [],
+                ],
+            ],
         ])));
         $this->mockHandler->append(new Response(200, [], json_encode([
             'data' => [
                 '__type' => [
                     'name' => 'Another',
                     'kind' => FieldTypeKindEnum::INPUT_OBJECT,
-                    'inputFields' => []
-                ]
-            ]
+                    'inputFields' => [],
+                ],
+            ],
         ])));
 
         $objectName = 'WithMultipleInputObjectArgsArgumentsObject';
@@ -609,8 +608,8 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
         $this->classGenerator->generateArgumentsObject($objectName, $argsArray);
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/arguments_objects/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/arguments_objects/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -665,10 +664,10 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                                 'ofType' => null,
                             ],
                             'args' => null,
-                        ]
-                    ]
-                ]
-            ]
+                        ],
+                    ],
+                ],
+            ],
         ])));
         $this->mockHandler->append(new Response(200, [], json_encode([
             'data' => [
@@ -677,16 +676,16 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                     'kind' => FieldTypeKindEnum::ENUM_OBJECT,
                     'enumValues' => [
                         [
-                            "name" => 'UNKNOWN',
-                            'description' => null
+                            'name' => 'UNKNOWN',
+                            'description' => null,
                         ],
                         [
                             'name' => 'FEMALE',
-                            'description' => null
+                            'description' => null,
                         ],
                         [
                             'name' => 'MALE',
-                            'description' => null
+                            'description' => null,
                         ],
                     ],
                 ],
@@ -696,8 +695,8 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
 
         $objectName .= 'QueryObject';
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/query_objects/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/query_objects/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -730,7 +729,7 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                                     'kind' => FieldTypeKindEnum::OBJECT,
                                     'description' => null,
                                     'ofType' => null,
-                                ]
+                                ],
                             ],
                             'args' => null,
                         ], [
@@ -747,46 +746,46 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                                     'kind' => FieldTypeKindEnum::OBJECT,
                                     'description' => null,
                                     'ofType' => null,
-                                ]
+                                ],
                             ],
                             'args' => null,
                         ],
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ])));
         $this->mockHandler->append(new Response(200, [], json_encode([
             'data' => [
                 '__type' => [
                     'name' => 'MultipleObjectSelectorsRight',
                     'kind' => FieldTypeKindEnum::OBJECT,
-                    'fields' => []
-                ]
-            ]
+                    'fields' => [],
+                ],
+            ],
         ])));
         $this->mockHandler->append(new Response(200, [], json_encode([
             'data' => [
                 '__type' => [
                     'name' => 'Left',
                     'kind' => FieldTypeKindEnum::OBJECT,
-                    'fields' => []
-                ]
-            ]
+                    'fields' => [],
+                ],
+            ],
         ])));
         $objectName .= 'QueryObject';
 
         $this->classGenerator->generateQueryObject($objectName);
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/query_objects/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/query_objects/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
 
         // Test if the right classes are generated.
-        $this->assertFileExists(static::getGeneratedFilesDir() . "/LeftQueryObject.php", "The query object name for the left field should consist of the type name Left plus QueryObject");
-        $this->assertFileExists(static::getGeneratedFilesDir() . "/MultipleObjectSelectorsLeftObjectsArgumentsObject.php", "The argument object name for the left field should consist of the parent type name MultipleObjectSelectors plus the field name LeftObjects plus ArgumentsObject");
+        $this->assertFileExists(static::getGeneratedFilesDir().'/LeftQueryObject.php', 'The query object name for the left field should consist of the type name Left plus QueryObject');
+        $this->assertFileExists(static::getGeneratedFilesDir().'/MultipleObjectSelectorsLeftObjectsArgumentsObject.php', 'The argument object name for the left field should consist of the parent type name MultipleObjectSelectors plus the field name LeftObjects plus ArgumentsObject');
 
-        $this->assertFileExists(static::getGeneratedFilesDir() . "/MultipleObjectSelectorsRightQueryObject.php", "The query object name for the right field should consist of the type name MultipleObjectSelectorsRight plus QueryObject");
-        $this->assertFileExists(static::getGeneratedFilesDir() . "/MultipleObjectSelectorsRightArgumentsObject.php", "The argument object name for the right field should consist of the parent type name MultipleObjectSelectors plus the field name Right plus ArgumentsObject");
+        $this->assertFileExists(static::getGeneratedFilesDir().'/MultipleObjectSelectorsRightQueryObject.php', 'The query object name for the right field should consist of the type name MultipleObjectSelectorsRight plus QueryObject');
+        $this->assertFileExists(static::getGeneratedFilesDir().'/MultipleObjectSelectorsRightArgumentsObject.php', 'The argument object name for the right field should consist of the parent type name MultipleObjectSelectors plus the field name Right plus ArgumentsObject');
     }
 
     /**
@@ -801,17 +800,17 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                         'name' => 'Query',
                         'kind' => FieldTypeKindEnum::OBJECT,
                         'description' => null,
-                        'fields' => []
-                    ]
-                ]
-            ]
+                        'fields' => [],
+                    ],
+                ],
+            ],
         ])));
         $this->classGenerator->generateRootQueryObject();
 
         $objectName = 'RootQueryObject';
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/query_objects/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/query_objects/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -835,9 +834,9 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                             'kind' => FieldTypeKindEnum::OBJECT,
                             'name' => 'UnionObject2',
                         ],
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ])));
         $this->mockHandler->append(new Response(200, [], json_encode([
             'data' => [
@@ -859,8 +858,8 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                             'args' => null,
                         ],
                     ],
-                ]
-            ]
+                ],
+            ],
         ])));
         $this->mockHandler->append(new Response(200, [], json_encode([
             'data' => [
@@ -868,35 +867,35 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
                     'name' => 'UnionObject2',
                     'kind' => FieldTypeKindEnum::OBJECT,
                     'fields' => [],
-                ]
-            ]
+                ],
+            ],
         ])));
 
         $this->classGenerator->generateUnionObject($objectName);
 
         $objectName .= 'UnionObject';
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/union_objects/UnionObject1QueryObject.php",
-            static::getGeneratedFilesDir() . "/UnionObject1QueryObject.php"
+            static::getExpectedFilesDir().'/union_objects/UnionObject1QueryObject.php',
+            static::getGeneratedFilesDir().'/UnionObject1QueryObject.php'
         );
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/union_objects/UnionObject2QueryObject.php",
-            static::getGeneratedFilesDir() . "/UnionObject2QueryObject.php"
+            static::getExpectedFilesDir().'/union_objects/UnionObject2QueryObject.php',
+            static::getGeneratedFilesDir().'/UnionObject2QueryObject.php'
         );
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/union_objects/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/union_objects/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
-    ///**
+    // /**
     // * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateObject
     // */
-    //public function testGenerateObjectWithUnregisteredKind()
-    //{
+    // public function testGenerateObjectWithUnregisteredKind()
+    // {
     //    $this->expectExceptionMessage('Unsupported object type');
     //    $this->classGenerator->generateObject('someNae', 'someKind');
-    //}
+    // }
 }
 
 class TransparentSchemaClassGenerator extends SchemaClassGenerator
@@ -904,8 +903,7 @@ class TransparentSchemaClassGenerator extends SchemaClassGenerator
     public function __construct(
         Client $client,
         string $writeDir = ''
-    )
-    {
+    ) {
         parent::__construct($client, $writeDir, 'GraphQL\\Tests\\SchemaObject');
     }
 
@@ -929,7 +927,7 @@ class TransparentSchemaClassGenerator extends SchemaClassGenerator
         return parent::generateInputObject($objectName);
     }
 
-    public function generateObject(string $objectName, string $objectKind): bool
+    public function generateObject(string $objectName, FieldTypeKindEnum $objectKind): bool
     {
         return parent::generateObject($objectName, $objectKind);
     }

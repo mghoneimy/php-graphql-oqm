@@ -1,14 +1,13 @@
 <?php
 
-namespace GraphQL\Tests;
+declare(strict_types=1);
 
+namespace GraphQL\Tests;
 
 use GraphQL\SchemaGenerator\CodeGenerator\ArgumentsObjectClassBuilder;
 
 /**
- * Class ArgumentsObjectClassBuilderTest
- *
- * @package GraphQL\Tests
+ * Class ArgumentsObjectClassBuilderTest.
  */
 class ArgumentsObjectClassBuilderTest extends CodeFileTestCase
 {
@@ -19,7 +18,7 @@ class ArgumentsObjectClassBuilderTest extends CodeFileTestCase
      */
     protected static function getExpectedFilesDir()
     {
-        return parent::getExpectedFilesDir() . '/arguments_objects';
+        return parent::getExpectedFilesDir().'/arguments_objects';
     }
 
     /**
@@ -34,12 +33,12 @@ class ArgumentsObjectClassBuilderTest extends CodeFileTestCase
     {
         $objectName = 'WithScalarArgArgumentsObject';
         $classBuilder = new ArgumentsObjectClassBuilder(static::getGeneratedFilesDir(), $objectName, static::TESTING_NAMESPACE);
-        $classBuilder->addScalarArgument('scalarProperty');
+        $classBuilder->addScalarArgument('scalarProperty', 'string');
         $classBuilder->build();
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -55,13 +54,13 @@ class ArgumentsObjectClassBuilderTest extends CodeFileTestCase
     {
         $objectName = 'WithMultipleScalarArgsArgumentsObject';
         $classBuilder = new ArgumentsObjectClassBuilder(static::getGeneratedFilesDir(), $objectName, static::TESTING_NAMESPACE);
-        $classBuilder->addScalarArgument('scalarProperty');
-        $classBuilder->addScalarArgument('another_scalar_property');
+        $classBuilder->addScalarArgument('scalarProperty', 'string');
+        $classBuilder->addScalarArgument('another_scalar_property', 'string');
         $classBuilder->build();
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -81,8 +80,8 @@ class ArgumentsObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->build();
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -103,8 +102,8 @@ class ArgumentsObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->build();
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -124,8 +123,8 @@ class ArgumentsObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->build();
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -141,13 +140,13 @@ class ArgumentsObjectClassBuilderTest extends CodeFileTestCase
     {
         $objectName = 'WithMultipleInputObjectArgsArgumentsObject';
         $classBuilder = new ArgumentsObjectClassBuilder(static::getGeneratedFilesDir(), $objectName, static::TESTING_NAMESPACE);
-        $classBuilder->addInputObjectArgument('objectProperty', 'Some');
-        $classBuilder->addInputObjectArgument('another_object_property', 'Another');
+        $classBuilder->addInputObjectArgument('objectProperty', static::TESTING_NAMESPACE . '\\Some');
+        $classBuilder->addInputObjectArgument('another_object_property', static::TESTING_NAMESPACE . '\\Another');
         $classBuilder->build();
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 }

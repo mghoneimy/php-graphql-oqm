@@ -3,4 +3,5 @@
 namespace GraphQL\Test;
 
 trait TraitWithNamespace
-{}
+{
+}

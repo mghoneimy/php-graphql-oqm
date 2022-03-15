@@ -1,25 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GraphQL\Tests;
 
 use Exception;
 use GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile;
+use Nette\PhpGenerator\ClassLike;
 
 class TraitFileTest extends CodeFileTestCase
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected static function getExpectedFilesDir()
     {
-        return parent::getExpectedFilesDir() . '/traits';
+        return parent::getExpectedFilesDir().'/traits';
     }
 
     /**
-     * Happy scenario test, create empty trait with just name and write it to file system
+     * Happy scenario test, create empty trait with just name and write it to file system.
      *
      * @throws Exception
-     *                  
+     *
      * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::__construct
      */
     public function testEmptyTrait()
@@ -28,7 +31,7 @@ class TraitFileTest extends CodeFileTestCase
         $trait = new TraitFile(static::getGeneratedFilesDir(), $fileName);
         $trait->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $trait->getWritePath());
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $trait->getWritePath());
     }
 
     /**
@@ -42,11 +45,10 @@ class TraitFileTest extends CodeFileTestCase
     public function testTraitWithNamespace()
     {
         $fileName = 'TraitWithNamespace';
-        $trait = new TraitFile(static::getGeneratedFilesDir(), $fileName);
-        $trait->setNamespace("GraphQL\Test");
+        $trait = new TraitFile(static::getGeneratedFilesDir(), $fileName, "GraphQL\Test");
         $trait->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $trait->getWritePath());
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $trait->getWritePath());
     }
 
     /**
@@ -61,10 +63,9 @@ class TraitFileTest extends CodeFileTestCase
     {
         $fileName = 'EmptyTrait';
         $trait = new TraitFile(static::getGeneratedFilesDir(), $fileName);
-        $trait->setNamespace('');
         $trait->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $trait->getWritePath());
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $trait->getWritePath());
     }
 
     /**
@@ -83,7 +84,7 @@ class TraitFileTest extends CodeFileTestCase
         $trait->addImport("GraphQL\Client");
         $trait->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $trait->getWritePath());
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $trait->getWritePath());
     }
 
     /**
@@ -98,10 +99,14 @@ class TraitFileTest extends CodeFileTestCase
     {
         $fileName = 'EmptyTrait';
         $trait = new TraitFile(static::getGeneratedFilesDir(), $fileName);
-        $trait->addImport("");
+
+        $this->expectException(\Nette\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Value '' is not valid class/function/constant name.");
+
+        $trait->addImport('');
         $trait->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $trait->getWritePath());
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $trait->getWritePath());
     }
 
     /**
@@ -117,13 +122,12 @@ class TraitFileTest extends CodeFileTestCase
     public function testTraitWithNamespaceAndImports()
     {
         $fileName = 'TraitWithNamespaceAndImports';
-        $trait = new TraitFile(static::getGeneratedFilesDir(), $fileName);
-        $trait->setNamespace("GraphQL\\Test");
-        $trait->addImport("GraphQL\\Query");
-        $trait->addImport("GraphQL\\Client");
+        $trait = new TraitFile(static::getGeneratedFilesDir(), $fileName, 'GraphQL\\Test');
+        $trait->addImport('GraphQL\\Query');
+        $trait->addImport('GraphQL\\Client');
         $trait->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $trait->getWritePath());
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $trait->getWritePath());
     }
 
     /**
@@ -143,7 +147,7 @@ class TraitFileTest extends CodeFileTestCase
         $trait->addProperty('property_three');
         $trait->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php" , $trait->getWritePath());
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $trait->getWritePath());
 
         return $trait;
     }
@@ -160,15 +164,17 @@ class TraitFileTest extends CodeFileTestCase
     {
         $fileName = 'EmptyTrait';
         $trait = new TraitFile(static::getGeneratedFilesDir(), $fileName);
+
+        $this->expectException(\Nette\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Value '' is not valid name.");
+
         $trait->addProperty('');
         $trait->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php" , $trait->getWritePath());
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $trait->getWritePath());
     }
 
     /**
-     * @param TraitFile $trait
-     *
      * @depends clone testTraitWithProperties
      *
      * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\TraitFile::addProperty
@@ -176,11 +182,11 @@ class TraitFileTest extends CodeFileTestCase
      */
     public function testTraitWithDuplicateProperties(TraitFile $trait)
     {
+        $this->expectException(\Nette\InvalidStateException::class);
+        $this->expectExceptionMessage("Cannot add property 'property1', because it already exists.");
+
         // Adding the same property again
         $trait->addProperty('property1');
-
-        $fileName = $trait->getFileName();
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php" , $trait->getWritePath());
     }
 
     /**
@@ -205,7 +211,7 @@ class TraitFileTest extends CodeFileTestCase
         $trait->addProperty('propertySeven', 7.7);
         $trait->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php" , $trait->getWritePath());
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $trait->getWritePath());
     }
 
     /**
@@ -220,14 +226,10 @@ class TraitFileTest extends CodeFileTestCase
     {
         $fileName = 'TraitWithOneMethod';
         $trait = new TraitFile(static::getGeneratedFilesDir(), $fileName);
-        $trait->addMethod('public function testTheTrait() {
-    print "test!";
-    die();
-}'
-        );
+        $trait->addMethod('testTheTrait')->setVisibility(ClassLike::VisibilityPublic)->addBody('print "test!";')->addBody('die();');
         $trait->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php" , $trait->getWritePath());
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $trait->getWritePath());
     }
 
     /**
@@ -242,19 +244,11 @@ class TraitFileTest extends CodeFileTestCase
     {
         $fileName = 'TraitWithMultipleMethods';
         $trait = new TraitFile(static::getGeneratedFilesDir(), $fileName);
-        $trait->addMethod('public function testTheTrait() {
-    $this->innerTest();
-    die();
-}'
-        );
-        $trait->addMethod('private function innerTest() {
-    print "test!";
-    return 0;
-}'
-        , true, 'is deprecated');
+        $trait->addMethod('testTheTrait')->setVisibility(ClassLike::VisibilityPublic)->addBody('$this->innerTest();')->addBody('die();');
+        $trait->addMethod('innerTest', true, 'is deprecated')->setVisibility(ClassLike::VisibilityPrivate)->addBody('print "test!";')->addBody('die();');
         $trait->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php" , $trait->getWritePath());
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $trait->getWritePath());
     }
 
     /**
@@ -267,12 +261,12 @@ class TraitFileTest extends CodeFileTestCase
      */
     public function testTraitWithEmptyMethod()
     {
+        $this->expectException(\Nette\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Value '' is not valid name.");
         $fileName = 'EmptyTrait';
         $trait = new TraitFile(static::getGeneratedFilesDir(), $fileName);
         $trait->addMethod('');
         $trait->writeFile();
-
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php" , $trait->getWritePath());
     }
 
     /**
@@ -289,18 +283,11 @@ class TraitFileTest extends CodeFileTestCase
         $trait = new TraitFile(static::getGeneratedFilesDir(), $fileName);
         $trait->addProperty('propOne');
         $trait->addProperty('propTwo', true);
-        $trait->addMethod('public function getProperties() {
-    return [$this->propOne, $this->propTwo];
-}'
-        );
-        $trait->addMethod('public function clearProperties() {
-    $this->propOne = 1;
-    $this->propTwo = 2;
-}'
-        );
+        $trait->addMethod('getProperties')->setVisibility(ClassLike::VisibilityPublic)->addBody('return [$this->propOne, $this->propTwo];');
+        $trait->addMethod('clearProperties')->setVisibility(ClassLike::VisibilityPublic)->addBody('$this->propOne = 1;')->addBody('$this->propTwo = 2;');
         $trait->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php" , $trait->getWritePath());
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $trait->getWritePath());
     }
 
     /**
@@ -314,23 +301,15 @@ class TraitFileTest extends CodeFileTestCase
     public function testTraitWithEverything()
     {
         $fileName = 'TraitWithEverything';
-        $trait = new TraitFile(static::getGeneratedFilesDir(), $fileName);
-        $trait->setNamespace("GraphQL\\Test");
-        $trait->addImport("GraphQL\\Query");
-        $trait->addImport("GraphQL\\Client");
+        $trait = new TraitFile(static::getGeneratedFilesDir(), $fileName, 'GraphQL\\Test');
+        $trait->addImport('GraphQL\\Query');
+        $trait->addImport('GraphQL\\Client');
         $trait->addProperty('propOne');
-        $trait->addProperty('propTwo', true);
-        $trait->addMethod('public function getProperties() {
-    return [$this->propOne, $this->propTwo];
-}'
-        );
-        $trait->addMethod('public function clearProperties() {
-    $this->propOne = 1;
-    $this->propTwo = 2;
-}'
-        );
+        $trait->addProperty('propTwo', 'bool');
+        $trait->addMethod('getProperties')->setVisibility(ClassLike::VisibilityPublic)->addBody('return [$this->propOne, $this->propTwo];');
+        $trait->addMethod('clearProperties')->setVisibility(ClassLike::VisibilityPublic)->addBody('$this->propOne = 1;')->addBody('$this->propTwo = 2;');
         $trait->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $trait->getWritePath());
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $trait->getWritePath());
     }
 }

@@ -2,16 +2,13 @@
 
 namespace GraphQL\Tests\SchemaObject;
 
-use GraphQL\SchemaObject\QueryObject;
-
-class SimpleSelectorQueryObject extends QueryObject
+class SimpleSelectorQueryObject extends \GraphQL\SchemaObject\QueryObject
 {
-    const OBJECT_NAME = "SimpleSelector";
+    public const OBJECT_NAME = 'SimpleSelector';
 
     public function selectName()
     {
-        $this->selectField("name");
-
+        $this->selectField('name');
         return $this;
     }
 }

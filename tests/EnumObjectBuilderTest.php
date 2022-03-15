@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GraphQL\Tests;
 
 use GraphQL\SchemaGenerator\CodeGenerator\EnumObjectBuilder;
@@ -8,9 +10,8 @@ use GraphQL\SchemaGenerator\CodeGenerator\EnumObjectBuilder;
  * Created by PhpStorm.
  * User: mostafa
  * Date: 2/23/19
- * Time: 4:22 PM
+ * Time: 4:22 PM.
  */
-
 class EnumObjectBuilderTest extends CodeFileTestCase
 {
     private const TESTING_NAMESPACE = 'GraphQL\\Tests\\SchemaObject';
@@ -20,7 +21,7 @@ class EnumObjectBuilderTest extends CodeFileTestCase
      */
     protected static function getExpectedFilesDir()
     {
-        return parent::getExpectedFilesDir() . '/enum_objects';
+        return parent::getExpectedFilesDir().'/enum_objects';
     }
 
     /**
@@ -35,8 +36,8 @@ class EnumObjectBuilderTest extends CodeFileTestCase
         $enumBuilder->build();
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -54,8 +55,8 @@ class EnumObjectBuilderTest extends CodeFileTestCase
         $enumBuilder->build();
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -75,8 +76,8 @@ class EnumObjectBuilderTest extends CodeFileTestCase
         $enumBuilder->build();
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 }

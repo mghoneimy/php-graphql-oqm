@@ -2,9 +2,7 @@
 
 namespace GraphQL\Tests\SchemaObject;
 
-use GraphQL\SchemaObject\EnumObject;
-
-class WithConstantEnumObject extends EnumObject
+enum WithConstantEnumObject: string
 {
-    const FIXED_VALUE = "fixed_value";
+    case FIXED_VALUE = 'fixed_value';
 }

@@ -1,45 +1,80 @@
 #!/usr/bin/env php
 <?php
 
-$autoLoadFiles = [__DIR__ . '/../vendor/autoload.php', __DIR__ . '/../../../autoload.php'];
-
-// Require autoload.php depending on environment
-$autoLoadFound = false;
-foreach ($autoLoadFiles as $autoLoadFile) {
-	if (file_exists($autoLoadFile)) {
-		require $autoLoadFile;
-		$autoLoadFound = true;
-	}
-}
-// Exit if autoload.php is not required
-if (!$autoLoadFound) {
-	throw new RuntimeException('Could not find vendor/autoload.php');
+foreach ([__DIR__.'/../vendor/autoload.php', __DIR__.'/../autoload.php', __DIR__.'/../../../autoload.php'] as $autoload) {
+    if (file_exists($autoload)) {
+        require_once $autoload;
+        break;
+    }
 }
 
-use GraphQL\Client;
+use GraphQL\Client as GraphQLClient;
 use GraphQL\SchemaGenerator\SchemaClassGenerator;
+use GraphQL\Util\GuzzleAdapter;
+use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\HandlerStack;
+use Kevinrob\GuzzleCache\CacheMiddleware;
+use Kevinrob\GuzzleCache\KeyValueHttpHeader;
+use Kevinrob\GuzzleCache\Storage\Psr6CacheStorage;
+use Kevinrob\GuzzleCache\Strategy\PrivateCacheStrategy;
+use Psr\Http\Message\RequestInterface;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\SingleCommandApplication;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
-$endpointUrl = readline('GraphlQL endpoint URL: ');
+(new SingleCommandApplication())
+    ->addArgument('graphql-endpoint', InputArgument::REQUIRED, 'GraphQL endpoint URL')
+    ->addOption('auth-header', null, InputOption::VALUE_REQUIRED, 'Authorization Header Name')
+    ->addOption('auth-header-value', null, InputOption::VALUE_REQUIRED, 'Authorization Header Name')
+    ->addOption('dir', null, InputOption::VALUE_REQUIRED, 'Custom classes writing dir', '')
+    ->setCode(function (InputInterface $input, OutputInterface $output) {
+        $io = new SymfonyStyle($input, $output);
+        $endpoint = $input->getArgument('graphql-endpoint');
+        $dir = '';
+        $authHeaders = [];
 
-$authHeaders    = [];
-$authHeaderName = readline('Authorization header name: ');
-if (!empty($authHeaderName)) {
-    $authHeaderValue = readline('Authorization header value: ');
-    $authHeaders = [$authHeaderName => $authHeaderValue];
-}
+        if ($input->getOption('dir')) {
+            $dir = $input->getOption('dir');
+        }
 
-$customWriteDir = readline('Custom classes writing dir (optional): ');
-if (empty($customWriteDir)) $customWriteDir = '';
+        if ($input->getOption('auth-header')) {
+            $authHeaders = [$input->getOption('auth-header') => $input->getOption('auth-header-value')];
+        }
 
-$client  = new Client($endpointUrl, $authHeaders);
-$scanner = new SchemaClassGenerator($client, $customWriteDir);
+        // Create default HandlerStack
+        $stack = HandlerStack::create();
 
-print "-------------------------------------------\n";
-print "Generating schema objects from schema types\n";
-print "-------------------------------------------\n";
+        // Add this middleware to the top with `push`
+        $cacheStorage = new Psr6CacheStorage(new FilesystemAdapter(directory: __DIR__.'/../cache'));
+        $cacheStrategy = new class($cacheStorage) extends PrivateCacheStrategy {
+            protected function getCacheKey(RequestInterface $request, KeyValueHttpHeader $varyHeaders = null)
+            {
+                return hash('sha256', $request->getMethod().$request->getUri().$request->getBody());
+            }
+        };
+        $cacheMiddleware = new CacheMiddleware($cacheStrategy);
+        $cacheMiddleware->setHttpMethods(['GET' => true, 'POST' => true]);
+        $stack->push($cacheMiddleware, 'cache');
 
-$scanner->generateRootQueryObject();
+        // Initialize the client with the handler option
+        $guzzle = new HttpClient(['handler' => $stack]);
 
-print "-------------------------------------------\n";
-print "Schema objects generation complete\n";
-print "-------------------------------------------\n";
+        $client = new GraphQLClient(
+            endpointUrl: $endpoint,
+            authorizationHeaders: $authHeaders,
+            httpClient: new GuzzleAdapter($guzzle)
+        );
+
+        $scanner = new SchemaClassGenerator($client, $dir);
+
+        $io->block('Generating schema objects from schema types');
+
+        $scanner->generateRootQueryObject();
+
+        $io->block('Schema objects generation complete');
+    })
+    ->run();

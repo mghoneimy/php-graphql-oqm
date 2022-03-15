@@ -1,18 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GraphQL\SchemaGenerator\CodeGenerator;
 
 /**
- * Interface ObjectBuilderInterface
- *
- * @package GraphQL\SchemaGenerator\CodeGenerator
+ * Interface ObjectBuilderInterface.
  */
 interface ObjectBuilderInterface
 {
-    const DEFAULT_NAMESPACE = 'GraphQL\\SchemaObject';
+    public const DEFAULT_NAMESPACE = 'GraphQL\\SchemaObject';
 
-    /**
-     * @return void
-     */
     public function build(): void;
 }

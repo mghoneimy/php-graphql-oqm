@@ -1,54 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GraphQL\SchemaGenerator\CodeGenerator;
 
-use GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile;
+use GraphQL\SchemaGenerator\CodeGenerator\CodeFile\EnumFile;
 
 /**
- * Class EnumObjectBuilder
- *
- * @package GraphQL\SchemaGenerator\CodeGenerator
+ * Class EnumObjectBuilder.
  */
-class EnumObjectBuilder implements ObjectBuilderInterface
+class EnumObjectBuilder extends AbstractObjectBuilder
 {
-    /**
-     * @var ClassFile
-     */
-    protected $classFile;
-
-    /**
-     * EnumObjectBuilder constructor.
-     *
-     * @param string $writeDir
-     * @param string $objectName
-     * @param string $namespace
-     */
     public function __construct(string $writeDir, string $objectName, string $namespace = self::DEFAULT_NAMESPACE)
     {
-        $className = $objectName . 'EnumObject';
+        $className = $objectName.'EnumObject';
 
-        $this->classFile = new ClassFile($writeDir, $className);
-        $this->classFile->setNamespace($namespace);
-        if ($namespace !== self::DEFAULT_NAMESPACE) {
-            $this->classFile->addImport('GraphQL\\SchemaObject\\EnumObject');
-        }
-        $this->classFile->extendsClass('EnumObject');
+        $this->classFile = new EnumFile($writeDir, $className, $namespace);
     }
 
-    /**
-     * @param string $valueName
-     */
     public function addEnumValue(string $valueName)
     {
         $constantName = strtoupper($valueName);
         $this->classFile->addConstant($constantName, $valueName);
-    }
-
-    /**
-     * @return void
-     */
-    public function build(): void
-    {
-        $this->classFile->writeFile();
     }
 }

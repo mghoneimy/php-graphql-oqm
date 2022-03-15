@@ -2,9 +2,7 @@
 
 namespace GraphQL\Tests\SchemaObject;
 
-use GraphQL\SchemaObject\QueryObject;
-
-class UnionObject2QueryObject extends QueryObject
+class UnionObject2QueryObject extends \GraphQL\SchemaObject\QueryObject
 {
-    const OBJECT_NAME = "UnionObject2";
+    public const OBJECT_NAME = 'UnionObject2';
 }

@@ -2,9 +2,7 @@
 
 namespace GraphQL\Tests\SchemaObject;
 
-use GraphQL\SchemaObject\InputObject;
-
-class WithMultipleListValuesInputObject extends InputObject
+class WithMultipleListValuesInputObject extends \GraphQL\SchemaObject\InputObject
 {
     protected $listOne;
     protected $list_two;
@@ -12,14 +10,12 @@ class WithMultipleListValuesInputObject extends InputObject
     public function setListOne(array $listOne)
     {
         $this->listOne = $listOne;
-
         return $this;
     }
 
     public function setListTwo(array $listTwo)
     {
         $this->list_two = $listTwo;
-
         return $this;
     }
 }

@@ -2,7 +2,8 @@
 
 trait TraitWithOneMethod
 {
-    public function testTheTrait() {
+    public function testTheTrait()
+    {
         print "test!";
         die();
     }

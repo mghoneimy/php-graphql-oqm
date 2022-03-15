@@ -5,24 +5,16 @@ declare(strict_types=1);
 namespace GraphQL\SchemaGenerator\CodeGenerator\CodeFile;
 
 use Nette\PhpGenerator\ClassLike;
-use Nette\PhpGenerator\ClassType;
+use Nette\PhpGenerator\InterfaceType;
 use Nette\PhpGenerator\PhpNamespace;
 
-/**
- * Class ClassFile.
- */
-class ClassFile extends TraitFile
+class InterfaceFile extends ClassFile
 {
-    /** @var ClassType */
+    /** @var InterfaceType */
     protected ClassLike $classLike;
 
     protected function createClassLikeClass(string $className, ?string $namespace = ''): ClassLike
     {
-        return new ClassType($className, new PhpNamespace($namespace));
-    }
-
-    public function implementsInterface(string $name): void
-    {
-        $this->classLike->addImplement($name);
+        return new InterfaceType($className, new PhpNamespace($namespace));
     }
 }

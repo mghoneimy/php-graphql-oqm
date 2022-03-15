@@ -1,63 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GraphQL\SchemaGenerator\CodeGenerator;
 
 use GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile;
+use GraphQL\SchemaObject\UnionObject;
 use GraphQL\Util\StringLiteralFormatter;
 
 /**
- * Class EnumObjectBuilder
- *
- * @package GraphQL\SchemaGenerator\CodeGenerator
+ * Class EnumObjectBuilder.
  */
-class UnionObjectBuilder implements ObjectBuilderInterface
+class UnionObjectBuilder extends AbstractObjectBuilder
 {
     /**
-     * @var ClassFile
-     */
-    protected $classFile;
-
-    /**
      * EnumObjectBuilder constructor.
-     *
-     * @param string $writeDir
-     * @param string $objectName
-     * @param string $namespace
      */
     public function __construct(string $writeDir, string $objectName, string $namespace = self::DEFAULT_NAMESPACE)
     {
-        $className = $objectName . 'UnionObject';
+        $className = $objectName.'UnionObject';
 
-        $this->classFile = new ClassFile($writeDir, $className);
-        $this->classFile->setNamespace($namespace);
-        if ($namespace !== self::DEFAULT_NAMESPACE) {
-            $this->classFile->addImport('GraphQL\\SchemaObject\\UnionObject');
-        }
-        $this->classFile->extendsClass('UnionObject');
+        $this->classFile = new ClassFile($writeDir, $className, $namespace);
+        $this->classFile->extendsClass(UnionObject::class);
     }
 
-    /**
-     * @param string $typeName
-     */
-    public function addPossibleType(string $typeName)
+    public function addPossibleType(string $typeName): void
     {
         $upperCamelCaseTypeName = StringLiteralFormatter::formatUpperCamelCase($typeName);
-        $objectClassName = $typeName . 'QueryObject';
-        $method = "public function on$upperCamelCaseTypeName()
-{
-    \$object = new $objectClassName();
-    \$this->addPossibleType(\$object);
-
-    return \$object;
-}";
-        $this->classFile->addMethod($method);
-    }
-
-    /**
-     * @return void
-     */
-    public function build(): void
-    {
-        $this->classFile->writeFile();
+        $objectClassName = $typeName.'QueryObject';
+        $method = $this->classFile->addMethod("on$upperCamelCaseTypeName");
+        $method->addBody('$object = new '.$objectClassName.'();');
+        $method->addBody('$this->addPossibleType($object);');
+        $method->addBody('return $object;');
     }
 }

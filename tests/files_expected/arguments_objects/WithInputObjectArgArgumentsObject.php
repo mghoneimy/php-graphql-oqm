@@ -2,16 +2,13 @@
 
 namespace GraphQL\Tests\SchemaObject;
 
-use GraphQL\SchemaObject\ArgumentsObject;
-
-class WithInputObjectArgArgumentsObject extends ArgumentsObject
+class WithInputObjectArgArgumentsObject extends \GraphQL\SchemaObject\ArgumentsObject
 {
-    protected $objectProperty;
+    protected \SomeInputObject $objectProperty;
 
-    public function setObjectProperty(SomeInputObject $someInputObject)
+    public function setObjectProperty(\SomeInputObject $objectProperty)
     {
-        $this->objectProperty = $someInputObject;
-
+        $this->objectProperty = $objectProperty;
         return $this;
     }
 }

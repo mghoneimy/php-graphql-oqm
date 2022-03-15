@@ -1,14 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GraphQL\SchemaObject;
 
 use GraphQL\InlineFragment;
-use GraphQL\Query;
 
 /**
- * Class UnionObject
- *
- * @package GraphQL\SchemaObject
+ * Class UnionObject.
  */
 abstract class UnionObject extends QueryObject
 {

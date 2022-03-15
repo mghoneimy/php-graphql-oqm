@@ -2,7 +2,8 @@
 
 trait TraitWithMultipleMethods
 {
-    public function testTheTrait() {
+    public function testTheTrait()
+    {
         $this->innerTest();
         die();
     }
@@ -10,8 +11,9 @@ trait TraitWithMultipleMethods
     /**
      * @deprecated is deprecated
      */
-    private function innerTest() {
+    private function innerTest()
+    {
         print "test!";
-        return 0;
+        die();
     }
 }

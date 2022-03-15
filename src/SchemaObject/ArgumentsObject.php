@@ -1,17 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GraphQL\SchemaObject;
 
 /**
- * Class ArgumentsObject
- *
- * @package GraphQL\SchemaObject
+ * Class ArgumentsObject.
  */
 abstract class ArgumentsObject
 {
-    /**
-     * @return array
-     */
     public function toArray(): array
     {
         $argsArray = [];

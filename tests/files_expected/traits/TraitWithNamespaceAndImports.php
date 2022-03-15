@@ -2,8 +2,9 @@
 
 namespace GraphQL\Test;
 
-use GraphQL\Query;
 use GraphQL\Client;
+use GraphQL\Query;
 
 trait TraitWithNamespaceAndImports
-{}
+{
+}

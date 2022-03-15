@@ -1,13 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GraphQL\Tests;
 
 use GraphQL\SchemaGenerator\CodeGenerator\CodeFile\AbstractCodeFile;
 
 /**
- * Class AbstractCodeFileTest
- *
- * @package GraphQL\Tests
+ * Class AbstractCodeFileTest.
  */
 class AbstractCodeFileTest extends CodeFileTestCase
 {
@@ -22,16 +22,13 @@ class AbstractCodeFileTest extends CodeFileTestCase
     protected $fileName;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected static function getExpectedFilesDir()
     {
-        return parent::getExpectedFilesDir() . '/abstract_code_files';
+        return parent::getExpectedFilesDir().'/abstract_code_files';
     }
 
-    /**
-     *
-     */
     protected function setUp(): void
     {
         $this->fileName = 'EmptyCodeFile';
@@ -39,7 +36,7 @@ class AbstractCodeFileTest extends CodeFileTestCase
             AbstractCodeFile::class,
             [static::getGeneratedFilesDir(), $this->fileName]
         );
-        $this->codeFile->method('generateFileContents')->willReturn("<?php" . PHP_EOL);
+        $this->codeFile->method('generateFileContents')->willReturn('<?php'.PHP_EOL);
     }
 
     /**
@@ -53,7 +50,7 @@ class AbstractCodeFileTest extends CodeFileTestCase
         $this->expectException(\Exception::class);
         $mock = $this->getMockForAbstractClass(
             AbstractCodeFile::class,
-            [static::getGeneratedFilesDir() . '/invalid', $this->fileName]
+            [static::getGeneratedFilesDir().'/invalid', $this->fileName]
         );
         $mock->method('generateFileContents')->willReturn("<?php\n");
     }
@@ -66,7 +63,7 @@ class AbstractCodeFileTest extends CodeFileTestCase
      */
     public function testUnwritableDirInConstructor()
     {
-        $testDir = static::getGeneratedFilesDir() . '/unwritable-constructor';
+        $testDir = static::getGeneratedFilesDir().'/unwritable-constructor';
         mkdir($testDir);
         chmod($testDir, 0444);
 
@@ -87,7 +84,7 @@ class AbstractCodeFileTest extends CodeFileTestCase
     public function testInvalidWriteDir()
     {
         $this->expectException(\Exception::class);
-        $this->codeFile->changeWriteDir(static::getGeneratedFilesDir() . '/invalid');
+        $this->codeFile->changeWriteDir(static::getGeneratedFilesDir().'/invalid');
     }
 
     /**
@@ -98,7 +95,7 @@ class AbstractCodeFileTest extends CodeFileTestCase
      */
     public function testUnwritableDir()
     {
-        $testDir = static::getGeneratedFilesDir() . '/unwritable';
+        $testDir = static::getGeneratedFilesDir().'/unwritable';
         mkdir($testDir);
         chmod($testDir, 0444);
 
@@ -111,7 +108,7 @@ class AbstractCodeFileTest extends CodeFileTestCase
      */
     public function testWritePathGetter()
     {
-        $this->assertEquals(static::getGeneratedFilesDir() . "/$this->fileName.php", $this->codeFile->getWritePath());
+        $this->assertEquals(static::getGeneratedFilesDir()."/$this->fileName.php", $this->codeFile->getWritePath());
     }
 
     /**
@@ -124,7 +121,7 @@ class AbstractCodeFileTest extends CodeFileTestCase
     public function testFileWritingWorks()
     {
         $this->codeFile->writeFile();
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$this->fileName.php", $this->codeFile->getWritePath());
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$this->fileName.php", $this->codeFile->getWritePath());
     }
 
     /**
@@ -137,10 +134,10 @@ class AbstractCodeFileTest extends CodeFileTestCase
     public function testFileWritingWorksWithTrailingSlash()
     {
         $this->fileName = 'EmptyCodeFileWithSlash';
-        $this->codeFile->changeWriteDir($this->codeFile->getWriteDir() . '/');
+        $this->codeFile->changeWriteDir($this->codeFile->getWriteDir().'/');
         $this->codeFile->changeFileName($this->fileName);
         $this->codeFile->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$this->fileName.php", $this->codeFile->getWritePath());
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$this->fileName.php", $this->codeFile->getWritePath());
     }
 }

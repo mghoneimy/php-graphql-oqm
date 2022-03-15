@@ -2,16 +2,13 @@
 
 namespace GraphQL\Tests\SchemaObject;
 
-use GraphQL\SchemaObject\InputObject;
-
-class WithScalarValueInputObject extends InputObject
+class WithScalarValueInputObject extends \GraphQL\SchemaObject\InputObject
 {
     protected $valOne;
 
     public function setValOne($valOne)
     {
         $this->valOne = $valOne;
-
         return $this;
     }
 }

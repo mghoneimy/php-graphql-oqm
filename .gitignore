@@ -6,3 +6,4 @@ schema_object/*
 .phpunit.result.cache
 /build/
 composer.lock
+/.php-cs-fixer.cache
