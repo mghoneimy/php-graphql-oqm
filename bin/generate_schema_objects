@@ -1,6 +1,12 @@
 #!/usr/bin/env php
 <?php
-require_once __DIR__.'/../vendor/autoload.php';
+
+foreach ([__DIR__.'/../vendor/autoload.php', __DIR__.'/../autoload.php'] as $autoload) {
+    if (file_exists($autoload)) {
+        require_once __DIR__.'/../vendor/autoload.php';
+        break;
+    }
+}
 
 use GraphQL\Client as GraphQLClient;
 use GraphQL\SchemaGenerator\SchemaClassGenerator;
