@@ -146,8 +146,8 @@ class InputObjectClassBuilderTest extends CodeFileTestCase
         $objectName = 'WithMultipleInputObjectValues';
         $classBuilder = new InputObjectClassBuilder(static::getGeneratedFilesDir(), $objectName, static::TESTING_NAMESPACE);
         $objectName .= 'InputObject';
-        $classBuilder->addInputObjectValue('inputObject', 'WithListValue');
-        $classBuilder->addInputObjectValue('inputObjectTwo', '_TestFilter');
+        $classBuilder->addInputObjectValue('inputObject', static::TESTING_NAMESPACE . '\\WithListValue');
+        $classBuilder->addInputObjectValue('inputObjectTwo', static::TESTING_NAMESPACE . '\\_TestFilter');
         $classBuilder->build();
 
         $this->assertFileEquals(

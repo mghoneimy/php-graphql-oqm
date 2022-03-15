@@ -1,18 +1,13 @@
 <?php
 
-declare(strict_types=1);
-
 namespace GraphQL\Tests\SchemaObject;
 
-use GraphQL\SchemaObject\UnionObject;
-
-class UnionTestObjectUnionObject extends UnionObject
+class UnionTestObjectUnionObject extends \GraphQL\SchemaObject\UnionObject
 {
     public function onUnionObject1()
     {
         $object = new UnionObject1QueryObject();
         $this->addPossibleType($object);
-
         return $object;
     }
 
@@ -20,7 +15,6 @@ class UnionTestObjectUnionObject extends UnionObject
     {
         $object = new UnionObject2QueryObject();
         $this->addPossibleType($object);
-
         return $object;
     }
 }

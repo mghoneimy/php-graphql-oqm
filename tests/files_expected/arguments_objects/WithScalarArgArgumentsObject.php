@@ -1,19 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
 namespace GraphQL\Tests\SchemaObject;
 
-use GraphQL\SchemaObject\ArgumentsObject;
-
-class WithScalarArgArgumentsObject extends ArgumentsObject
+class WithScalarArgArgumentsObject extends \GraphQL\SchemaObject\ArgumentsObject
 {
-    protected $scalarProperty;
+    protected string $scalarProperty;
 
     public function setScalarProperty($scalarProperty)
     {
         $this->scalarProperty = $scalarProperty;
-
         return $this;
     }
 }

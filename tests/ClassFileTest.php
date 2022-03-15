@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace GraphQL\Tests;
 
 use GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile;
+use Nette\PhpGenerator\ClassLike;
+use Nette\PhpGenerator\Parameter;
 
 class ClassFileTest extends CodeFileTestCase
 {
@@ -81,7 +83,8 @@ class ClassFileTest extends CodeFileTestCase
         $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $class->getWritePath());
 
         $fileName = 'ClassImplementsMultipleInterfaces';
-        $class->changeFileName($fileName);
+        $class = new ClassFile(static::getGeneratedFilesDir(), $fileName);
+        $class->implementsInterface('InterfaceOne');
         $class->implementsInterface('InterfaceTwo');
         $class->writeFile();
 
@@ -91,29 +94,15 @@ class ClassFileTest extends CodeFileTestCase
     }
 
     /**
-     * @depends clone testImplementsInterfaces
-     *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::getClassName
-     */
-    public function testImplementDuplicateInterfaces(ClassFile $class)
-    {
-        $class->implementsInterface('InterfaceOne');
-        $class->writeFile();
-
-        $fileName = $class->getClassName();
-        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $class->getWritePath());
-    }
-
-    /**
      * @depends clone testEmptyClass
      */
     public function testImplementEmptyInterfaceName(ClassFile $class)
     {
+        $this->expectException(\Nette\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Value '' is not valid class name");
+
         $class->implementsInterface('');
         $class->writeFile();
-
-        $fileName = $class->getClassName();
-        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $class->getWritePath());
     }
 
     /**
@@ -134,7 +123,8 @@ class ClassFileTest extends CodeFileTestCase
         $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $class->getWritePath());
 
         $fileName = 'ClassWithMultipleTraits';
-        $class->changeFileName($fileName);
+        $class = new ClassFile(static::getGeneratedFilesDir(), $fileName);
+        $class->addTrait('TraitOne');
         $class->addTrait('TraitTwo');
         $class->addTrait('TraitThree');
         $class->writeFile();
@@ -151,11 +141,10 @@ class ClassFileTest extends CodeFileTestCase
      */
     public function testUseDuplicateTraits(ClassFile $class)
     {
+        $this->expectException(\Nette\InvalidStateException::class);
+        $this->expectExceptionMessage("Cannot add trait 'TraitThree', because it already exists.");
         $class->addTrait('TraitThree');
         $class->writeFile();
-
-        $fileName = $class->getClassName();
-        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $class->getWritePath());
     }
 
     /**
@@ -163,11 +152,11 @@ class ClassFileTest extends CodeFileTestCase
      */
     public function testUseEmptyTraitName(ClassFile $class)
     {
+        $this->expectException(\Nette\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Value '' is not valid trait name");
+
         $class->addTrait('');
         $class->writeFile();
-
-        $fileName = $class->getClassName();
-        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $class->getWritePath());
     }
 
     /**
@@ -189,7 +178,8 @@ class ClassFileTest extends CodeFileTestCase
         $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $class->getWritePath());
 
         $fileName = 'ClassWithMultipleConstants';
-        $class->changeFileName($fileName);
+        $class = new ClassFile(static::getGeneratedFilesDir(), $fileName);
+        $class->addConstant('CONST_ONE', 'ONE');
         $class->addConstant('CONST_TWO', 2);
         $class->addConstant('CONST_THEE', true);
         $class->addConstant('CONST_FOUR', false);
@@ -209,11 +199,10 @@ class ClassFileTest extends CodeFileTestCase
      */
     public function testClassWithDuplicateConstants(ClassFile $class)
     {
+        $this->expectException(\Nette\InvalidStateException::class);
+        $this->expectExceptionMessage("Cannot add constant 'CONST_TWO', because it already exists.");
         $class->addConstant('CONST_TWO', 2);
         $class->writeFile();
-
-        $fileName = $class->getClassName();
-        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $class->getWritePath());
     }
 
     /**
@@ -221,11 +210,11 @@ class ClassFileTest extends CodeFileTestCase
      */
     public function testConstantWithEmptyName(ClassFile $class)
     {
+        $this->expectException(\Nette\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Value '' is not valid name.");
+
         $class->addConstant('', null);
         $class->writeFile();
-
-        $fileName = $class->getClassName();
-        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $class->getWritePath());
     }
 
     /**
@@ -249,9 +238,8 @@ class ClassFileTest extends CodeFileTestCase
     public function testFullClass()
     {
         $fileName = 'ClassWithEverything';
-        $class = new ClassFile(static::getGeneratedFilesDir(), $fileName);
+        $class = new ClassFile(static::getGeneratedFilesDir(), $fileName, 'GraphQl\\Test');
 
-        $class->setNamespace('GraphQl\\Test');
         $class->addImport('GraphQl\\Base\\Base');
         $class->addImport('GraphQl\\Interfaces\\Intr1');
         $class->addImport('GraphQl\\Interfaces\\Intr2');
@@ -269,12 +257,8 @@ class ClassFileTest extends CodeFileTestCase
         $class->addProperty('propertyOne');
         $class->addProperty('propertyTwo', '');
 
-        $class->addMethod('public function dumpAll() {
-    print \'dumping\';
-}');
-        $class->addMethod('protected function internalStuff($i) {
-    return ++$i;
-}');
+        $class->addMethod('dumpAll')->setVisibility(ClassLike::VisibilityPublic)->setBody("print 'dumping';");
+        $class->addMethod('internalStuff')->setVisibility(ClassLike::VisibilityProtected)->setParameters([ new Parameter('i') ])->setBody('return ++$i;');
         $class->writeFile();
 
         $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $class->getWritePath());

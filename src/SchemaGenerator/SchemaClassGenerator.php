@@ -110,7 +110,7 @@ class SchemaClassGenerator
                     $argsObjectGenerated = $this->generateArgumentsObject($argsObjectName, $fieldArray['args'] ?? []);
                     if ($argsObjectGenerated) {
                         // Add sub type as a field to the query object if all generation happened successfully
-                        $queryObjectBuilder->addObjectField($name, $typeName, $typeKind, $this->generationNamespace.'\\'.$argsObjectName, $fieldArray['isDeprecated'], $fieldArray['deprecationReason']);
+                        $queryObjectBuilder->addObjectField($name, $typeName, $typeKind, '\\' . $this->generationNamespace.'\\'.$argsObjectName, $fieldArray['isDeprecated'], $fieldArray['deprecationReason']);
                     }
                 }
             }
@@ -200,7 +200,7 @@ class SchemaClassGenerator
             if ($objectGenerated) {
                 if (in_array(FieldTypeKindEnum::LIST, $typeKindWrappers, true)) {
                     $objectBuilder->addListValue($name, $typeName);
-                } elseif ($typeKind === FieldTypeKindEnum::SCALAR || $typeKind === FieldTypeKindEnum::ENUM_OBJECT) {
+                } elseif ($typeKind === FieldTypeKindEnum::SCALAR) {
                     $objectBuilder->addScalarValue($name);
                 } elseif ($typeKind === FieldTypeKindEnum::ENUM_OBJECT) {
                     $typeName = $this->generationNamespace.'\\'.$typeName.'EnumObject';
@@ -278,7 +278,7 @@ class SchemaClassGenerator
             // $description = $inputFieldArray['description'];
             // $defaultValue = $inputFieldArray['defaultValue'];
             [$typeName, $typeKind, $typeKindWrappers] = $this->getTypeInfo($argumentArray);
-            $typeKind = FieldTypeKindEnum::from($typeKind);
+            $typeKind = $typeKind instanceof FieldTypeKindEnum ? $typeKind : FieldTypeKindEnum::from($typeKind);
 
             $objectGenerated = true;
             if ($typeKind !== FieldTypeKindEnum::SCALAR) {
@@ -314,7 +314,7 @@ class SchemaClassGenerator
         $typeArray = $dataArray['type'];
         $typeWrappers = [];
         while ($typeArray['ofType'] !== null) {
-            $typeWrappers[] = $typeArray['kind'];
+            $typeWrappers[] = $typeArray['kind'] instanceof FieldTypeKindEnum ? $typeArray['kind'] : FieldTypeKindEnum::from($typeArray['kind']);
             $typeArray = $typeArray['ofType'];
 
             // Throw exception if next array doesn't have ofType key

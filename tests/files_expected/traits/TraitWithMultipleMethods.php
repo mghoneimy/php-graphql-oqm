@@ -1,13 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
 trait TraitWithMultipleMethods
 {
     public function testTheTrait()
     {
         $this->innerTest();
-        exit();
+        die();
     }
 
     /**
@@ -15,8 +13,7 @@ trait TraitWithMultipleMethods
      */
     private function innerTest()
     {
-        echo 'test!';
-
-        return 0;
+        print "test!";
+        die();
     }
 }

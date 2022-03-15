@@ -6,7 +6,8 @@ namespace GraphQL\SchemaGenerator\CodeGenerator\CodeFile;
 
 use JetBrains\PhpStorm\Pure;
 use Nette\PhpGenerator\ClassLike;
-use Nette\PhpGenerator\Method;
+use Nette\PhpGenerator\PhpFile;
+use Nette\PhpGenerator\PsrPrinter;
 use RuntimeException;
 
 /**
@@ -14,11 +15,6 @@ use RuntimeException;
  */
 abstract class AbstractCodeFile implements CodeFileInterface
 {
-    /**
-     * This string stores the name of this file.
-     */
-    protected string $className;
-
     private string $writeDir;
 
     protected ClassLike $classLike;
@@ -39,7 +35,13 @@ abstract class AbstractCodeFile implements CodeFileInterface
     #[Pure]
     protected function generateFileContents(): string
     {
-        return '<?php'.PHP_EOL.PHP_EOL.$this->classLike->getNamespace().' '.$this->classLike;
+        $file = new PhpFile();
+        $printer = new PsrPrinter();
+        $namespace = $this->classLike->getNamespace();
+        $namespace?->add($this->classLike);
+        $file->addNamespace($namespace);
+
+        return $printer->printFile($file);
     }
 
     public function extendsClass(string $className): void
@@ -50,21 +52,6 @@ abstract class AbstractCodeFile implements CodeFileInterface
     public function addConstant(string $name, $value): void
     {
         $this->classLike->addConstant($name, $value);
-    }
-
-    public function addMethod(string $methodName, bool $isDeprecated = false, ?string $deprecationReason = ''): Method
-    {
-        $method = $this->classLike->addMethod($methodName);
-        if ($isDeprecated) {
-            $method->addComment('@deprecated '.$deprecationReason);
-        }
-
-        return $method;
-    }
-
-    public function addProperty(string $propertyName, ?string $propertyType = null): void
-    {
-        $this->classLike->addProperty($propertyName)->setType($propertyType);
     }
 
     public function addImport(string $className): void
@@ -109,7 +96,7 @@ abstract class AbstractCodeFile implements CodeFileInterface
      */
     public function getClassName(): string
     {
-        return $this->className;
+        return $this->classLike->getName();
     }
 
     /**
@@ -127,8 +114,9 @@ abstract class AbstractCodeFile implements CodeFileInterface
         $this->writeDir = $writeDir;
     }
 
+    #[Pure]
     public function getWritePath(): string
     {
-        return $this->writeDir."/$this->className.php";
+        return $this->writeDir."/{$this->classLike->getName()}.php";
     }
 }

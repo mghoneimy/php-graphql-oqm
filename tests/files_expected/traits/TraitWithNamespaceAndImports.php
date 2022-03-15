@@ -1,8 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
 namespace GraphQL\Test;
+
+use GraphQL\Client;
+use GraphQL\Query;
 
 trait TraitWithNamespaceAndImports
 {

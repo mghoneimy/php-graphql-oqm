@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 class ClassWithMultipleConstants
 {
     public const CONST_ONE = 'ONE';

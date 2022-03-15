@@ -1,19 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
 namespace GraphQL\Tests\SchemaObject;
 
-use GraphQL\SchemaObject\InputObject;
-
-class WithEnumValueInputObject extends InputObject
+class WithEnumValueInputObject extends \GraphQL\SchemaObject\InputObject
 {
     protected $enumVal;
 
-    public function setEnumVal($enumVal)
+    public function setEnumVal(SomeEnumObjectInputObject $enumVal)
     {
         $this->enumVal = $enumVal;
-
         return $this;
     }
 }

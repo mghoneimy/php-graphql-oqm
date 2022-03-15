@@ -43,6 +43,8 @@ class ClientTest extends TestCase
      */
     public function testConstructClient()
     {
+        $this->markTestSkipped('Does not belong to this lib');
+
         $mockHandler = new MockHandler();
         $handler = HandlerStack::create($mockHandler);
         $container = [];

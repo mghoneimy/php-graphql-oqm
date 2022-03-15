@@ -1,12 +1,8 @@
 <?php
 
-declare(strict_types=1);
-
 namespace GraphQL\Tests\SchemaObject;
 
-use GraphQL\SchemaObject\QueryObject;
-
-class MultipleObjectSelectorsQueryObject extends QueryObject
+class MultipleObjectSelectorsQueryObject extends \GraphQL\SchemaObject\QueryObject
 {
     public const OBJECT_NAME = 'MultipleObjectSelectors';
 
@@ -17,7 +13,6 @@ class MultipleObjectSelectorsQueryObject extends QueryObject
             $object->appendArguments($argsObject->toArray());
         }
         $this->selectField($object);
-
         return $object;
     }
 
@@ -31,7 +26,6 @@ class MultipleObjectSelectorsQueryObject extends QueryObject
             $object->appendArguments($argsObject->toArray());
         }
         $this->selectField($object);
-
         return $object;
     }
 }

@@ -1,19 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
 namespace GraphQL\Tests\SchemaObject;
 
-use GraphQL\SchemaObject\InputObject;
-
-class WithInputObjectValueInputObject extends InputObject
+class WithInputObjectValueInputObject extends \GraphQL\SchemaObject\InputObject
 {
     protected $inputObject;
 
-    public function setInputObject(WithListValueInputObject $withListValueInputObject)
+    public function setInputObject(\WithListValueInputObject $inputObject)
     {
-        $this->inputObject = $withListValueInputObject;
-
+        $this->inputObject = $inputObject;
         return $this;
     }
 }

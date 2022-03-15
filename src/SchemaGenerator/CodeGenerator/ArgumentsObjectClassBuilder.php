@@ -22,7 +22,7 @@ class ArgumentsObjectClassBuilder extends ObjectClassBuilder
         $this->classFile->extendsClass(ArgumentsObject::class);
     }
 
-    public function addScalarArgument(string $argumentName, string $typeName): void
+    public function addScalarArgument(string $argumentName, ?string $typeName = ''): void
     {
         $lowerTypeName = strtolower($typeName);
         if ($lowerTypeName === 'boolean') {
@@ -41,9 +41,12 @@ class ArgumentsObjectClassBuilder extends ObjectClassBuilder
             $lowerTypeName = 'string';
         }
 
-        assert(in_array($lowerTypeName, ['bool', 'int', 'float', 'string']), $lowerTypeName);
+        if ($lowerTypeName) {
+            assert(in_array($lowerTypeName, ['bool', 'int', 'float', 'string']), $lowerTypeName);
+        }
+
         $upperCamelCaseArg = StringLiteralFormatter::formatUpperCamelCase($argumentName);
-        $this->addProperty($argumentName, $lowerTypeName);
+        $this->addProperty($argumentName, null, $lowerTypeName);
         $this->addScalarSetter($argumentName, $upperCamelCaseArg);
     }
 
@@ -54,7 +57,7 @@ class ArgumentsObjectClassBuilder extends ObjectClassBuilder
     public function addListArgument(string $argumentName, string $typeName): void
     {
         $upperCamelCaseArg = StringLiteralFormatter::formatUpperCamelCase($argumentName);
-        $this->addProperty($argumentName, 'array');
+        $this->addProperty($argumentName, null, 'array');
         $this->addListSetter($argumentName, $upperCamelCaseArg, $typeName);
     }
 
@@ -62,7 +65,7 @@ class ArgumentsObjectClassBuilder extends ObjectClassBuilder
     {
         $typeName .= 'EnumObject';
         $upperCamelCaseArg = StringLiteralFormatter::formatUpperCamelCase($argumentName);
-        $this->addProperty($argumentName, $typeName);
+        $this->addProperty($argumentName, null, $typeName);
         $this->addEnumSetter($argumentName, $upperCamelCaseArg, $typeName);
     }
 
@@ -70,7 +73,7 @@ class ArgumentsObjectClassBuilder extends ObjectClassBuilder
     {
         $typeName .= 'InputObject';
         $upperCamelCaseArg = StringLiteralFormatter::formatUpperCamelCase($argumentName);
-        $this->addProperty($argumentName, $typeName);
+        $this->addProperty($argumentName, null, $typeName);
         $this->addObjectSetter($argumentName, $upperCamelCaseArg, $typeName);
     }
 }

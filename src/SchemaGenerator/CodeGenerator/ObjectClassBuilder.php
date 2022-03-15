@@ -9,9 +9,9 @@ namespace GraphQL\SchemaGenerator\CodeGenerator;
  */
 abstract class ObjectClassBuilder extends AbstractObjectBuilder
 {
-    protected function addProperty(string $propertyName, ?string $propertyType = null)
+    protected function addProperty(string $propertyName, ?string $defaultValue = null, ?string $propertyType = null)
     {
-        $this->classFile->addProperty($propertyName, $propertyType);
+        $this->classFile->addProperty($propertyName, $defaultValue, $propertyType);
     }
 
     /**

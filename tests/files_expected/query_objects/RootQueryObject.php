@@ -1,12 +1,8 @@
 <?php
 
-declare(strict_types=1);
-
 namespace GraphQL\Tests\SchemaObject;
 
-use GraphQL\SchemaObject\QueryObject;
-
-class RootQueryObject extends QueryObject
+class RootQueryObject extends \GraphQL\SchemaObject\QueryObject
 {
     public const OBJECT_NAME = '';
 }

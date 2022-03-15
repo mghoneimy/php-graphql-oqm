@@ -1,12 +1,8 @@
 <?php
 
-declare(strict_types=1);
-
 namespace GraphQL\Tests\SchemaObject;
 
-use GraphQL\SchemaObject\QueryObject;
-
-class UnionObject1QueryObject extends QueryObject
+class UnionObject1QueryObject extends \GraphQL\SchemaObject\QueryObject
 {
     public const OBJECT_NAME = 'UnionObject1';
 
@@ -17,7 +13,6 @@ class UnionObject1QueryObject extends QueryObject
             $object->appendArguments($argsObject->toArray());
         }
         $this->selectField($object);
-
         return $object;
     }
 }

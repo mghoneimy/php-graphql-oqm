@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace GraphQl\Test;
 
 use GraphQl\Base\Base;
@@ -10,10 +8,10 @@ use GraphQl\Base\Trait2;
 use GraphQl\Interfaces\Intr1;
 use GraphQl\Interfaces\Intr2;
 
-class ClassWithEverything extends Base implements Intr1, Intr2
+class ClassWithEverything extends \Base implements \Intr1, \Intr2
 {
-    use Trait1;
-    use Trait2;
+    use \Trait1;
+    use \Trait2;
 
     public const CONST_ONE = 1;
     public const CONST_TWO = '';
@@ -23,7 +21,7 @@ class ClassWithEverything extends Base implements Intr1, Intr2
 
     public function dumpAll()
     {
-        echo 'dumping';
+        print 'dumping';
     }
 
     protected function internalStuff($i)

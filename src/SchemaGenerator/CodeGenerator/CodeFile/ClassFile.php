@@ -20,4 +20,9 @@ class ClassFile extends TraitFile
     {
         return new ClassType($className, new PhpNamespace($namespace));
     }
+
+    public function implementsInterface(string $name): void
+    {
+        $this->classLike->addImplement($name);
+    }
 }

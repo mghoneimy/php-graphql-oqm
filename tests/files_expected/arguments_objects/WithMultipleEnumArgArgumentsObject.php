@@ -1,20 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
 namespace GraphQL\Tests\SchemaObject;
 
-use GraphQL\RawObject;
-use GraphQL\SchemaObject\ArgumentsObject;
-
-class WithMultipleEnumArgArgumentsObject extends ArgumentsObject
+class WithMultipleEnumArgArgumentsObject extends \GraphQL\SchemaObject\ArgumentsObject
 {
-    protected $enumProperty;
+    protected SomeEnumObject $enumProperty;
 
-    public function setEnumProperty($some)
+    public function setEnumProperty(SomeEnumObject $enumProperty)
     {
-        $this->enumProperty = new RawObject($some);
-
+        $this->enumProperty = $enumProperty;
         return $this;
     }
 }

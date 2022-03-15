@@ -1,12 +1,8 @@
 <?php
 
-declare(strict_types=1);
-
 namespace GraphQL\Tests\SchemaObject;
 
-use GraphQL\SchemaObject\InputObject;
-
-class WithMultipleScalarValuesInputObject extends InputObject
+class WithMultipleScalarValuesInputObject extends \GraphQL\SchemaObject\InputObject
 {
     protected $valOne;
     protected $val_two;
@@ -14,14 +10,12 @@ class WithMultipleScalarValuesInputObject extends InputObject
     public function setValOne($valOne)
     {
         $this->valOne = $valOne;
-
         return $this;
     }
 
     public function setValTwo($valTwo)
     {
         $this->val_two = $valTwo;
-
         return $this;
     }
 }

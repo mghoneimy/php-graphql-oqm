@@ -1,13 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
 namespace GraphQL\Test;
+
+use GraphQL\Client;
+use GraphQL\Query;
 
 trait TraitWithEverything
 {
     protected $propOne;
-    protected $propTwo = true;
+    protected $propTwo = 'bool';
 
     public function getProperties()
     {
