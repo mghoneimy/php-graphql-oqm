@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GraphQL\Tests\SchemaObject;
 
-use GraphQL\SchemaObject\ArgumentsObject;
 use GraphQL\RawObject;
+use GraphQL\SchemaObject\ArgumentsObject;
 
 class WithMultipleEnumArgArgumentsObject extends ArgumentsObject
 {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GraphQL\Tests;
 
 use GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile;
@@ -7,11 +9,11 @@ use GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile;
 class ClassFileTest extends CodeFileTestCase
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected static function getExpectedFilesDir()
     {
-        return parent::getExpectedFilesDir() . '/classes';
+        return parent::getExpectedFilesDir().'/classes';
     }
 
     /**
@@ -26,7 +28,7 @@ class ClassFileTest extends CodeFileTestCase
         $class = new ClassFile(static::getGeneratedFilesDir(), $fileName);
         $class->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $class->getWritePath());
 
         return $class;
     }
@@ -37,7 +39,7 @@ class ClassFileTest extends CodeFileTestCase
      * @depends testEmptyClass
      *
      * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::extendsClass
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::generateClassName
+     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::getClassName
      */
     public function testExtendsClass()
     {
@@ -46,12 +48,10 @@ class ClassFileTest extends CodeFileTestCase
         $class->extendsClass('Base');
         $class->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $class->getWritePath());
     }
 
     /**
-     * @param ClassFile $class
-     *
      * @depends clone testEmptyClass
      */
     public function testExtendsEmptyClassName(ClassFile $class)
@@ -59,8 +59,8 @@ class ClassFileTest extends CodeFileTestCase
         $class->extendsClass('');
         $class->writeFile();
 
-        $fileName = $class->getFileName();
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+        $fileName = $class->getClassName();
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $class->getWritePath());
     }
 
     /**
@@ -69,7 +69,7 @@ class ClassFileTest extends CodeFileTestCase
      * @depends testEmptyClass
      *
      * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::implementsInterface
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::generateClassName
+     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::getClassName
      */
     public function testImplementsInterfaces()
     {
@@ -78,37 +78,33 @@ class ClassFileTest extends CodeFileTestCase
         $class->implementsInterface('InterfaceOne');
         $class->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $class->getWritePath());
 
         $fileName = 'ClassImplementsMultipleInterfaces';
         $class->changeFileName($fileName);
         $class->implementsInterface('InterfaceTwo');
         $class->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $class->getWritePath());
 
         return $class;
     }
 
     /**
-     * @param ClassFile $class
-     *
      * @depends clone testImplementsInterfaces
      *
-     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::generateClassName
+     * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::getClassName
      */
     public function testImplementDuplicateInterfaces(ClassFile $class)
     {
         $class->implementsInterface('InterfaceOne');
         $class->writeFile();
 
-        $fileName = $class->getFileName();
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+        $fileName = $class->getClassName();
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $class->getWritePath());
     }
 
     /**
-     * @param ClassFile $class
-     *
      * @depends clone testEmptyClass
      */
     public function testImplementEmptyInterfaceName(ClassFile $class)
@@ -116,8 +112,8 @@ class ClassFileTest extends CodeFileTestCase
         $class->implementsInterface('');
         $class->writeFile();
 
-        $fileName = $class->getFileName();
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+        $fileName = $class->getClassName();
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $class->getWritePath());
     }
 
     /**
@@ -135,7 +131,7 @@ class ClassFileTest extends CodeFileTestCase
         $class->addTrait('TraitOne');
         $class->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $class->getWritePath());
 
         $fileName = 'ClassWithMultipleTraits';
         $class->changeFileName($fileName);
@@ -143,14 +139,12 @@ class ClassFileTest extends CodeFileTestCase
         $class->addTrait('TraitThree');
         $class->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $class->getWritePath());
 
         return $class;
     }
 
     /**
-     * @param ClassFile $class
-     *
      * @depends clone testUseTraits
      *
      * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::generateTraits
@@ -160,13 +154,11 @@ class ClassFileTest extends CodeFileTestCase
         $class->addTrait('TraitThree');
         $class->writeFile();
 
-        $fileName = $class->getFileName();
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+        $fileName = $class->getClassName();
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $class->getWritePath());
     }
 
     /**
-     * @param ClassFile $class
-     *
      * @depends clone testEmptyClass
      */
     public function testUseEmptyTraitName(ClassFile $class)
@@ -174,8 +166,8 @@ class ClassFileTest extends CodeFileTestCase
         $class->addTrait('');
         $class->writeFile();
 
-        $fileName = $class->getFileName();
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+        $fileName = $class->getClassName();
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $class->getWritePath());
     }
 
     /**
@@ -194,7 +186,7 @@ class ClassFileTest extends CodeFileTestCase
         $class->addConstant('CONST_ONE', 'ONE');
         $class->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $class->getWritePath());
 
         $fileName = 'ClassWithMultipleConstants';
         $class->changeFileName($fileName);
@@ -205,14 +197,12 @@ class ClassFileTest extends CodeFileTestCase
         $class->addConstant('CONST_SIX', 6.6);
         $class->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $class->getWritePath());
 
         return $class;
     }
 
     /**
-     * @param ClassFile $class
-     *
      * @depends clone testClassWithConstants
      *
      * @covers \GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile::generateConstants
@@ -222,13 +212,11 @@ class ClassFileTest extends CodeFileTestCase
         $class->addConstant('CONST_TWO', 2);
         $class->writeFile();
 
-        $fileName = $class->getFileName();
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+        $fileName = $class->getClassName();
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $class->getWritePath());
     }
 
     /**
-     * @param ClassFile $class
-     *
      * @depends clone testEmptyClass
      */
     public function testConstantWithEmptyName(ClassFile $class)
@@ -236,8 +224,8 @@ class ClassFileTest extends CodeFileTestCase
         $class->addConstant('', null);
         $class->writeFile();
 
-        $fileName = $class->getFileName();
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+        $fileName = $class->getClassName();
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $class->getWritePath());
     }
 
     /**
@@ -289,6 +277,6 @@ class ClassFileTest extends CodeFileTestCase
 }');
         $class->writeFile();
 
-        $this->assertFileEquals(static::getExpectedFilesDir() . "/$fileName.php", $class->getWritePath());
+        $this->assertFileEquals(static::getExpectedFilesDir()."/$fileName.php", $class->getWritePath());
     }
 }

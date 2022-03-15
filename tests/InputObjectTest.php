@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GraphQL\Tests;
 
 require_once 'files_expected/input_objects/_TestFilterInputObject.php';
@@ -8,7 +10,7 @@ use GraphQL\Tests\SchemaObject\_TestFilterInputObject;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class InputObjectTest
+ * Class InputObjectTest.
  */
 class InputObjectTest extends TestCase
 {
@@ -17,9 +19,6 @@ class InputObjectTest extends TestCase
      */
     protected $inputObject;
 
-    /**
-     *
-     */
     protected function setUp(): void
     {
         $this->inputObject = new _TestFilterInputObject();

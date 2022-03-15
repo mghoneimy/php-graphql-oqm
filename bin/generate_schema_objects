@@ -1,45 +1,84 @@
 #!/usr/bin/env php
 <?php
 
-$autoLoadFiles = [__DIR__ . '/../vendor/autoload.php', __DIR__ . '/../../../autoload.php'];
+use Cache\Adapter\Filesystem\FilesystemCachePool;
+use GraphQL\Client;
+use GraphQL\SchemaGenerator\SchemaClassGenerator;
+use GraphQL\Util\GuzzleAdapter;
+use GuzzleHttp\HandlerStack;
+use Kevinrob\GuzzleCache\CacheMiddleware;
+use Kevinrob\GuzzleCache\KeyValueHttpHeader;
+use Kevinrob\GuzzleCache\Storage\Psr16CacheStorage;
+use Kevinrob\GuzzleCache\Strategy\PrivateCacheStrategy;
+use League\Flysystem\Adapter\Local;
+use League\Flysystem\Filesystem;
+use Psr\Http\Message\RequestInterface;
+
+$autoLoadFiles = [__DIR__.'/../vendor/autoload.php', __DIR__.'/../../../autoload.php'];
 
 // Require autoload.php depending on environment
 $autoLoadFound = false;
 foreach ($autoLoadFiles as $autoLoadFile) {
-	if (file_exists($autoLoadFile)) {
-		require $autoLoadFile;
-		$autoLoadFound = true;
-	}
+    if (file_exists($autoLoadFile)) {
+        require $autoLoadFile;
+        $autoLoadFound = true;
+    }
 }
 // Exit if autoload.php is not required
 if (!$autoLoadFound) {
-	throw new RuntimeException('Could not find vendor/autoload.php');
+    throw new RuntimeException('Could not find vendor/autoload.php');
 }
 
-use GraphQL\Client;
-use GraphQL\SchemaGenerator\SchemaClassGenerator;
+$endpointUrl = 'https://shopify.dev/admin-graphql-proxy'; // readline('GraphlQL endpoint URL: ');
 
-$endpointUrl = readline('GraphlQL endpoint URL: ');
-
-$authHeaders    = [];
-$authHeaderName = readline('Authorization header name: ');
+$authHeaders = [];
+$authHeaderName = ''; // readline('Authorization header name: ');
 if (!empty($authHeaderName)) {
     $authHeaderValue = readline('Authorization header value: ');
     $authHeaders = [$authHeaderName => $authHeaderValue];
 }
 
-$customWriteDir = readline('Custom classes writing dir (optional): ');
-if (empty($customWriteDir)) $customWriteDir = '';
+$customWriteDir = ''; // readline('Custom classes writing dir (optional): ');
+if (empty($customWriteDir)) {
+    $customWriteDir = '';
+}
 
-$client  = new Client($endpointUrl, $authHeaders);
+// Create default HandlerStack
+$stack = HandlerStack::create();
+
+// Add this middleware to the top with `push`
+$filesystemAdapter = new Local(__DIR__.'/../');
+$filesystem = new Filesystem($filesystemAdapter);
+
+$pool = new FilesystemCachePool($filesystem);
+
+$cacheStorage = new Psr16CacheStorage($pool);
+$cacheStrategy = new class($cacheStorage) extends PrivateCacheStrategy {
+    protected function getCacheKey(RequestInterface $request, KeyValueHttpHeader $varyHeaders = null)
+    {
+        return hash('sha256', $request->getMethod().$request->getUri().$request->getBody());
+    }
+};
+$cacheMiddleware = new CacheMiddleware($cacheStrategy);
+$cacheMiddleware->setHttpMethods(['GET' => true, 'POST' => true]);
+$stack->push($cacheMiddleware, 'cache');
+
+// Initialize the client with the handler option
+$guzzle = new \GuzzleHttp\Client(['handler' => $stack]);
+
+$client = new Client(
+        endpointUrl: $endpointUrl,
+        authorizationHeaders: $authHeaders,
+        httpClient: new GuzzleAdapter($guzzle)
+);
 $scanner = new SchemaClassGenerator($client, $customWriteDir);
 
-print "-------------------------------------------\n";
-print "Generating schema objects from schema types\n";
-print "-------------------------------------------\n";
+echo "-------------------------------------------\n";
+echo "Generating schema objects from schema types\n";
+echo "-------------------------------------------\n";
 
 $scanner->generateRootQueryObject();
 
-print "-------------------------------------------\n";
-print "Schema objects generation complete\n";
-print "-------------------------------------------\n";
+echo "-------------------------------------------\n";
+echo "Schema objects generation complete\n";
+echo "-------------------------------------------\n";

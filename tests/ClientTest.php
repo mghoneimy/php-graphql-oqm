@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GraphQL\Tests;
 
 use GraphQL\Client;
@@ -14,9 +16,7 @@ use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class ClientTest
- *
- * @package GraphQL\Tests
+ * Class ClientTest.
  */
 class ClientTest extends TestCase
 {
@@ -30,14 +30,11 @@ class ClientTest extends TestCase
      */
     protected $mockHandler;
 
-    /**
-     *
-     */
     protected function setUp(): void
     {
         $this->mockHandler = new MockHandler();
         $handler = HandlerStack::create($this->mockHandler);
-	$this->client = new Client('', [], ['handler' => $handler]);
+        $this->client = new Client('', [], ['handler' => $handler]);
     }
 
     /**
@@ -47,9 +44,9 @@ class ClientTest extends TestCase
     public function testConstructClient()
     {
         $mockHandler = new MockHandler();
-        $handler     = HandlerStack::create($mockHandler);
-        $container   = [];
-        $history     = Middleware::history($container);
+        $handler = HandlerStack::create($mockHandler);
+        $container = [];
+        $history = Middleware::history($container);
         $handler->push($history);
 
         $mockHandler->append(new Response(200));
@@ -86,9 +83,9 @@ class ClientTest extends TestCase
                         'data' => 'value',
                     ], [
                         'data' => 'value',
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ])));
 
         $objectResults = $this->client->runRawQuery('');
@@ -107,9 +104,9 @@ class ClientTest extends TestCase
                         'data' => 'value',
                     ], [
                         'data' => 'value',
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ])));
 
         $arrayResults = $this->client->runRawQuery('', true);
@@ -129,10 +126,10 @@ class ClientTest extends TestCase
                         [
                             'line' => 1,
                             'column' => 3,
-                        ]
+                        ],
                     ],
-                ]
-            ]
+                ],
+            ],
         ])));
 
         $this->expectException(QueryError::class);
@@ -153,10 +150,10 @@ class ClientTest extends TestCase
                             [
                                 'line' => 1,
                                 'column' => 3,
-                            ]
+                            ],
                         ],
-                    ]
-                ]
+                    ],
+                ],
         ]))));
 
         $this->expectException(QueryError::class);

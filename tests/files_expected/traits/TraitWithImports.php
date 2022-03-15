@@ -1,7 +1,7 @@
 <?php
 
-use GraphQL\Query;
-use GraphQL\Client;
+declare(strict_types=1);
 
 trait TraitWithImports
-{}
+{
+}

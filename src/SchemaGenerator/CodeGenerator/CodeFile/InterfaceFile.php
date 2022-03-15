@@ -5,19 +5,16 @@ declare(strict_types=1);
 namespace GraphQL\SchemaGenerator\CodeGenerator\CodeFile;
 
 use Nette\PhpGenerator\ClassLike;
+use Nette\PhpGenerator\InterfaceType;
 use Nette\PhpGenerator\PhpNamespace;
-use Nette\PhpGenerator\TraitType;
 
-/**
- * Class TraitFile.
- */
-class TraitFile extends AbstractCodeFile
+class InterfaceFile extends ClassFile
 {
-    /** @var TraitType */
+    /** @var InterfaceType */
     protected ClassLike $classLike;
 
     protected function createClassLikeClass(string $className, ?string $namespace = ''): ClassLike
     {
-        return new TraitType($className, new PhpNamespace($namespace));
+        return new InterfaceType($className, new PhpNamespace($namespace));
     }
 }

@@ -1,55 +1,79 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GraphQL\SchemaGenerator\CodeGenerator\CodeFile;
 
+use JetBrains\PhpStorm\Pure;
+use Nette\PhpGenerator\ClassLike;
+use Nette\PhpGenerator\Method;
 use RuntimeException;
 
 /**
- * Class AbstractCodeFile
- *
- * @package GraphQL\SchemaManager\CodeGenerator\CodeFile
+ * Class AbstractCodeFile.
  */
 abstract class AbstractCodeFile implements CodeFileInterface
 {
     /**
-     * This string constant stores the file structure in a format that can be used with sprintf
-     *
-     * @var string
+     * This string stores the name of this file.
      */
-    protected const FILE_FORMAT = '<?php
-';
-    /**
-     * This string stores the name of this file
-     *
-     * @var string
-     */
-    protected $fileName;
+    protected string $className;
 
-    /**
-     * @var string
-     */
-    private $writeDir;
+    private string $writeDir;
+
+    protected ClassLike $classLike;
 
     /**
      * AbstractCodeFile constructor.
-     *
-     * @param string $writeDir
-     * @param string $fileName
      */
-    public function __construct(string $writeDir, string $fileName)
+    public function __construct(string $writeDir, string $className, ?string $namespace = '')
     {
         $this->validateDirectory($writeDir);
-
         $this->writeDir = $writeDir;
-        $this->fileName = $fileName;
+
+        $this->classLike = $this->createClassLikeClass($className, $namespace);
     }
 
-    /**
-     * @param string $dirName
-     *
-     * @return bool
-     */
-    private function validateDirectory(string $dirName): bool
+    abstract protected function createClassLikeClass(string $className, ?string $namespace = ''): ClassLike;
+
+    #[Pure]
+    protected function generateFileContents(): string
+    {
+        return '<?php'.PHP_EOL.PHP_EOL.$this->classLike->getNamespace().' '.$this->classLike;
+    }
+
+    public function extendsClass(string $className): void
+    {
+        $this->classLike->setExtends($className);
+    }
+
+    public function addConstant(string $name, $value): void
+    {
+        $this->classLike->addConstant($name, $value);
+    }
+
+    public function addMethod(string $methodName, bool $isDeprecated = false, ?string $deprecationReason = ''): Method
+    {
+        $method = $this->classLike->addMethod($methodName);
+        if ($isDeprecated) {
+            $method->addComment('@deprecated '.$deprecationReason);
+        }
+
+        return $method;
+    }
+
+    public function addProperty(string $propertyName, ?string $propertyType = null): void
+    {
+        $this->classLike->addProperty($propertyName)->setType($propertyType);
+    }
+
+    public function addImport(string $className): void
+    {
+        $namespace = $this->classLike->getNamespace();
+        $namespace?->addUse($className);
+    }
+
+    private function validateDirectory(string $dirName): void
     {
         if (!is_dir($dirName)) {
             throw new RuntimeException("$dirName is not a valid directory");
@@ -57,39 +81,24 @@ abstract class AbstractCodeFile implements CodeFileInterface
         if (!is_writable($dirName)) {
             throw new RuntimeException("$dirName is not writable");
         }
-
-        return true;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public final function writeFile(): bool
+    final public function writeFile(): bool
     {
         $fileContents = $this->generateFileContents();
 
         $filePath = $this->writeDir;
-        if (substr($filePath, -1) !== '/') {
+        if (!str_ends_with($filePath, '/')) {
             $filePath .= '/';
         }
-        $filePath .= $this->fileName . '.php';
+        $filePath .= $this->classLike->getName().'.php';
 
         return $this->writeFileToPath($fileContents, $filePath);
     }
 
-    /**
-     * This method generates and returns the file contents from class properties
-     *
-     * @return string
-     */
-    protected abstract function generateFileContents(): string;
-
-    /**
-     * @param string $fileContents
-     * @param string $filePath
-     *
-     * @return bool
-     */
     private function writeFileToPath(string $fileContents, string $filePath): bool
     {
         return file_put_contents($filePath, $fileContents) !== false;
@@ -97,35 +106,20 @@ abstract class AbstractCodeFile implements CodeFileInterface
 
     /**
      * @codeCoverageIgnore
-     *
-     * @return string
      */
-    public function getFileName(): string
+    public function getClassName(): string
     {
-        return $this->fileName;
-    }
-
-    /**
-     * @param string $fileName
-     */
-    public function changeFileName(string $fileName)
-    {
-        $this->fileName = $fileName;
+        return $this->className;
     }
 
     /**
      * @codeCoverageIgnore
-     *
-     * @return string
      */
     public function getWriteDir(): string
     {
         return $this->writeDir;
     }
 
-    /**
-     * @param string $writeDir
-     */
     public function changeWriteDir(string $writeDir)
     {
         $this->validateDirectory($writeDir);
@@ -133,11 +127,8 @@ abstract class AbstractCodeFile implements CodeFileInterface
         $this->writeDir = $writeDir;
     }
 
-    /**
-     * @return string
-     */
     public function getWritePath(): string
     {
-        return $this->writeDir . "/$this->fileName.php";
+        return $this->writeDir."/$this->className.php";
     }
 }

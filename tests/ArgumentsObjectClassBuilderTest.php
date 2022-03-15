@@ -1,14 +1,13 @@
 <?php
 
-namespace GraphQL\Tests;
+declare(strict_types=1);
 
+namespace GraphQL\Tests;
 
 use GraphQL\SchemaGenerator\CodeGenerator\ArgumentsObjectClassBuilder;
 
 /**
- * Class ArgumentsObjectClassBuilderTest
- *
- * @package GraphQL\Tests
+ * Class ArgumentsObjectClassBuilderTest.
  */
 class ArgumentsObjectClassBuilderTest extends CodeFileTestCase
 {
@@ -19,7 +18,7 @@ class ArgumentsObjectClassBuilderTest extends CodeFileTestCase
      */
     protected static function getExpectedFilesDir()
     {
-        return parent::getExpectedFilesDir() . '/arguments_objects';
+        return parent::getExpectedFilesDir().'/arguments_objects';
     }
 
     /**
@@ -38,8 +37,8 @@ class ArgumentsObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->build();
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -60,8 +59,8 @@ class ArgumentsObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->build();
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -81,8 +80,8 @@ class ArgumentsObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->build();
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -103,8 +102,8 @@ class ArgumentsObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->build();
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -124,8 +123,8 @@ class ArgumentsObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->build();
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 
@@ -146,8 +145,8 @@ class ArgumentsObjectClassBuilderTest extends CodeFileTestCase
         $classBuilder->build();
 
         $this->assertFileEquals(
-            static::getExpectedFilesDir() . "/$objectName.php",
-            static::getGeneratedFilesDir() . "/$objectName.php"
+            static::getExpectedFilesDir()."/$objectName.php",
+            static::getGeneratedFilesDir()."/$objectName.php"
         );
     }
 }

@@ -1,6 +1,8 @@
 <?php
 
+declare(strict_types=1);
+
 class ClassWithConstant
 {
-    const CONST_ONE = "ONE";
+    public const CONST_ONE = 'ONE';
 }

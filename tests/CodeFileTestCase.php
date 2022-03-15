@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GraphQL\Tests;
 
 use PHPUnit\Framework\TestCase;
@@ -11,7 +13,7 @@ abstract class CodeFileTestCase extends TestCase
      */
     protected static function getGeneratedFilesDir()
     {
-        return dirname(__FILE__) . '/files_generated';
+        return dirname(__FILE__).'/files_generated';
     }
 
     /**
@@ -19,11 +21,11 @@ abstract class CodeFileTestCase extends TestCase
      */
     protected static function getExpectedFilesDir()
     {
-        return dirname(__FILE__) . '/files_expected';
+        return dirname(__FILE__).'/files_expected';
     }
 
     /**
-     * Create directory before executing the tests
+     * Create directory before executing the tests.
      */
     public static function setUpBeforeClass(): void
     {
@@ -32,7 +34,7 @@ abstract class CodeFileTestCase extends TestCase
     }
 
     /**
-     * Remove directory created during running this class' tests
+     * Remove directory created during running this class' tests.
      */
     public static function tearDownAfterClass(): void
     {

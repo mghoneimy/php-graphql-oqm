@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 trait TraitWithOneMethod
 {
-    public function testTheTrait() {
-        print "test!";
-        die();
+    public function testTheTrait()
+    {
+        echo 'test!';
+        exit();
     }
 }

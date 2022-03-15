@@ -1,14 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GraphQL\SchemaObject;
 
 use GraphQL\RawObject;
 use GraphQL\Util\StringLiteralFormatter;
 
 /**
- * Class InputObject
- *
- * @package GraphQL\SchemaObject
+ * Class InputObject.
  */
 abstract class InputObject
 {
@@ -22,7 +22,9 @@ abstract class InputObject
 
         // TODO: Merge this code block with Query::constructArguments
         foreach ($this as $name => $value) {
-            if (empty($value)) continue;
+            if (empty($value)) {
+                continue;
+            }
 
             // Append space at the beginning if it's not the first item on the list
             if ($first) {
@@ -40,16 +42,13 @@ abstract class InputObject
                 $value = StringLiteralFormatter::formatArrayForGQLQuery($value);
             }
             // TODO: Handle cases where a non-string-convertible object is added to the arguments
-            $objectString .= $name . ': ' . $value;
+            $objectString .= $name.': '.$value;
         }
         $objectString .= '}';
 
         return $objectString;
     }
 
-    /**
-     * @return RawObject
-     */
     public function toRawObject(): RawObject
     {
         return new RawObject((string) $this);

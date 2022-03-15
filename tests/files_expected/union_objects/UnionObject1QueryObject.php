@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GraphQL\Tests\SchemaObject;
 
 use GraphQL\SchemaObject\QueryObject;
 
 class UnionObject1QueryObject extends QueryObject
 {
-    const OBJECT_NAME = "UnionObject1";
+    public const OBJECT_NAME = 'UnionObject1';
 
     public function selectUnion(UnionObject1UnionArgumentsObject $argsObject = null)
     {
-        $object = new UnionTestObjectUnionObject("union");
+        $object = new UnionTestObjectUnionObject('union');
         if ($argsObject !== null) {
             $object->appendArguments($argsObject->toArray());
         }

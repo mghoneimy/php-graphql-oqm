@@ -5,19 +5,21 @@ declare(strict_types=1);
 namespace GraphQL\SchemaGenerator\CodeGenerator\CodeFile;
 
 use Nette\PhpGenerator\ClassLike;
+use Nette\PhpGenerator\EnumType;
 use Nette\PhpGenerator\PhpNamespace;
-use Nette\PhpGenerator\TraitType;
 
-/**
- * Class TraitFile.
- */
-class TraitFile extends AbstractCodeFile
+class EnumFile extends ClassFile
 {
-    /** @var TraitType */
+    /** @var EnumType */
     protected ClassLike $classLike;
 
     protected function createClassLikeClass(string $className, ?string $namespace = ''): ClassLike
     {
-        return new TraitType($className, new PhpNamespace($namespace));
+        return new EnumType($className, new PhpNamespace($namespace));
+    }
+
+    public function addConstant(string $name, $value): void
+    {
+        $this->classLike->addCase($name, $value);
     }
 }
