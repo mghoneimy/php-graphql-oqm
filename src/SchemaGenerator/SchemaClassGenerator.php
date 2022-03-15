@@ -119,9 +119,7 @@ class SchemaClassGenerator
 
     protected function generateObject(string $objectName, FieldTypeKindEnum $objectKind): bool
     {
-        echo "Processing $objectName: generating $objectKind->name...".PHP_EOL;
-
-        $result = match ($objectKind) {
+        return match ($objectKind) {
             FieldTypeKindEnum::OBJECT => $this->generateQueryObject($objectName),
             FieldTypeKindEnum::INPUT_OBJECT => $this->generateInputObject($objectName),
             FieldTypeKindEnum::ENUM_OBJECT => $this->generateEnumObject($objectName),
@@ -129,12 +127,6 @@ class SchemaClassGenerator
             FieldTypeKindEnum::INTERFACE_OBJECT => $this->generateInterfaceObject($objectName),
             default => false,
         };
-
-        if (!$result) {
-            echo "Couldn't generate type $objectName: generating $objectKind->name kind is not supported yet".PHP_EOL;
-        }
-
-        return $result;
     }
 
     protected function generateQueryObject(string $objectName): bool
