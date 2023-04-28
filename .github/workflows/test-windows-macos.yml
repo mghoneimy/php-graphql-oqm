@@ -1,4 +1,4 @@
-name: PHP Composer
+name: Test Package on Windows and MacOS
 
 on:
   push:
@@ -12,8 +12,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        php: [7.3, 7.4, 8.0]
+        os: [ windows-latest, macos-latest ]
+        php: [ 7.3, 7.4, 8.0 ]
 
     steps:
     - uses: actions/checkout@v2
@@ -32,9 +32,6 @@ jobs:
 
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
-
-    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
-    # Docs: https://getcomposer.org/doc/articles/scripts.md
 
     - name: Run test suite
       run: composer run test

@@ -1,0 +1,66 @@
+name: Test Package on Linux and push coverage results to Codacy
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        php: [7.3, 7.4, 8.0]
+
+    env:
+      CODACY_PROJECT_TOKEN: ${{ secrets.CodacyProjectToken }}
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
+
+    - name: Check PHP INI file ownership and permissions
+      run: |
+        XDEBUG_INI=$(php --ini | grep xdebug.ini | awk '{print $NF}')
+        XDEBUG_INI="${XDEBUG_INI%,}"
+        ls -l "$XDEBUG_INI"
+
+    - name: Set up sudo for use in changing PHP INI file permissions
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y sudo
+
+    - name: Set up Xdebug for code coverage
+      run: |
+        XDEBUG_INI=$(php --ini | grep xdebug.ini | awk '{print $NF}')
+        XDEBUG_INI="${XDEBUG_INI%,}"
+        sudo chmod a+w "$XDEBUG_INI"
+        echo "xdebug.mode=coverage" >> "$XDEBUG_INI"
+        echo "xdebug.start_with_request=yes" >> "$XDEBUG_INI"
+        echo "xdebug.client_host=host.docker.internal" >> "$XDEBUG_INI"
+        echo "xdebug.client_port=9003" >> "$XDEBUG_INI"
+        echo "xdebug.output_dir=/coverage" >> "$XDEBUG_INI"
+        echo "XDEBUG_MODE=coverage" >> $GITHUB_ENV
+
+    - name: Run test suite & generate coverage report
+      run: composer run test-and-generate-clover-coverage
+
+    - name: Upload code coverage report to codacy
+      run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r build/coverage.xml

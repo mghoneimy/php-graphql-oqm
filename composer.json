@@ -38,11 +38,12 @@
         "gmostafa/php-graphql-client": "^1.12"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.5|^8.0",
-        "codacy/coverage": "^1.4",
+        "phpunit/phpunit": "^7.5|^9",
         "ext-json": "*"
     },
     "scripts": {
-        "test": "phpunit tests/ --whitelist src/ --coverage-clover build/coverage/xml"
+        "test": "phpunit tests/",
+        "test-and-generate-clover-coverage": "phpunit tests/ --whitelist src/ --coverage-clover build/coverage.xml",
+        "test-and-generate-text-coverage": "phpunit tests/ --whitelist src/ --coverage-text=build/coverage.txt"
     }
 }
