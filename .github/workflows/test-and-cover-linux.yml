@@ -1,4 +1,4 @@
-name: Test Package on Linux and push coverage results to Codacy
+name: Build
 
 on:
   push:
