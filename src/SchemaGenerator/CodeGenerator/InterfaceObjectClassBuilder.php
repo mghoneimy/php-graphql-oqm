@@ -4,18 +4,17 @@ namespace GraphQL\SchemaGenerator\CodeGenerator;
 
 use GraphQL\Enumeration\FieldTypeKindEnum;
 use GraphQL\SchemaGenerator\CodeGenerator\CodeFile\ClassFile;
-use GraphQL\SchemaObject\QueryObject;
 use GraphQL\Util\StringLiteralFormatter;
 
 /**
- * Class QueryObjectClassBuilder
+ * Class InterfaceObjectClassBuilder
  *
  * @package GraphQL\SchemaManager\CodeGenerator
  */
-class QueryObjectClassBuilder extends ObjectClassBuilder
+class InterfaceObjectClassBuilder extends ObjectClassBuilder
 {
     /**
-     * QueryObjectClassBuilder constructor.
+     * InterfaceObjectClassBuilder constructor.
      *
      * @param string $writeDir
      * @param string $objectName
@@ -28,14 +27,10 @@ class QueryObjectClassBuilder extends ObjectClassBuilder
         $this->classFile = new ClassFile($writeDir, $className);
         $this->classFile->setNamespace($namespace);
         if ($namespace !== self::DEFAULT_NAMESPACE) {
-            $this->classFile->addImport('GraphQL\\SchemaObject\\QueryObject');
+            $this->classFile->addImport('GraphQL\\SchemaObject\\UnionObject');
         }
-        $this->classFile->extendsClass('QueryObject');
+        $this->classFile->extendsClass('UnionObject');
 
-        // Special case for handling root query object
-        if ($objectName === QueryObject::ROOT_QUERY_OBJECT_NAME) {
-            $objectName = '';
-        }
         $this->classFile->addConstant('OBJECT_NAME', $objectName);
     }
 
@@ -103,6 +98,7 @@ class QueryObjectClassBuilder extends ObjectClassBuilder
 }";
         $this->classFile->addMethod($method, $isDeprecated, $deprecationReason);
     }
+
 
     /**
      * @param string $typeName
