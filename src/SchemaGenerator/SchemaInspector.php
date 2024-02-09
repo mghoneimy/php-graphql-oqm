@@ -183,4 +183,39 @@ QUERY;
 
         return $response->getData()['__type'];
     }
+
+    /**
+     * @param string $objectName
+     *
+     * @return array
+     */
+    public function getInterfaceObjectSchema(string $objectName): array
+    {
+        $schemaQuery = "{
+  __type(name: \"$objectName\") {
+    name
+    kind
+    fields(includeDeprecated: true){
+      name
+      description
+      isDeprecated
+      deprecationReason
+      " . static::TYPE_SUB_QUERY . "
+      args{
+        name
+        description
+        defaultValue
+        " . static::TYPE_SUB_QUERY . "
+      }
+    }
+    possibleTypes {
+      kind
+      name
+    }
+  }
+}";
+        $response = $this->client->runRawQuery($schemaQuery, true);
+
+        return $response->getData()['__type'];
+    }
 }

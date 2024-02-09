@@ -3,7 +3,6 @@
 namespace GraphQL\SchemaObject;
 
 use GraphQL\InlineFragment;
-use GraphQL\Query;
 
 /**
  * Class UnionObject
