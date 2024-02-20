@@ -96,6 +96,10 @@ QUERY;
   __type(name: \"$objectName\") {
     name
     kind
+    possibleTypes {
+      kind
+      name
+    }
     fields(includeDeprecated: true){
       name
       description
