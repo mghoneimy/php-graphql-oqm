@@ -7,6 +7,7 @@ use GraphQL\Enumeration\FieldTypeKindEnum;
 use GraphQL\SchemaGenerator\CodeGenerator\ArgumentsObjectClassBuilder;
 use GraphQL\SchemaGenerator\CodeGenerator\EnumObjectBuilder;
 use GraphQL\SchemaGenerator\CodeGenerator\InputObjectClassBuilder;
+use GraphQL\SchemaGenerator\CodeGenerator\InterfaceObjectBuilder;
 use GraphQL\SchemaGenerator\CodeGenerator\ObjectBuilderInterface;
 use GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder;
 use GraphQL\SchemaGenerator\CodeGenerator\UnionObjectBuilder;
@@ -44,7 +45,7 @@ class SchemaClassGenerator
      *AND complete covering the schema scanner class
      * @var array
      */
-	private $generatedObjects;
+    private $generatedObjects;
 
     /**
      * SchemaClassGenerator constructor.
@@ -112,12 +113,17 @@ class SchemaClassGenerator
                 // Generate nested type object if it wasn't generated
                 $objectGenerated = $this->generateObject($typeName, $typeKind);
                 if ($objectGenerated) {
+                    $arguments = $fieldArray['args'] ?? [];
+                    if (empty($arguments)) {
+                        $argsObjectName = null;
+                        $argsObjectGenerated = true;
+                    } else {
+                        // Generate nested type arguments object if it wasn't generated
+                        $argsObjectName = $currentTypeName . StringLiteralFormatter::formatUpperCamelCase($name) . 'ArgumentsObject';
+                        $argsObjectGenerated = $this->generateArgumentsObject($argsObjectName, $fieldArray['args'] ?? []);
+                    }
 
-                    // Generate nested type arguments object if it wasn't generated
-                    $argsObjectName = $currentTypeName . StringLiteralFormatter::formatUpperCamelCase($name) . 'ArgumentsObject';
-                    $argsObjectGenerated = $this->generateArgumentsObject($argsObjectName, $fieldArray['args'] ?? []);
                     if ($argsObjectGenerated) {
-
                         // Add sub type as a field to the query object if all generation happened successfully
                         $queryObjectBuilder->addObjectField($name, $typeName, $typeKind, $argsObjectName, $fieldArray['isDeprecated'], $fieldArray['deprecationReason']);
                     }
@@ -136,6 +142,7 @@ class SchemaClassGenerator
     {
         switch ($objectKind) {
             case FieldTypeKindEnum::OBJECT:
+            case FieldTypeKindEnum::INTERFACE_OBJECT:
                 return $this->generateQueryObject($objectName);
             case FieldTypeKindEnum::INPUT_OBJECT:
                 return $this->generateInputObject($objectName);
@@ -163,7 +170,15 @@ class SchemaClassGenerator
         $this->generatedObjects[$objectName] = true;
         $objectArray   = $this->schemaInspector->getObjectSchema($objectName);
         $objectName    = $objectArray['name'];
-        $objectBuilder = new QueryObjectClassBuilder($this->writeDir, $objectName, $this->generationNamespace);
+
+        if ($objectArray['kind'] === FieldTypeKindEnum::INTERFACE_OBJECT) {
+            $objectBuilder = new InterfaceObjectBuilder($this->writeDir, $objectName, $this->generationNamespace);
+            foreach ($objectArray['possibleTypes'] as $possibleType) {
+                $objectBuilder->addImplementation($possibleType['name']);
+            }
+        } else {
+            $objectBuilder = new QueryObjectClassBuilder($this->writeDir, $objectName, $this->generationNamespace);
+        }
 
         $this->appendQueryObjectFields($objectBuilder, $objectName, $objectArray['fields']);
         $objectBuilder->build();
@@ -257,6 +272,32 @@ class SchemaClassGenerator
         $this->generatedObjects[$objectName] = true;
 
         $objectArray   = $this->schemaInspector->getUnionObjectSchema($objectName);
+        $objectName    = $objectArray['name'];
+        $objectBuilder = new UnionObjectBuilder($this->writeDir, $objectName, $this->generationNamespace);
+
+        foreach ($objectArray['possibleTypes'] as $possibleType) {
+            $this->generateObject($possibleType['name'], $possibleType['kind']);
+            $objectBuilder->addPossibleType($possibleType['name']);
+        }
+        $objectBuilder->build();
+
+        return true;
+    }
+
+    /**
+     * @param string $objectName
+     *
+     * @return bool
+     */
+    protected function generateInterfaceObject(string $objectName): bool
+    {
+        if (array_key_exists($objectName, $this->generatedObjects)) {
+            return true;
+        }
+
+        $this->generatedObjects[$objectName] = true;
+
+        $objectArray   = $this->schemaInspector->getObjectSchema($objectName);
         $objectName    = $objectArray['name'];
         $objectBuilder = new UnionObjectBuilder($this->writeDir, $objectName, $this->generationNamespace);
 

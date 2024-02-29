@@ -45,7 +45,7 @@ class SimpleUnionObject extends UnionObject
 
     public function onType1()
     {
-        $object = new Type1QueryObject();
+        $object = new UnionType1QueryObject();
 
         $this->addPossibleType($object);
 
@@ -54,7 +54,7 @@ class SimpleUnionObject extends UnionObject
 
     public function onType2()
     {
-        $object = new Type2QueryObject();
+        $object = new UnionType2QueryObject();
 
         $this->addPossibleType($object);
 
@@ -62,7 +62,7 @@ class SimpleUnionObject extends UnionObject
     }
 }
 
-abstract class SimpleSubTypeQueryObject extends QueryObject
+abstract class UnionSimpleSubTypeQueryObject extends QueryObject
 {
     public function selectScalar()
     {
@@ -79,12 +79,12 @@ abstract class SimpleSubTypeQueryObject extends QueryObject
     }
 }
 
-class Type1QueryObject extends SimpleSubTypeQueryObject
+class UnionType1QueryObject extends UnionSimpleSubTypeQueryObject
 {
     const OBJECT_NAME = 'Type1';
 }
 
-class Type2QueryObject extends SimpleSubTypeQueryObject
+class UnionType2QueryObject extends UnionSimpleSubTypeQueryObject
 {
     const OBJECT_NAME = 'Type2';
 }

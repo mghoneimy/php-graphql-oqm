@@ -121,8 +121,8 @@ class QueryObjectClassBuilderTest extends CodeFileTestCase
         $objectName = 'MultipleObjectSelectors';
         $classBuilder = new QueryObjectClassBuilder(static::getGeneratedFilesDir(), $objectName, static::TESTING_NAMESPACE);
         $objectName .= 'QueryObject';
-        $classBuilder->addObjectField('right', 'MultipleObjectSelectorsRight', FieldTypeKindEnum::OBJECT, 'MultipleObjectSelectorsRightArgumentsObject', false, null);
-        $classBuilder->addObjectField('left_objects', 'Left', FieldTypeKindEnum::OBJECT, 'MultipleObjectSelectorsLeftObjectsArgumentsObject', true, null);
+        $classBuilder->addObjectField('right', 'MultipleObjectSelectorsRight', FieldTypeKindEnum::OBJECT, null, false, null);
+        $classBuilder->addObjectField('left_objects', 'Left', FieldTypeKindEnum::OBJECT, null, true, null);
         $classBuilder->build();
 
         $this->assertFileEquals(

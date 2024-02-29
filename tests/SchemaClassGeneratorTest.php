@@ -783,10 +783,8 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
 
         // Test if the right classes are generated.
         $this->assertFileExists(static::getGeneratedFilesDir() . "/LeftQueryObject.php", "The query object name for the left field should consist of the type name Left plus QueryObject");
-        $this->assertFileExists(static::getGeneratedFilesDir() . "/MultipleObjectSelectorsLeftObjectsArgumentsObject.php", "The argument object name for the left field should consist of the parent type name MultipleObjectSelectors plus the field name LeftObjects plus ArgumentsObject");
 
         $this->assertFileExists(static::getGeneratedFilesDir() . "/MultipleObjectSelectorsRightQueryObject.php", "The query object name for the right field should consist of the type name MultipleObjectSelectorsRight plus QueryObject");
-        $this->assertFileExists(static::getGeneratedFilesDir() . "/MultipleObjectSelectorsRightArgumentsObject.php", "The argument object name for the right field should consist of the parent type name MultipleObjectSelectors plus the field name Right plus ArgumentsObject");
     }
 
     /**
@@ -885,6 +883,104 @@ class SchemaClassGeneratorTest extends CodeFileTestCase
         );
         $this->assertFileEquals(
             static::getExpectedFilesDir() . "/union_objects/$objectName.php",
+            static::getGeneratedFilesDir() . "/$objectName.php"
+        );
+    }
+
+    /**
+     * @covers \GraphQL\SchemaGenerator\SchemaClassGenerator::generateInterfaceObject
+     */
+    public function testGenerateInterfaceObject()
+    {
+        $objectName = 'TestInterface';
+
+        // Add mock responses
+        $this->mockHandler->append(new Response(200, [], json_encode([
+            'data' => [
+                '__type' => [
+                    'name' => 'InterfaceObject1',
+                    'kind' => FieldTypeKindEnum::OBJECT,
+                    'interfaces' => [
+                        ['name' => $objectName],
+                    ],
+                    'fields' => [
+                        [
+                            'name' => 'value',
+                            'description' => null,
+                            'isDeprecated' => false,
+                            'deprecationReason' => null,
+                            'type' => [
+                                'name' => 'String',
+                                'kind' => FieldTypeKindEnum::SCALAR,
+                                'description' => null,
+                                'ofType' => null,
+                            ],
+                            'args' => null,
+                        ],
+                    ],
+                ]
+            ]
+        ])));
+        $this->mockHandler->append(new Response(200, [], json_encode([
+            'data' => [
+                '__type' => [
+                    'name' => $objectName,
+                    'kind' => FieldTypeKindEnum::INTERFACE_OBJECT,
+                    'fields' => [
+                        [
+                            'name' => 'interface_field',
+                            'description' => null,
+                            'isDeprecated' => false,
+                            'deprecationReason' => null,
+                            'type' => [
+                                'name' => 'String',
+                                'kind' => FieldTypeKindEnum::SCALAR,
+                                'description' => null,
+                                'ofType' => null,
+                            ],
+                            'args' => null,
+                        ]
+                    ],
+                    'possibleTypes' => [
+                        [
+                            'kind' => FieldTypeKindEnum::OBJECT,
+                            'name' => 'InterfaceObject1',
+                        ], [
+                            'kind' => FieldTypeKindEnum::OBJECT,
+                            'name' => 'InterfaceObject2',
+                        ],
+                    ]
+                ]
+            ]
+        ])));
+        $this->mockHandler->append(new Response(200, [], json_encode([
+            'data' => [
+                '__type' => [
+                    'name' => 'InterfaceObject2',
+                    'kind' => FieldTypeKindEnum::OBJECT,
+                    'interfaces' => [
+                        ['name' => $objectName],
+                    ],
+                    'fields' => [],
+                ]
+            ]
+        ])));
+
+        $this->classGenerator->generateObject('InterfaceObject1', FieldTypeKindEnum::INTERFACE_OBJECT);
+        $this->classGenerator->generateObject($objectName, FieldTypeKindEnum::INTERFACE_OBJECT);
+        $this->classGenerator->generateObject('InterfaceObject2', FieldTypeKindEnum::INTERFACE_OBJECT);
+
+        $objectName .= 'QueryObject';
+        $this->assertFileEquals(
+            static::getExpectedFilesDir() . "/interface_objects/InterfaceObject1QueryObject.php",
+            static::getGeneratedFilesDir() . "/InterfaceObject1QueryObject.php"
+        );
+        $this->assertFileEquals(
+            static::getExpectedFilesDir() . "/interface_objects/InterfaceObject2QueryObject.php",
+            static::getGeneratedFilesDir() . "/InterfaceObject2QueryObject.php"
+        );
+        $this->assertFileEquals(
+            static::getExpectedFilesDir() . "/interface_objects/$objectName.php",
             static::getGeneratedFilesDir() . "/$objectName.php"
         );
     }
