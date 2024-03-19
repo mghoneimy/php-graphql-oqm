@@ -7,7 +7,9 @@ use GraphQL\Enumeration\FieldTypeKindEnum;
 use GraphQL\SchemaGenerator\CodeGenerator\ArgumentsObjectClassBuilder;
 use GraphQL\SchemaGenerator\CodeGenerator\EnumObjectBuilder;
 use GraphQL\SchemaGenerator\CodeGenerator\InputObjectClassBuilder;
+use GraphQL\SchemaGenerator\CodeGenerator\InterfaceObjectClassBuilder;
 use GraphQL\SchemaGenerator\CodeGenerator\ObjectBuilderInterface;
+use GraphQL\SchemaGenerator\CodeGenerator\ObjectClassBuilder;
 use GraphQL\SchemaGenerator\CodeGenerator\QueryObjectClassBuilder;
 use GraphQL\SchemaGenerator\CodeGenerator\UnionObjectBuilder;
 use GraphQL\SchemaObject\QueryObject;
@@ -88,11 +90,11 @@ class SchemaClassGenerator
     /**
      * This method receives the array of object fields as an input and adds the fields to the query object building
      *
-     * @param QueryObjectClassBuilder $queryObjectBuilder
-     * @param string                  $currentTypeName
-     * @param array                   $fieldsArray
+     * @param ObjectClassBuilder $queryObjectBuilder
+     * @param string             $currentTypeName
+     * @param array              $fieldsArray
      */
-	private function appendQueryObjectFields(QueryObjectClassBuilder $queryObjectBuilder, string $currentTypeName, array $fieldsArray)
+	private function appendQueryObjectFields(ObjectClassBuilder $queryObjectBuilder, string $currentTypeName, array $fieldsArray)
     {
         foreach ($fieldsArray as $fieldArray) {
             $name = $fieldArray['name'];
@@ -143,6 +145,8 @@ class SchemaClassGenerator
                 return $this->generateEnumObject($objectName);
             case FieldTypeKindEnum::UNION_OBJECT:
                 return $this->generateUnionObject($objectName);
+            case FieldTypeKindEnum::INTERFACE_OBJECT:
+                return $this->generateInterfaceObject($objectName);
             default:
                 print "Couldn't generate type $objectName: generating $objectKind kind is not supported yet" . PHP_EOL;
                 return false;
@@ -264,6 +268,35 @@ class SchemaClassGenerator
             $this->generateObject($possibleType['name'], $possibleType['kind']);
             $objectBuilder->addPossibleType($possibleType['name']);
         }
+        $objectBuilder->build();
+
+        return true;
+    }
+
+    /**
+     * @param string $objectName
+     *
+     * @return bool
+     */
+    protected function generateInterfaceObject(string $objectName): bool
+    {
+        if (array_key_exists($objectName, $this->generatedObjects)) {
+            return true;
+        }
+
+        $this->generatedObjects[$objectName] = true;
+
+        $objectArray   = $this->schemaInspector->getInterfaceObjectSchema($objectName);
+        $objectName    = $objectArray['name'];
+        $objectBuilder = new InterfaceObjectClassBuilder($this->writeDir, $objectName, $this->generationNamespace);
+
+        $this->appendQueryObjectFields($objectBuilder, $objectName, $objectArray['fields']);
+
+        foreach ($objectArray['possibleTypes'] as $possibleType) {
+            $this->generateObject($possibleType['name'], $possibleType['kind']);
+            $objectBuilder->addPossibleType($possibleType['name']);
+        }
+
         $objectBuilder->build();
 
         return true;
